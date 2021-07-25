@@ -5,6 +5,7 @@ import MainLayout from './layout/main/Main';
 import { defaultRoutes, sessionRoutes } from './routing';
 import { useHideLoader } from './hooks/useHideLoader';
 import './App.scss';
+import { IRoute } from './interfaces/routing';
 
 //eliminar una vez establecidos los routes
 const Routes = ({ routes, layout = '' }) => (
@@ -25,7 +26,33 @@ const Routes = ({ routes, layout = '' }) => (
 );
 const DefaultRoutes = ({ layout }) => <Routes routes={defaultRoutes} layout={layout} />;
 
-const DARoutes = () => <NewRoutes routes={defaultRoutes} layout="inicio" />;
+const newRoutes: IRoute[] = [
+  {
+    path: 'dashboard',
+    component: () => <div>dashboard</div>
+  },
+  {
+    path: 'usuarios',
+    component: () => <div>usuarios</div>
+  },
+  {
+    path: 'funcionarios',
+    component: () => <div>funcionarios</div>
+  },
+  {
+    path: 'roles',
+    component: () => <div>roles</div>
+  },
+  {
+    path: 'insumos',
+    component: () => <div>insumos</div>
+  },
+  {
+    path: 'presupuestos',
+    component: () => <div>presupuestos</div>
+  },
+]
+const DARoutes = () => <NewRoutes routes={newRoutes} layout="inicio" />;
 const SessionRoutes = () => <NewRoutes routes={sessionRoutes} layout="public" />;
 const NewRoutes = ({ routes, layout }) => (
   <Switch>
@@ -64,7 +91,7 @@ const App = () => {
         </MainLayout>
       </Route>
       <Route path='/' exact>
-        <Redirect to='/inicio/doctors' />
+        <Redirect to='/inicio/dashboard' />
       </Route>
       <Route path='*'>
         <Redirect to='/public/page-404' />

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import BaseLayout from '../base/BaseLayout';
 import Logo from '../components/logo/Logo';
-import Menu from '../components/menu/Menu';
+import Menu from '../components/menu/MenuDA';
 import Navbar from '../components/navbar/Navbar';
 import Search from '../components/search/Search';
 import LogoSvg from './../../assets/img/logo.svg';

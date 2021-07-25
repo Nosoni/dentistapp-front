@@ -10,7 +10,7 @@ const menues = [
     title: "Recursos Humanos",
     sub: [{
       title: "Funcionarios",
-      routing: "funcionario"
+      routing: "funcionarios"
     }]
   },
   {
@@ -31,7 +31,7 @@ const menues = [
     title: "Facturación",
     sub: [{
       title: "Presupuestos",
-      routing: "funcionario"
+      routing: "presupuestos"
     }]
   },
   {
