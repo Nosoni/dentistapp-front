@@ -1,32 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import BaseLayout from '../base/BaseLayout';
+import BaseLayout from '../base/Base';
 import Logo from '../components/logo/Logo';
 import Menu from '../components/menu/MenuDA';
 import Navbar from '../components/navbar/Navbar';
-import Search from '../components/search/Search';
 import LogoSvg from './../../assets/img/logo.svg';
 import Actions from '../components/actions/Actions';
-import { useSearchData } from '../../hooks/useSearchData';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleSidebar } from '../../redux/settings/actions';
-import { IAppState } from '../../interfaces/app-state';
 import './Main.scss';
 import { menues } from '../../constantes/menu';
 
-type Props = {
-  children: any;
-};
-
-const MainLayout = ({ children }: Props) => {
+const MainLayout = ({ children }) => {
   const dispatch = useDispatch();
-
-  const settings = useSelector((state: IAppState) => state.settings);
-
-  const searchData = useSearchData();
   const menuData = menues;
-
   const handleCloseMenu = () => dispatch(toggleSidebar());
+  const settings = useSelector((state) => state.settings);
 
   const nav = (
     <Navbar
@@ -40,9 +28,7 @@ const MainLayout = ({ children }: Props) => {
         <span />
         <span />
       </button>
-
       <Logo src={LogoSvg} />
-
       <Actions />
     </Navbar>
   );

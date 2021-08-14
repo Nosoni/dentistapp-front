@@ -17,6 +17,7 @@ type Props = {
   location: Location;
   layout?: string;
   opened?: boolean;
+  urlBase: string;
 };
 
 const Sub = posed.div({
@@ -25,7 +26,7 @@ const Sub = posed.div({
   transition: { ease: 'ease-in-out', duration: 200 }
 });
 
-const ItemWithSub = ({ location, title, layout, sub, opened, onClick }: Props) => {
+const ItemWithSub = ({ location, title, layout, sub, opened, onClick, urlBase }: Props) => {
   const subItemClass = (routing: string) =>
     className({
       'menu-item': true,
@@ -35,7 +36,7 @@ const ItemWithSub = ({ location, title, layout, sub, opened, onClick }: Props) =
   const itemSub = sub.map((item: IMenuItemSub, i: number) => (
     <li className={subItemClass(item.routing)} key={i}>
       <NavLink
-        to={`/inicio/${item.routing}`}
+        to={`/${urlBase}/${item.routing}`}
         className='item-link'
         activeClassName='active'
         replace

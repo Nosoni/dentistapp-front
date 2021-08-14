@@ -95,6 +95,7 @@ const Menu = ({
           key={i}
           layout={orientation}
           sub={item.sub}
+          urlBase={item.layout}
           title={item.title}
           location={location}
           opened={item.active}
@@ -110,6 +111,7 @@ const Menu = ({
         layout={orientation}
         title={item.title}
         routing={item.routing}
+        urlBase={item.layout}
       />
     );
   });

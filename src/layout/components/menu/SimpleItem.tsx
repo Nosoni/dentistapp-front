@@ -7,13 +7,14 @@ type Props = {
   routing: string;
   layout: string;
   icon: IMenuItemIcon;
+  urlBase: string;
 };
 
-const SimpleItem = ({ routing, title, layout, icon }: Props) => (
+const SimpleItem = ({ routing, title, urlBase, icon }: Props) => (
   <li className='menu-item'>
     <NavLink
       className='item-link'
-      to={`/${layout}/${routing}`}
+      to={`/${urlBase}/${routing}`}
       activeClassName='active'
       replace
     >

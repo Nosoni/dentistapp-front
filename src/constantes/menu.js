@@ -1,5 +1,6 @@
 const menues = [
   {
+    layout: "administracion",
     title: "Administración",
     sub: [{
       title: "Usuarios",
@@ -7,6 +8,7 @@ const menues = [
     }]
   },
   {
+    layout: "rrhh",
     title: "Recursos Humanos",
     sub: [{
       title: "Funcionarios",
@@ -14,6 +16,7 @@ const menues = [
     }]
   },
   {
+    layout: "configuracion",
     title: "Configuración",
     sub: [{
       title: "Roles",
@@ -21,6 +24,7 @@ const menues = [
     }]
   },
   {
+    layout: "stock",
     title: "Stock",
     sub: [{
       title: "Insumos",
@@ -28,6 +32,7 @@ const menues = [
     }]
   },
   {
+    layout: "facturacion",
     title: "Facturación",
     sub: [{
       title: "Presupuestos",
@@ -35,6 +40,7 @@ const menues = [
     }]
   },
   {
+    layout: "reportes",
     title: "Reportes",
   }
 ]

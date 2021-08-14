@@ -1,42 +1,20 @@
 import React, { ReactNode, useEffect, useState } from 'react';
-
 import { useDispatch, useSelector } from 'react-redux';
-
-import { Modal } from 'antd';
-
-import Footer from '../components/footer/Footer';
-import SettingsForm from '../components/settings/SettingsForm';
-
-import { updateSettings, resetSettings } from '../../redux/settings/actions';
+import Footer from '../components/footer/FooterDA';
 import { fetchPatients } from '../../redux/patients/actions';
-
 import className from '../../utils/class-names';
-
-import { IAppSettings } from '../../interfaces/settings';
-import { IAppState } from '../../interfaces/app-state';
-import { IPageData } from '../../interfaces/page';
-
 import './BaseLayout.scss';
 
 const patientsUrl = '/data/patients.json';
 
-type Props = {
-  nav: ReactNode;
-  sideNav?: ReactNode;
-  topNav?: ReactNode;
-  children: ReactNode;
-  orientation: 'vertical' | 'horizontal';
-};
-
-const BaseLayout = ({ nav, topNav, sideNav, orientation, children }: Props) => {
-  const [showSettings, setShowSettings] = useState(false);
+const BaseLayout = ({ nav, topNav, sideNav, orientation, children }) => {
   const [scrolled, setScrolled] = useState(false);
 
   const dispatch = useDispatch();
 
-  const sidebarOpened = useSelector<IAppState, boolean>((state) => state.settings.sidebarOpened);
-  const settings = useSelector<IAppState, IAppSettings>((state) => state.settings);
-  const pageData = useSelector<IAppState, IPageData>((state) => state.pageData);
+  const sidebarOpened = useSelector((state) => state.settings.sidebarOpened);
+  const settings = useSelector((state) => state.settings);
+  const pageData = useSelector((state) => state.pageData);
 
   useEffect(() => {
     dispatch(fetchPatients(patientsUrl));
@@ -55,10 +33,6 @@ const BaseLayout = ({ nav, topNav, sideNav, orientation, children }: Props) => {
   const mainContentWrapClasses = className({
     'main-content-wrap': true
   });
-
-  const onUpdateSettings = (settings) => dispatch(updateSettings(settings));
-  const toggleSettings = () => setShowSettings(!showSettings);
-  const onResetSettings = () => dispatch(resetSettings());
 
   const contentOverlay = (
     <div
@@ -98,25 +72,8 @@ const BaseLayout = ({ nav, topNav, sideNav, orientation, children }: Props) => {
           layout={settings.layout}
           boxed={settings.boxed}
           loaded={true}
-          openModal={toggleSettings}
         />
         {contentOverlay}
-        <Modal
-          visible={showSettings}
-          onCancel={toggleSettings}
-          footer={null}
-          title={
-            <h3 className='m-0' style={{ opacity: 0.8 }}>
-              Settings
-            </h3>
-          }
-        >
-          <SettingsForm
-            settings={settings}
-            onResetSettings={onResetSettings}
-            onUpdateSetting={onUpdateSettings}
-          />
-        </Modal>
       </div>
     </div>
   );

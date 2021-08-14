@@ -110,6 +110,7 @@ const Menu = ({
         layout={orientation}
         title={item.title}
         routing={item.routing}
+        urlBase={orientation}
       />
     );
   });
