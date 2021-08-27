@@ -1,37 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import ReactEcharts from 'echarts-for-react';
 import * as echarts from 'echarts';
 
-import { usePageData, useFetchPageData } from '../../hooks/usePage';
 import { IPageData } from '../../interfaces/page';
 
 import { worldMapOptions } from './worldMapOptions';
+import { setPageData } from '../../redux/page-data/actions';
+import axios from 'axios';
 
 const pageData: IPageData = {
-  fulFilled: true,
-  breadcrumbs: [
-    {
-      title: 'Home',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'UI Kit ',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'World map'
-    }
-  ]
 };
 
 const mapUrl = './data/world.json';
 
 const WorldMapPage = () => {
+  setPageData(pageData);
   const [mapOptions, setMapOptions] = useState(null);
 
-  useFetchPageData(mapUrl, null, setOptions);
-  usePageData(pageData);
+  useEffect(() => {
+    getDatasource()
+  }, [mapOptions])
+
+  const getDatasource = async () => {
+    const respuesta = await axios.get(mapUrl);
+    setMapOptions(respuesta)
+  }
 
   function setOptions(geoJson: any) {
     echarts.registerMap('HK', geoJson);

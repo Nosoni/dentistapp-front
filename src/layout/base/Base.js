@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Footer from '../components/footer/FooterDA';
-import { fetchPatients } from '../../redux/patients/actions';
+//import { fetchPatients } from '../../redux/patients/actions';
 import className from '../../utils/class-names';
 import './BaseLayout.scss';
 
@@ -16,9 +16,9 @@ const BaseLayout = ({ nav, topNav, sideNav, orientation, children }) => {
   const settings = useSelector((state) => state.settings);
   const pageData = useSelector((state) => state.pageData);
 
-  useEffect(() => {
-    dispatch(fetchPatients(patientsUrl));
-  }, [patientsUrl]);
+  // useEffect(() => {
+  //   dispatch(fetchPatients(patientsUrl));
+  // }, [patientsUrl]);
 
   const handleScroll = (event) => {
     setScrolled(event.target.scrollTop > 0);

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { IPageData } from '../../interfaces/page';
-import { usePageData } from '../../hooks/usePage';
 import { Button, Card } from 'antd';
 import {
   DeleteOutlined,
@@ -10,27 +9,14 @@ import {
   SendOutlined,
   SettingOutlined
 } from '@ant-design/icons';
+import { setPageData } from '../../redux/page-data/actions';
 
 const pageDate: IPageData = {
   title: 'Buttons',
-  fulFilled: true,
-  breadcrumbs: [
-    {
-      title: 'UI Kit',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Components',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Buttons'
-    }
-  ]
 };
 
 const ButtonsPage = () => {
-  usePageData(pageDate);
+  setPageData(pageDate);
 
   return (
     <>

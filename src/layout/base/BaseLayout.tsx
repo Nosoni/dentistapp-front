@@ -94,7 +94,7 @@ const BaseLayout = ({ nav, topNav, sideNav, orientation, children }: Props) => {
         </main>
 
         <Footer
-          breadcrumbs={pageData.breadcrumbs}
+          breadcrumbs={[]}
           layout={settings.layout}
           boxed={settings.boxed}
           loaded={true}

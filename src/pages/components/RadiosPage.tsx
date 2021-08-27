@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
-import { usePageData } from '../../hooks/usePage';
 import { IPageData } from '../../interfaces/page';
 import { Button, Card, Radio } from 'antd';
 import { RadioChangeEvent } from 'antd/es/radio';
+import { setPageData } from '../../redux/page-data/actions';
 
 type RadioValues = {
   first: number;
@@ -21,24 +21,10 @@ const radioStyle = {
 
 const pageData: IPageData = {
   title: 'Radio buttons',
-  fulFilled: true,
-  breadcrumbs: [
-    {
-      title: 'UI Kit',
-      route: 'default-dashboard',
-    },
-    {
-      title: 'Components',
-      route: 'default-dashboard',
-    },
-    {
-      title: 'Radio Buttons',
-    },
-  ],
 };
 
 const RadiosPage = () => {
-  usePageData(pageData);
+  setPageData(pageData);
 
   const [disabled, setDisabled] = useState(false);
   const [values, setValues] = useState<RadioValues>({

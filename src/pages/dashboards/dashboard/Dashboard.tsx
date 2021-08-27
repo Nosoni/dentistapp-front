@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Card } from 'antd';
 
@@ -15,28 +15,29 @@ import {
   patientsAgeOptions
 } from './charts/patients-options';
 
-import { useFetchPageData, usePageData } from '../../../hooks/usePage';
-
 import { IAppointment } from '../../../interfaces/patient';
 import { IPageData } from '../../../interfaces/page';
+import { setPageData } from '../../../redux/page-data/actions';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
 
 const pageData: IPageData = {
-  fulFilled: false,
-  breadcrumbs: [
-    {
-      title: 'Dashboards',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Default'
-    }
-  ]
+  title: "dash"
 };
 
 const DashboardPage = () => {
-  const [appointments] = useFetchPageData<IAppointment[]>('./data/last-appointments.json', []);
-  usePageData(pageData);
+  const [appointments, setAppointments] = useState<any>([])
+  const dispatch = useDispatch();
+  dispatch(setPageData(pageData));
 
+  useEffect(() => {
+    getDatasource()
+  }, [appointments])
+
+  const getDatasource = async () => {
+    const respuesta = await axios.get("./data/last-appointments.json");
+    setAppointments(respuesta)
+  }
   return (
     <>
       <div className='row'>
@@ -173,7 +174,7 @@ const DashboardPage = () => {
       </div>
 
       <Card title='Last appointments' className='mb-0'>
-        <AppointmentsTable data={appointments} />
+        {/* <AppointmentsTable data={appointments} /> */}
       </Card>
     </>
   );

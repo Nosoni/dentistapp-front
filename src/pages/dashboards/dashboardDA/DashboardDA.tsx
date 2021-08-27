@@ -1,32 +1,17 @@
 import React from 'react';
-
 import { Card } from 'antd';
-
-import ReactEcharts from 'echarts-for-react';
-
 import AppointmentsTable from '../../../layout/components/appointmentsTable/AppointmentsTable';
-
-import { useFetchPageData, usePageData } from '../../../hooks/usePage';
-
-import { IAppointment } from '../../../interfaces/patient';
 import { IPageData } from '../../../interfaces/page';
+import { setPageData } from '../../../redux/page-data/actions';
+import { useDispatch } from 'react-redux';
 
 const pageData: IPageData = {
-  fulFilled: false,
-  breadcrumbs: [
-    {
-      title: 'Dashboards',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Default'
-    }
-  ]
+  title: "Dashboard"
 };
 
 const DashboardPage = () => {
-  const [appointments] = useFetchPageData<IAppointment[]>('./data/last-appointments.json', []);
-  usePageData(pageData);
+  const dispatch = useDispatch();
+  dispatch(setPageData(pageData));
 
   return (
     <>
@@ -152,7 +137,7 @@ const DashboardPage = () => {
       </div>
 
       <Card title='Last appointments' className='mb-0'>
-        <AppointmentsTable data={appointments} />
+        <AppointmentsTable data={[]} />
       </Card>
     </>
   );

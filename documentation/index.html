@@ -572,7 +572,7 @@ const mapStateToProps = (state, ownProps) => {
     title?: string;
     loaded?: boolean;
     breadcrumbs?: IBreadcrumb[];
-    fullFilled?: boolean;
+    fulFilled?: boolean;
   }
   
   export interface IBreadcrumb {
@@ -586,7 +586,7 @@ const mapStateToProps = (state, ownProps) => {
 
             <p>
                <code>useFetchPageData</code> Used to obtain the necessary information and set the page status according to the retrieval process.
-               Also this hoo will automatically set <code>fullFilled</code> state to true after date will be obtained.
+               Also this hoo will automatically set <code>fulFilled</code> state to true after date will be obtained.
             </p>
 
             <p>
@@ -623,7 +623,7 @@ const mapStateToProps = (state, ownProps) => {
 <code class="typescript">
   const pageData: IPageData = {
     title: 'Demo page',
-    fullFilled: false,
+    fulFilled: false,
     breadcrumbs: [
       {
         title: 'Home',
@@ -639,7 +639,7 @@ const mapStateToProps = (state, ownProps) => {
   const initialState = [];
 
   const DemopPage = () => {
-    usePageData(pageData);
+    setPageData(pageData);
     const [data, setData] = useFetchPageData<IAppointment[]>(
       dataUrl,
       initialState

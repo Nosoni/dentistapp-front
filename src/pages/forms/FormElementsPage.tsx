@@ -14,9 +14,10 @@ import {
 } from 'antd';
 
 import { NavLink } from 'react-router-dom';
-import { usePageData } from '../../hooks/usePage';
+
 import { IPageData } from '../../interfaces/page';
 import { BookOutlined, UserOutlined } from '@ant-design/icons/lib';
+import { setPageData } from '../../redux/page-data/actions';
 
 const { Option } = Select;
 
@@ -35,23 +36,10 @@ const radioStyle = {
 const pageData: IPageData = {
   title: 'Form elements',
   fulFilled: true,
-  breadcrumbs: [
-    {
-      title: 'Home',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'UI Kit ',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Form elements'
-    }
-  ]
 };
 
 const FormElementsPage = () => {
-  usePageData(pageData);
+  setPageData(pageData);
 
   const [dataSource, setDataSource] = useState([]);
 

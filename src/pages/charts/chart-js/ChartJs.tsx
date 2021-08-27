@@ -12,29 +12,15 @@ import radarChart from './options/radar-chart';
 import polarAreaChart from './options/polar-area-chart';
 import pieChart from './options/pie-chart';
 
-import { usePageData } from '../../../hooks/usePage';
 import { IPageData } from '../../../interfaces/page';
+import { setPageData } from '../../../redux/page-data/actions';
 
 const pageData: IPageData = {
   title: 'ChartJs',
-  fulFilled: true,
-  breadcrumbs: [
-    {
-      title: 'Home',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'UI Kit ',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Chart Js'
-    }
-  ]
 };
 
 const ChartJsPage = () => {
-  usePageData(pageData);
+  setPageData(pageData);
 
   return (
     <>

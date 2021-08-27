@@ -1,6 +1,6 @@
 import React from 'react';
 import { IPageData } from '../../interfaces/page';
-import { usePageData } from '../../hooks/usePage';
+
 import { Avatar, Button, Card, Rate, Tag, Timeline } from 'antd';
 
 const pageData: IPageData = {
@@ -289,7 +289,7 @@ const Skills = () => {
   );
 };
 const UserProfilePage = () => {
-  usePageData(pageData);
+  setPageData(pageData);
 
   return (
     <div className='row'>

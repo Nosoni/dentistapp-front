@@ -14,7 +14,7 @@ import {
 
 import ReactEcharts from 'echarts-for-react';
 
-import { usePageData } from '../../hooks/usePage';
+
 import { useGetDoctor } from '../../hooks/useGetDoctor';
 
 import ImageLoader from '../../layout/components/patients/ImageLoader';
@@ -189,7 +189,7 @@ const DocTimeline = () => (
 
 const DoctorProfilePage = () => {
   const { doctor } = useGetDoctor('Dr. Sophie');
-  usePageData(pageData);
+  setPageData(pageData);
 
   return (
     doctor && (

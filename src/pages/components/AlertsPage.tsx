@@ -1,29 +1,15 @@
 import React from 'react';
 import { Alert, Card } from 'antd';
 
-import { usePageData } from '../../hooks/usePage';
 import { IPageData } from '../../interfaces/page';
+import { setPageData } from '../../redux/page-data/actions';
 
 const pageData: IPageData = {
   title: 'Alerts',
-  fulFilled: true,
-  breadcrumbs: [
-    {
-      title: 'UI Kit',
-      route: 'default-dashboard',
-    },
-    {
-      title: 'Components',
-      route: 'default-dashboard',
-    },
-    {
-      title: 'Alerts',
-    },
-  ],
 };
 
 const AlertsPage = () => {
-  usePageData(pageData);
+  setPageData(pageData);
 
   return (
     <div className='row'>

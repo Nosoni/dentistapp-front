@@ -1,34 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { useFetchPageData, usePageData } from '../../hooks/usePage';
 
 import Contact from '../../layout/components/doctor/Contact';
 import className from '../../utils/class-names';
 
 import { IUser } from '../../interfaces/user';
 import { IPageData } from '../../interfaces/page';
+import { setPageData } from '../../redux/page-data/actions';
+import axios from 'axios';
 
 const pageData: IPageData = {
-  fulFilled: false,
   title: 'Contacts',
-  breadcrumbs: [
-    {
-      title: 'UI Kit',
-      route: 'default-dashboard',
-    },
-    {
-      title: 'Components',
-      route: 'default-dashboard',
-    },
-    {
-      title: 'Contacts',
-    },
-  ],
 };
 
 const ContactsPage = () => {
-  const [users] = useFetchPageData<IUser[]>('data/contacts.json', []);
-  usePageData(pageData);
+  setPageData(pageData);
+  const [users, setUsers] = useState<any>([])
+
+  useEffect(() => {
+    getDatasource()
+  }, [users])
+
+  const getDatasource = async () => {
+    const respuesta = await axios.get("data/contacts.json");
+    setUsers(respuesta)
+  }
 
   const getClass = (index: number, length: number) =>
     className({

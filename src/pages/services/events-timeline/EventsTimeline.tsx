@@ -10,30 +10,16 @@ import { chartOptions } from './chart-options';
 
 import { OurTimeline } from './Timeline';
 import { LastClients, LastPayments } from './Tables';
-import { usePageData } from '../../../hooks/usePage';
 
 import { IPageData } from '../../../interfaces/page';
+import { setPageData } from '../../../redux/page-data/actions';
 
 const pageData: IPageData = {
   title: 'Events timeline',
-  fulFilled: true,
-  breadcrumbs: [
-    {
-      title: 'Apps',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Service pages',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Events timeline'
-    }
-  ]
 };
 
 const EventsTimelinePage = () => {
-  usePageData(pageData);
+  setPageData(pageData);
 
   return (
     <>

@@ -1,28 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { IPageData } from '../../interfaces/page';
 
 import Department from '../../layout/components/department/Department';
 
-import { useFetchPageData, usePageData } from '../../hooks/usePage';
 import { IDepartment } from '../../interfaces/patient';
+import { setPageData } from '../../redux/page-data/actions';
+import axios from 'axios';
 
 const pageData: IPageData = {
   title: 'Departments',
-  fulFilled: false,
-  breadcrumbs: [
-    {
-      title: 'Medicine',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Departments'
-    }
-  ]
 };
 
 const Departments = () => {
-  const [departments] = useFetchPageData<IDepartment[]>('./data/departments.json', []);
-  usePageData(pageData);
+  setPageData(pageData);
+
+  const [departments, setDepartments] = useState<any>([])
+
+  useEffect(() => {
+    getDatasource()
+  }, [departments])
+
+  const getDatasource = async () => {
+    const respuesta = await axios.get("./data/departments.json");
+    setDepartments(respuesta)
+  }
 
   const depClass = (i, length) => {
     if (i === length - 1) {

@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 
 import { Modal, Input, Button, Card, Tag } from 'antd';
 
-import { usePageData } from '../../hooks/usePage';
 import { IPageData } from '../../interfaces/page';
+import { setPageData } from '../../redux/page-data/actions';
 
 const modals = {
   basic: 'basic',
@@ -23,25 +23,11 @@ const modals = {
 };
 
 const pageData: IPageData = {
-  fulFilled: true,
   title: 'Modals',
-  breadcrumbs: [
-    {
-      title: 'UI Kit',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Components',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Modals'
-    }
-  ]
 };
 
 const ModalsPage = () => {
-  usePageData(pageData);
+  setPageData(pageData);
   const [opened, setOpened] = useState('');
 
   function openModal(modalName: string) {

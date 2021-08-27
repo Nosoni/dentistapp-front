@@ -3,7 +3,7 @@ import React from 'react';
 import { Button, Card, Form, Input } from 'antd';
 import { Rule } from 'antd/es/form';
 
-import { usePageData } from '../../hooks/usePage';
+
 import { IPageData } from '../../interfaces/page';
 import {
   IdcardOutlined,
@@ -161,7 +161,7 @@ const pageData: IPageData = {
 };
 
 const FormValidationPage = () => {
-  usePageData(pageData);
+  setPageData(pageData);
   return (
     <>
       <div className='row'>

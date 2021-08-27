@@ -13,32 +13,18 @@ import {
   barFactoryOptions
 } from './charts-options';
 
-import { usePageData } from '../../../hooks/usePage';
 import { IPageData } from '../../../interfaces/page';
 import { BarChartOutlined } from '@ant-design/icons/lib';
+import { setPageData } from '../../../redux/page-data/actions';
 
 const pageData: IPageData = {
   title: 'Echarts',
-  fulFilled: true,
-  breadcrumbs: [
-    {
-      title: 'Home',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'UI Kit ',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Echarts'
-    }
-  ]
 };
 
 const barOptions = barFactoryOptions();
 
 const EchartsPage = () => {
-  usePageData(pageData);
+  setPageData(pageData);
 
   return (
     <>

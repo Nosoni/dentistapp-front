@@ -4,7 +4,7 @@ import { Card } from 'antd';
 import { Icon } from '@ant-design/compatible';
 
 import { IPageData } from '../../interfaces/page';
-import { usePageData } from '../../hooks/usePage';
+
 
 const colors = ['#48bb78', '#336cfb', '#fc8b37', '#ed253d', '#ed64a6'];
 
@@ -52,7 +52,7 @@ const pageData: IPageData = {
 };
 
 const IconsOptionsPage = () => {
-  usePageData(pageData);
+  setPageData(pageData);
 
   const displayIcons = (icons, props) => (
     <div className='elem-list'>

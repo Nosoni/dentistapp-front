@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Button } from 'antd';
 
@@ -7,31 +7,28 @@ import AddAppointment from './AddAppointment';
 import AppointmentsTable from '../../../layout/components/appointmentsTable/AppointmentsTable';
 
 import PageAction from '../../../layout/components/page-action/PageAction';
-import { useFetchPageData, usePageData } from '../../../hooks/usePage';
 
 import { IAppointment } from '../../../interfaces/patient';
 import { IPageData } from '../../../interfaces/page';
+import { setPageData } from '../../../redux/page-data/actions';
+import axios from 'axios';
 
 const pageData: IPageData = {
   title: 'Appointments',
-  fulFilled: false,
-  breadcrumbs: [
-    {
-      title: 'Medicine',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Appointments'
-    }
-  ]
 };
 
 const AppointmentsPage = () => {
-  usePageData(pageData);
-  const [appointments, setAppointments] = useFetchPageData<IAppointment[]>(
-    './data/appointments.json',
-    []
-  );
+  setPageData(pageData);
+  const [appointments, setAppointments] = useState<any>([])
+
+  useEffect(() => {
+    getDatasource()
+  }, [appointments])
+
+  const getDatasource = async () => {
+    const respuesta = await axios.get("./data/appointments.json");
+    setAppointments(respuesta)
+  }
 
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [addingModalVisibility, setAddingModalVisibility] = useState(false);

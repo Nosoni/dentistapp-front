@@ -1,32 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { useFetchPageData, usePageData } from '../../hooks/usePage';
 import { IconWrap } from './IconWrap';
 import { IPageData } from '../../interfaces/page';
+import { setPageData } from '../../redux/page-data/actions';
+import axios from 'axios';
 
 const iconsUrl = '/data/icons-icofont.json';
 
 const pageData: IPageData = {
   title: 'Icofont Icons',
-  breadcrumbs: [
-    {
-      title: 'Home',
-      route: 'dashboard'
-    },
-    {
-      title: 'UI Kit ',
-      route: 'dashboard'
-    },
-    {
-      title: 'Icons SLI'
-    }
-  ]
 };
 
 const IcofontIconsPage = () => {
-  usePageData(pageData);
-  const [icons] = useFetchPageData<string[]>(iconsUrl, []);
+  setPageData(pageData);
+  const [icons, setIcons] = useState<any>([])
 
+  useEffect(() => {
+    getDatasource()
+  }, [icons])
+
+  const getDatasource = async () => {
+    const respuesta = await axios.get(iconsUrl);
+    setIcons(respuesta)
+  }
   return (
     <>
       <div className='elem-list'>

@@ -9,8 +9,17 @@ import {
   PlusOutlined
 } from '@ant-design/icons';
 import { usuarioFiltrar } from '../../services/usuarios';
+import { setPageData } from '../../redux/page-data/actions'
+import { useDispatch } from 'react-redux';
+
+const pageData = {
+  title: "Usuario"
+};
 
 function Usuario() {
+  const dispatch = useDispatch();
+  dispatch(setPageData(pageData));
+
   const [usuariosList, setUsuariosList] = useState([])
   //useEffect(() => { !localStorage.getItem("usuario") && props.history.push("/login") }, [])
   const schema = yup.object({

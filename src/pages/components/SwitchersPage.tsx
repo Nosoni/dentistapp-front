@@ -1,30 +1,15 @@
 import React, { useState } from 'react';
 
-import { usePageData } from '../../hooks/usePage';
-
 import { IPageData } from '../../interfaces/page';
 import { Button, Card, Switch } from 'antd';
+import { setPageData } from '../../redux/page-data/actions';
 
 const pageData: IPageData = {
   title: 'Switchers',
-  fulFilled: true,
-  breadcrumbs: [
-    {
-      title: 'UI Kit',
-      route: 'default-dashboard',
-    },
-    {
-      title: 'Components',
-      route: 'default-dashboard',
-    },
-    {
-      title: 'Switchers',
-    },
-  ],
 };
 
 const SwitchersPage = () => {
-  usePageData(pageData);
+  setPageData(pageData);
 
   const [disabled, setDisabled] = useState(false);
   const toggle = () => setDisabled(!disabled);

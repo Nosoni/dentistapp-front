@@ -2,25 +2,11 @@ import React from 'react';
 
 import { Card, Checkbox } from 'antd';
 
-import { usePageData } from '../../hooks/usePage';
 import { IPageData } from '../../interfaces/page';
+import { setPageData } from '../../redux/page-data/actions';
 
 const pageData: IPageData = {
-  fulFilled: true,
   title: 'Checkboxes',
-  breadcrumbs: [
-    {
-      title: 'UI Kit',
-      route: 'default-dashboard',
-    },
-    {
-      title: 'Components',
-      route: 'default-dashboard',
-    },
-    {
-      title: 'Checkboxes',
-    },
-  ],
 };
 
 const plainOptions = ['Apple', 'Pear', 'Orange'];
@@ -37,7 +23,7 @@ const optionsWithDisabled = [
 ];
 
 const CheckboxesPage = () => {
-  usePageData(pageData);
+  setPageData(pageData);
 
   return (
     <>

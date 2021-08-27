@@ -3,7 +3,7 @@ import React from 'react';
 import { Button, Card, Table } from 'antd';
 import { PrinterOutlined } from '@ant-design/icons/lib';
 
-import { useFetchPageData, usePageData } from '../../hooks/usePage';
+
 import { useGetInvoice } from '../../hooks/useGetInvoices';
 
 import { IPageData } from '../../interfaces/page';
@@ -144,7 +144,7 @@ const InvoicePage = () => {
   const [records] = useFetchPageData<IInvoiceRecord[]>('./data/invoice.json', []);
   const invoice = useGetInvoice();
 
-  usePageData(pageData);
+  setPageData(pageData);
 
   return (
     <Card title='Invoice #INV-17'>

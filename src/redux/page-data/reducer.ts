@@ -3,14 +3,14 @@ import { IPageData } from '../../interfaces/page';
 
 const initialState: IPageData = {
   title: '',
-  fulFilled: true,
-  breadcrumbs: [{ route: 'default-dashboard', title: 'Home' }, { title: 'Dashboard' }],
+  loaded: false,
+  fulFilled: false,
 };
 
 export const pageDataReducer = (state: IPageData = initialState, action: PageActionsTypes) => {
   switch (action.type) {
     case SET_PAGE_DATA:
-      return { ...action.payload, fullFilled: true };
+      return { ...action.payload, fulFilled: true, loaded: true };
     case UPDATE_PAGE_DATA:
       return { ...state, ...action.payload };
     case RESET_PAGE_DATA:

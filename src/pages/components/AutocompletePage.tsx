@@ -1,35 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { AutoComplete, Card, Input } from 'antd';
 import { BookOutlined, EditOutlined, FileTextOutlined, FontSizeOutlined } from '@ant-design/icons';
 
-import { useFetchPageData, usePageData } from '../../hooks/usePage';
-
 import { IPageData } from '../../interfaces/page';
-import { IOption } from '../../interfaces/option';
+import { setPageData } from '../../redux/page-data/actions';
+import axios from 'axios';
 
 type Limit = [number, number, number];
 
 const pageData: IPageData = {
-  title: 'Autocompletes',
-  breadcrumbs: [
-    {
-      title: 'UI Kit',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Components',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Autocompletes'
-    }
-  ]
+  title: 'Autocompletes'
 };
 
 const AutocompletePage = () => {
-  const [dataSource] = useFetchPageData<IOption[]>('./data/autocomplete.json', []);
-  usePageData(pageData);
+  const [dataSource, setDataSource] = useState<any>([])
+  setPageData(pageData);
+
+  useEffect(() => {
+    getDatasource()
+  }, [dataSource])
+
+  const getDatasource = async () => {
+    const respuesta = await axios.get("./data/autocomplete.json");
+    setDataSource(respuesta)
+  }
 
   const [limits, setLimits] = useState<Limit>([0, 0, 0]);
   const [first, second, third] = limits;

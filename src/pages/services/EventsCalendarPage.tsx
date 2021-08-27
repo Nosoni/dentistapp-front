@@ -5,7 +5,7 @@ import { IPageData } from '../../interfaces/page';
 
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { usePageData } from '../../hooks/usePage';
+
 
 const headerOptions = {
   left: 'prev,next today',
@@ -32,7 +32,7 @@ const pageData: IPageData = {
 };
 
 const EventsCalendarPage = () => {
-  usePageData(pageData);
+  setPageData(pageData);
   const [event, setEvent] = useState(null);
   const [modalVisibility, setModalVisibility] = useState(false);
 

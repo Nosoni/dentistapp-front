@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Modal } from 'antd';
 
@@ -8,29 +8,28 @@ import Contact from '../../../layout/components/doctor/Contact';
 import PageAction from '../../../layout/components/page-action/PageAction';
 import DoctorForm from './DoctorForm';
 
-import { useFetchPageData, usePageData } from '../../../hooks/usePage';
-
 import { IUser } from '../../../interfaces/user';
 import { IPageData } from '../../../interfaces/page';
+import { setPageData } from '../../../redux/page-data/actions';
+import axios from 'axios';
 
 const pageData: IPageData = {
   title: 'Doctors',
-  fulFilled: false,
-  breadcrumbs: [
-    {
-      title: 'Medicine',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Doctors'
-    }
-  ]
 };
 
 const DoctorsPage = () => {
-  usePageData(pageData);
-  const [doctors, setDoctors] = useFetchPageData<IUser[]>('./data/doctors.json', []);
+  setPageData(pageData);
+  const [doctors, setDoctors] = useState<any>([])
   const [addingDoctor, setAddingDoctor] = useState(false);
+
+  useEffect(() => {
+    getDatasource()
+  }, [doctors])
+
+  const getDatasource = async () => {
+    const respuesta = await axios.get("./data/doctors.json");
+    setDoctors(respuesta)
+  }
 
   const openModal = () => setAddingDoctor(true);
   const closeModal = () => setAddingDoctor(false);

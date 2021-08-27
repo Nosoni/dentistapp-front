@@ -3,7 +3,7 @@ import React from 'react';
 import { Button, Card, Form, Input } from 'antd';
 import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons/lib';
 
-import { usePageData } from '../../hooks/usePage';
+
 import { IPageData } from '../../interfaces/page';
 
 const formItemLayout = {
@@ -36,7 +36,7 @@ const pageData: IPageData = {
 };
 
 const FormLayoutsPage = () => {
-  usePageData(pageData);
+  setPageData(pageData);
   return (
     <>
       <div className='row'>

@@ -4,7 +4,7 @@ import { Card } from 'antd';
 
 import InvoicesTable from './InvoicesTable';
 
-import { useFetchPageData, usePageData } from '../../hooks/usePage';
+
 import { IPageData } from '../../interfaces/page';
 
 const pageData: IPageData = {
@@ -57,7 +57,7 @@ const SummaryCard = () => (
 
 const InvoicesPage = () => {
   const [invoices] = useFetchPageData('./data/invoices.json');
-  usePageData(pageData);
+  setPageData(pageData);
 
   return (
     <>

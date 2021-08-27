@@ -11,7 +11,7 @@ import CustomOptions from './CustomOptions';
 import FilterAndSorting from './FilterAndSorting';
 
 import { IPageData } from '../../interfaces/page';
-import { usePageData } from '../../hooks/usePage';
+
 
 const pageData: IPageData = {
   title: 'Tables',
@@ -32,7 +32,7 @@ const pageData: IPageData = {
 };
 
 const TablesPage = () => {
-  usePageData(pageData);
+  setPageData(pageData);
 
   return (
     <>
