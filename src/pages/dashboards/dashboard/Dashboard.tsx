@@ -28,7 +28,7 @@ const pageData: IPageData = {
 const DashboardPage = () => {
   const [appointments, setAppointments] = useState<any>([])
   const dispatch = useDispatch();
-  dispatch(setPageData(pageData));
+  //dispatch(setPageData(pageData));
 
   useEffect(() => {
     getDatasource()
