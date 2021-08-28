@@ -25,6 +25,6 @@ export const settingsReducer = (
     case TOGGLE_SIDEBAR:
       return { ...state, sidebarOpened: !state.sidebarOpened };
     default:
-      return { ...state };
+      return state;
   }
 };

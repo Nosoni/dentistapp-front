@@ -16,6 +16,6 @@ export const pageDataReducer = (state: IPageData = initialState, action: PageAct
     case RESET_PAGE_DATA:
       return { ...initialState };
     default:
-      return { ...state };
+      return state;
   }
 };

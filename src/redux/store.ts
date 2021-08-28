@@ -35,11 +35,11 @@ const config = {
 const persistedReducer = persistReducer(config, rootReducer)
 
 export function configureStore() {
-  const store = createStore(
+  let store = createStore(
     persistedReducer,
     composeWithDevTools(applyMiddleware(thunk))
   );
-  const persistor = persistStore(store);
+  let persistor = persistStore(store);
 
   return { persistor, store }
 }

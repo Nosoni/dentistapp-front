@@ -9,7 +9,6 @@ const usuarioListar = async () => {
 };
 
 const usuarioFiltrar = async (usuario) => {
-  console.log(usuario)
   const url = `${server}/${servicio}/filtrar/${usuario}`;
   const response = await axios.get(url)
   return response.data

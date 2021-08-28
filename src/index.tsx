@@ -9,12 +9,12 @@ import App from './AppDA';
 
 import * as serviceWorker from './serviceWorker';
 import { HashRouter } from 'react-router-dom';
-import { PersistGate } from 'redux-persist/es/integration/react';
+import { PersistGate } from 'redux-persist/integration/react'
 const { persistor, store } = configureStore()
 
 ReactDOM.render(
   <Provider store={store}>
-    <PersistGate persistor={persistor}>
+    <PersistGate loading={null} persistor={persistor}>
       <HashRouter>
         <App />
       </HashRouter>

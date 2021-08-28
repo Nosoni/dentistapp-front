@@ -16,7 +16,6 @@ const MainLayout = ({ children }) => {
   const handleCloseMenu = () => dispatch(toggleSidebar());
   const settings = useSelector((state) => state.settings);
   const datosUsuario = useSelector((state) => state.usuarioData);
-
   console.log(datosUsuario)
 
   const nav = (
@@ -37,7 +36,7 @@ const MainLayout = ({ children }) => {
         fontStyle: 'oblique',
         color: 'rgba(31, 32, 34, 0.5)',
         fontSize: '15px',
-      }}>Usuario activo: <a style={{ fontWeight: 'bold' }}>{datosUsuario?.usuario.usuario}</a></div>
+      }}>Usuario activo: <a style={{ fontWeight: 'bold' }}>{datosUsuario?.usuario?.usuario}</a></div>
       <Actions />
     </Navbar>
   );

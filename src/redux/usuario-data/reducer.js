@@ -9,6 +9,6 @@ export const usuarioReducer = (state = initialState, action) => {
     case UPDATE_DATOS_USUARIO:
       return { ...state, ...action.payload };
     default:
-      return { ...state };
+      return state;
   }
 };
