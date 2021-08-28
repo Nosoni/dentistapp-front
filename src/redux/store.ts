@@ -5,6 +5,7 @@ import { createHashHistory } from 'history';
 import { settingsReducer } from './settings/reducer';
 import { pageDataReducer } from './page-data/reducer';
 import { persistStore, persistReducer } from 'redux-persist';
+import { encryptTransform } from 'redux-persist-transform-encrypt';
 import storage from 'redux-persist/lib/storage'
 import { usuarioReducer } from './usuario-data/reducer';
 
@@ -19,8 +20,16 @@ const rootReducer = combineReducers({
 export type AppState = ReturnType<typeof rootReducer>;
 
 const config = {
-  key: 'root',
+  key: 'app',
   storage,
+  transforms: [
+    encryptTransform({
+      secretKey: 'my-super-secret-key',
+      onError: function (error) {
+        console.log("error en store encrypt", error)
+      },
+    }),
+  ],
 };
 
 const persistedReducer = persistReducer(config, rootReducer)
