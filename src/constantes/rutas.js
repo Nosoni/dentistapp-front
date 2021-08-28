@@ -1,6 +1,6 @@
 import DashboardPage from "../pages/dashboards/dashboardDA/DashboardDA";
 import NotFound from "../pages/sessions/404";
-import SignIn from "../pages/sessions/Sign-in";
+import Login from "../pages/sessions/Login";
 import Usuario from "../pages/usuarios/Usuario";
 
 const rutasPublicas = [
@@ -11,8 +11,8 @@ const rutasPublicas = [
   },
   {
     layout: "public",
-    path: 'sign-in',
-    component: SignIn
+    path: 'login',
+    component: Login
   }
 ];
 

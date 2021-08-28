@@ -1,7 +1,7 @@
 export const DEFAULT_SETTINGS = {
   boxed: true,
   loaded: false,
-  layout: 'vertical',// horizontal | vertical
+  layout: 'horizontal',// horizontal | vertical
   sidebarBg: '#fbfbfb',// string
   sidebarColor: '#1F2022',// string
   sidebarOpened: false,// boolean

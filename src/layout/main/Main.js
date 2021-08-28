@@ -15,10 +15,13 @@ const MainLayout = ({ children }) => {
   const menuData = menues;
   const handleCloseMenu = () => dispatch(toggleSidebar());
   const settings = useSelector((state) => state.settings);
+  const datosUsuario = useSelector((state) => state.usuarioData);
+
+  console.log(datosUsuario)
 
   const nav = (
     <Navbar
-      orientation='horizontal'
+      orientation={settings.layout}
       color={settings.topbarColor}
       background={settings.topbarBg}
       boxed={settings.boxed}
@@ -29,6 +32,12 @@ const MainLayout = ({ children }) => {
         <span />
       </button>
       <Logo src={LogoSvg} />
+      <div style={{
+        textAlign: 'center',
+        fontStyle: 'oblique',
+        color: 'rgba(31, 32, 34, 0.5)',
+        fontSize: '15px',
+      }}>Usuario activo: <a style={{ fontWeight: 'bold' }}>{datosUsuario?.usuario.usuario}</a></div>
       <Actions />
     </Navbar>
   );
@@ -53,7 +62,7 @@ const MainLayout = ({ children }) => {
       <Menu
         onCloseSidebar={handleCloseMenu}
         opened={settings.sidebarOpened}
-        orientation='horizontal'
+        orientation={settings.layout}
         data={menuData}
       />
     </Navbar>
@@ -61,7 +70,7 @@ const MainLayout = ({ children }) => {
 
   return (
     <>
-      <BaseLayout orientation='horizontal' nav={nav} topNav={additionalNav}>
+      <BaseLayout orientation={settings.layout} nav={nav} topNav={additionalNav}>
         {children}
       </BaseLayout>
     </>

@@ -7,7 +7,7 @@ const accountItems = [
   { text: 'User profile', icon: 'icofont-ui-user', route: '/vertical/user-profile' },
   { text: 'Calendar', icon: 'icofont-ui-calendar', route: '/vertical/events-calendar' },
   { text: 'Settings', icon: 'icofont-ui-settings', route: '/vertical/settings' },
-  { text: 'Log Out', icon: 'icofont-logout', route: '/public/sign-in' }
+  { text: 'Cerrar sesión', icon: 'icofont-logout', route: '/public/login', accion: () => { } }
 ];
 
 const SettingsDropdown = () => {
