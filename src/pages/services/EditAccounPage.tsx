@@ -10,23 +10,11 @@ import { useGetUser } from '../../hooks/useGetUser';
 
 import { IPageData } from '../../interfaces/page';
 import { IPatient } from '../../interfaces/patient';
+import { setPageData } from '../../redux/page-data/actions';
+import { useEffect } from 'react';
 
 const pageData: IPageData = {
   title: 'Edit account',
-  fulFilled: true,
-  breadcrumbs: [
-    {
-      title: 'Apps',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Service Pages ',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Edit Account'
-    }
-  ]
 };
 
 const FormItem = Form.Item;
@@ -197,7 +185,10 @@ const PasswordForm = () => {
 
 const EditAccountPage = () => {
   const user = useGetUser();
-  setPageData(pageData);
+  useEffect(() => {
+    setPageData(pageData);
+  }, [])
+  
   return (
     <div className='stack' style={{ maxWidth: 690, margin: '0 auto' }}>
       <UserAvatar className='mt-0' src={user.img} />

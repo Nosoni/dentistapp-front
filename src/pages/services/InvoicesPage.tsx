@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Card } from 'antd';
 
@@ -6,24 +6,10 @@ import InvoicesTable from './InvoicesTable';
 
 
 import { IPageData } from '../../interfaces/page';
+import axios from 'axios';
 
 const pageData: IPageData = {
   title: 'Invoices',
-  fulFilled: false,
-  loaded: false,
-  breadcrumbs: [
-    {
-      title: 'Apps',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Service pages',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Invoices'
-    }
-  ]
 };
 
 const InfoSection = () => (
@@ -56,8 +42,16 @@ const SummaryCard = () => (
 );
 
 const InvoicesPage = () => {
-  const [invoices] = useFetchPageData('./data/invoices.json');
-  setPageData(pageData);
+  const [invoices, setInvoices] = useState<any>([])
+
+  useEffect(() => {
+    getDatasource()
+  }, [invoices])
+
+  const getDatasource = async () => {
+    const respuesta = await (await axios.get("./data/invoicea.json")).data;
+    setInvoices(respuesta)
+  }
 
   return (
     <>

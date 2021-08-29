@@ -7,16 +7,22 @@ import LogoSvg from './../../assets/img/logo.svg';
 import Actions from '../components/actions/Actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleSidebar } from '../../redux/settings/actions';
-import './Main.scss';
 import { menues } from '../../constantes/menu';
+import { useHistory } from 'react-router-dom'
+import './Main.scss';
 
 const MainLayout = ({ children }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const menuData = menues;
-  const handleCloseMenu = () => dispatch(toggleSidebar());
   const settings = useSelector((state) => state.settings);
   const datosUsuario = useSelector((state) => state.usuarioData);
   console.log(datosUsuario)
+  console.log(Object.keys(datosUsuario) === 0)
+
+  useEffect(() => { Object.keys(datosUsuario).length === 0 && history.push("/public/login") }, [])
+
+  const handleCloseMenu = () => dispatch(toggleSidebar());
 
   const nav = (
     <Navbar
@@ -36,7 +42,8 @@ const MainLayout = ({ children }) => {
         fontStyle: 'oblique',
         color: 'rgba(31, 32, 34, 0.5)',
         fontSize: '15px',
-      }}>Usuario activo: <a style={{ fontWeight: 'bold' }}>{datosUsuario?.usuario?.usuario}</a></div>
+      }}>Usuario conectado: <lablel style={{ fontWeight: 'bold' }}>{datosUsuario?.usuario?.usuario}</lablel>
+      </div>
       <Actions />
     </Navbar>
   );

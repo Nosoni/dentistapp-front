@@ -16,12 +16,12 @@ const Departments = () => {
 
   const [departments, setDepartments] = useState<any>([])
 
-  useEffect(() => {
+useEffect(() => {
     getDatasource()
   }, [departments])
 
   const getDatasource = async () => {
-    const respuesta = await axios.get("./data/departments.json");
+    const respuesta = await (await axios.get("./data/departments.json")).data;
     setDepartments(respuesta)
   }
 

@@ -5,6 +5,7 @@ import { IPageData } from '../../interfaces/page';
 
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import { setPageData } from '../../redux/page-data/actions';
 
 
 const headerOptions = {
@@ -15,20 +16,6 @@ const headerOptions = {
 
 const pageData: IPageData = {
   title: 'Events calendar',
-  fulFilled: true,
-  breadcrumbs: [
-    {
-      title: 'Apps',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Service pages',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Events calendar'
-    }
-  ]
 };
 
 const EventsCalendarPage = () => {

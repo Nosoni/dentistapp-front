@@ -27,7 +27,8 @@ const DoctorsPage = () => {
   }, [doctors])
 
   const getDatasource = async () => {
-    const respuesta = await axios.get("./data/doctors.json");
+    const respuesta = await (await axios.get("./data/doctors.json")).data;
+    console.log(respuesta)
     setDoctors(respuesta)
   }
 

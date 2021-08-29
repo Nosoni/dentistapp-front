@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Card } from 'antd';
 import AppointmentsTable from '../../../layout/components/appointmentsTable/AppointmentsTable';
 import { IPageData } from '../../../interfaces/page';
@@ -11,7 +11,9 @@ const pageData: IPageData = {
 
 const DashboardPage = () => {
   const dispatch = useDispatch();
-  dispatch(setPageData(pageData));
+  useEffect(() => {
+    dispatch(setPageData(pageData));
+  }, [])
 
   return (
     <>

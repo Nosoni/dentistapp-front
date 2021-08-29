@@ -22,7 +22,7 @@ const AutocompletePage = () => {
   }, [dataSource])
 
   const getDatasource = async () => {
-    const respuesta = await axios.get("./data/autocomplete.json");
+    const respuesta = await (await axios.get("./data/autocomplete.json")).data;
     setDataSource(respuesta)
   }
 

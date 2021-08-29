@@ -1,6 +1,6 @@
 //rfce
-import React, { useState } from 'react'
-import { Button, Card, Table, Input, Space } from 'antd';
+import React, { useEffect, useState } from 'react'
+import { Button, Card, Table, Input, Modal } from 'antd';
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -10,7 +10,8 @@ import {
 } from '@ant-design/icons';
 import { usuarioFiltrar } from '../../services/usuarios';
 import { setPageData } from '../../redux/page-data/actions'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import UsuarioEditar from './componentes/UsuarioEditar';
 
 const pageData = {
   title: "Usuario"
@@ -18,31 +19,46 @@ const pageData = {
 
 function Usuario() {
   const dispatch = useDispatch();
-  dispatch(setPageData(pageData));
+  useEffect(() => {
+    dispatch(setPageData(pageData));
+  }, [])
 
+  const token = useSelector((state) => state.usuarioData.token);
   const [usuariosList, setUsuariosList] = useState([])
-  //useEffect(() => { !localStorage.getItem("usuario") && props.history.push("/login") }, [])
+
   const schema = yup.object({
     usuario: yup.string().required("Favor introduzca el Usuario")
   })
+  const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
+
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const appointmentsActions = (usuario) => {
+    console.log("accion", usuario)
+    return <div className='buttons-list nowrap'>
+      <Button onClick={() => openEditModal(usuario)} shape='circle' type='primary'>
+        <span className='icofont icofont-edit-alt' />
+      </Button>
+    </div>
+  };
+
+  const openEditModal = (usuario) => {
+    console.log("editmodal", usuario)
+    setSelectedAppointment(usuario)
+  };
 
   const handleBuscarUsuario = async (filtro) => {
-    const respuesta = await usuarioFiltrar(filtro.usuario)
+    const respuesta = await usuarioFiltrar(token, filtro.usuario)
     setUsuariosList(respuesta)
   }
-
-  const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
 
   const onSubmit = (filtro) => {
     handleBuscarUsuario(filtro)
   };
 
-  console.log("errores", errors)
-
   return (
     <div >
       <div className='row justify-content-center'>
-        <Card title='Buscar Usuario' className='col-md-6 col-sm-12'>
+        <Card title='Buscar' className='col-md-6 col-sm-12'>
           <div className='elem-list'>
             <Input placeholder='Introduzca el Usuario' {...register("usuario")} style={{ borderRadius: '10px' }} />
             <Button onClick={handleSubmit(onSubmit)} className='bg-color-info' icon={<SearchOutlined />}>
@@ -52,9 +68,9 @@ function Usuario() {
           </div>
         </Card>
       </div>
-      <div className='row justify-content-center'>
-        <Card title="Resultado" className='col-md-12 col-sm-12'>
-          {usuariosList?.length > 0 &&
+      {usuariosList?.length > 0 &&
+        <div className='row justify-content-center'>
+          <Card title="Resultado" className='col-md-12 col-sm-12'>
             <Table
               rowKey='id'
               dataSource={usuariosList}
@@ -64,19 +80,29 @@ function Usuario() {
                 title: 'Usuario',
                 render: (usuario) => <strong>{usuario}</strong>
               }, {
-                key: 'action',
-                title: 'Action',
-                render: (record) => (
-                  <Space size="middle">
-                    <a>Invite {record.name}</a>
-                    <a>Delete</a>
-                  </Space>
-                ),
+                key: 'funcionario',
+                dataIndex: 'funcionario',
+                title: 'Funcionario',
+                render: (funcionario) => <strong>{funcionario}</strong>
+              }, {
+                key: 'actiones',
+                title: 'Actiones',
+                render: appointmentsActions,
               },]}
               pagination={{ hideOnSinglePage: true }}
-            />}
-        </Card>
-      </div>
+            />
+          </Card>
+          <Modal
+            visible={!!selectedAppointment}
+            onCancel={() => setSelectedAppointment(false)}
+            destroyOnClose
+            footer={null}
+            title={<h3 className='title'>Edit appointment</h3>}
+          >
+            <UsuarioEditar usuario={selectedAppointment} />
+          </Modal>
+        </div>
+      }
     </div>
   )
 }

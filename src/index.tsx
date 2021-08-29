@@ -1,15 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-import { Provider } from 'react-redux';
-import { configureStore } from './redux/store';
-
-import './index.scss';
-import App from './AppDA';
-
 import * as serviceWorker from './serviceWorker';
 import { HashRouter } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react'
+import { Provider } from 'react-redux';
+import { configureStore } from './redux/store';
+import App from './AppDA';
+import './index.scss';
+
 const { persistor, store } = configureStore()
 
 ReactDOM.render(

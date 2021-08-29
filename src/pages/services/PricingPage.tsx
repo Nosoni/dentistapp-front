@@ -7,20 +7,6 @@ import { useGetPricing } from '../../hooks/useGetPricing';
 
 const pageData: IPageData = {
   title: 'Pricing',
-  fulFilled: true,
-  breadcrumbs: [
-    {
-      title: 'Apps',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Service pages',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Pricing'
-    }
-  ]
 };
 
 const PricingItem = ({ children, check = false }) => (
@@ -101,7 +87,6 @@ const Pricing = ({
 };
 
 const PricingPage = () => {
-  setPageData(pageData);
   const [personal, developers, premium] = useGetPricing();
 
   return (

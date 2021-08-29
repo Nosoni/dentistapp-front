@@ -22,7 +22,7 @@ const ContactsPage = () => {
   }, [users])
 
   const getDatasource = async () => {
-    const respuesta = await axios.get("data/contacts.json");
+    const respuesta = await (await axios.get("data/contacts.json")).data;
     setUsers(respuesta)
   }
 

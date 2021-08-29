@@ -3,7 +3,7 @@
 $_shape: $shape;
 $_shadow: $shadow;
 
-$_title-fs: 2rem;
+$_title-fs: 20px;
 $_title-fw: 500;
 
 $_h-padding: $module-rem * 2;
@@ -36,7 +36,7 @@ html {
     }
 
     .ant-card-body {
-      padding: ($_v-padding) 0 0;
+      padding: 0 0 0;
       letter-spacing: 0.4px;
       line-height: $main-lh;
     }

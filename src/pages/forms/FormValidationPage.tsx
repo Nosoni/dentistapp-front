@@ -144,24 +144,10 @@ const FormWithMessages = () => {
 
 const pageData: IPageData = {
   title: 'Form validation',
-  fulFilled: true,
-  breadcrumbs: [
-    {
-      title: 'Home',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'UI Kit ',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Form validation'
-    }
-  ]
 };
 
 const FormValidationPage = () => {
-  setPageData(pageData);
+  //setPageData(pageData);
   return (
     <>
       <div className='row'>
