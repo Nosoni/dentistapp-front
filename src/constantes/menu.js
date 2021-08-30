@@ -1,10 +1,13 @@
+import { permisos } from "./index"
+
 const menues = [
   {
     layout: "administracion",
     title: "Administración",
     sub: [{
       title: "Usuarios",
-      routing: "usuarios"
+      routing: "usuarios",
+      permiso: permisos.VER_MENU_USUARIO
     }]
   },
   {
@@ -12,7 +15,8 @@ const menues = [
     title: "Recursos Humanos",
     sub: [{
       title: "Funcionarios",
-      routing: "funcionarios"
+      routing: "funcionarios",
+      permiso: ""
     }]
   },
   {
@@ -20,7 +24,8 @@ const menues = [
     title: "Configuración",
     sub: [{
       title: "Roles",
-      routing: "roles"
+      routing: "roles",
+      permiso: ""
     }]
   },
   {
@@ -28,7 +33,8 @@ const menues = [
     title: "Stock",
     sub: [{
       title: "Insumos",
-      routing: "insumos"
+      routing: "insumos",
+      permiso: ""
     }]
   },
   {
@@ -36,12 +42,14 @@ const menues = [
     title: "Facturación",
     sub: [{
       title: "Presupuestos",
-      routing: "presupuestos"
+      routing: "presupuestos",
+      permiso: ""
     }]
   },
   {
     layout: "reportes",
     title: "Reportes",
+    permiso: ""
   }
 ]
 

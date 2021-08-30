@@ -1,24 +1,10 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-
-import { Location } from 'history';
-import { IMenuItemSub } from '../../../interfaces/main-menu';
-
 import posed from 'react-pose';
-
+import { useSelector } from 'react-redux';
 import className from '../../../utils/class-names';
 
-const isHorizontal = (layout: string) => window.innerWidth >= 992 && layout === 'horizontal';
-
-type Props = {
-  sub: IMenuItemSub[];
-  title: string;
-  onClick?: (routing: string) => void;
-  location: Location;
-  layout?: string;
-  opened?: boolean;
-  urlBase: string;
-};
+const isHorizontal = (layout) => window.innerWidth >= 992 && layout === 'horizontal';
 
 const Sub = posed.div({
   closed: { height: 0, overflow: 'hidden' },
@@ -26,25 +12,34 @@ const Sub = posed.div({
   transition: { ease: 'ease-in-out', duration: 200 }
 });
 
-const ItemWithSub = ({ location, title, layout, sub, opened, onClick, urlBase }: Props) => {
-  const subItemClass = (routing: string) =>
+const ItemWithSub = ({ location, title, layout, sub, opened, onClick, urlBase }) => {
+  const permisosUsuario = useSelector((state) => state.usuarioData.usuario.permisos);
+
+  const subItemClass = (routing) =>
     className({
       'menu-item': true,
       active: routing === location.pathname.split('/')[2]
     });
 
-  const itemSub = sub.map((item: IMenuItemSub, i: number) => (
-    <li className={subItemClass(item.routing)} key={i}>
-      <NavLink
-        to={`/${urlBase}/${item.routing}`}
-        className='item-link'
-        activeClassName='active'
-        replace
-      >
-        <span className='link-text'>{item.title}</span>
-      </NavLink>
-    </li>
-  ));
+  const itemSub = sub.map((item, i) => {
+    const tienePermiso = permisosUsuario.find((permiso) => permiso.nombre === item.permiso)
+    //if (!!tienePermiso) {
+      return (
+        <li className={subItemClass(item.routing)} key={i}>
+          <NavLink
+            to={`/${urlBase}/${item.routing}`}
+            className='item-link'
+            activeClassName='active'
+            replace
+          >
+            <span className='link-text'>{item.title}</span>
+          </NavLink>
+        </li>
+      )
+    //} else {
+     // return null
+    //}
+  });
 
   const handleOnClick = () => {
     onClick(title);

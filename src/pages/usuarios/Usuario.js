@@ -33,7 +33,6 @@ function Usuario() {
 
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const appointmentsActions = (usuario) => {
-    console.log("accion", usuario)
     return <div className='buttons-list nowrap'>
       <Button onClick={() => openEditModal(usuario)} shape='circle' type='primary'>
         <span className='icofont icofont-edit-alt' />
@@ -42,7 +41,6 @@ function Usuario() {
   };
 
   const openEditModal = (usuario) => {
-    console.log("editmodal", usuario)
     setSelectedAppointment(usuario)
   };
 
@@ -83,7 +81,7 @@ function Usuario() {
                 key: 'funcionario',
                 dataIndex: 'funcionario',
                 title: 'Funcionario',
-                render: (funcionario) => <strong>{funcionario}</strong>
+                render: (funcionario) => <strong>{funcionario?.nombres}</strong>
               }, {
                 key: 'actiones',
                 title: 'Actiones',
@@ -97,7 +95,7 @@ function Usuario() {
             onCancel={() => setSelectedAppointment(false)}
             destroyOnClose
             footer={null}
-            title={<h3 className='title'>Edit appointment</h3>}
+            title={<h3 className='title'>Editar usuario</h3>}
           >
             <UsuarioEditar usuario={selectedAppointment} />
           </Modal>

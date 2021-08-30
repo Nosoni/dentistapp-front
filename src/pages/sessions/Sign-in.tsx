@@ -20,7 +20,6 @@ const SignIn = () => {
     form
       .validateFields()
       .then((e) => {
-        console.log(e)
         dispatch(setUsuarioData(e))
         navigateHome()
       })

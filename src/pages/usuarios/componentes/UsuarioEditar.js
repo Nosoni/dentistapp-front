@@ -1,23 +1,25 @@
 import React from 'react'
-import { Input, Form, Button } from 'antd';
+import { Input, Form, Button, Select } from 'antd';
+import {
+  PlusOutlined
+} from '@ant-design/icons';
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
 
 const UsuarioEditar = ({ usuario }) => {
-
   const schema = yup.object({
     usuario: yup.string().required("Favor introduzca el Usuario")
   })
-  const { Item } = Form;
+  const { control, handleSubmit, formState: { errors } } = useForm({
+    defaultValues: usuario,
+    resolver: yupResolver(schema)
+  });
+  const onSubmit = data => console.log("data", data);
 
-  const { control, handleSubmit, formState: { errors } } = useForm({ defaultValues: usuario, resolver: yupResolver(schema) });
-  const onSubmit = data => console.log(data);
-
-  console.log(errors?.usuario)
   return (
     <div>
-      <form className="ant-form ant-form-horizontal" onSubmit={handleSubmit(onSubmit)}>
+      <form className="ant-form ant-form-horizontal">
         <Controller
           name="usuario"
           control={control}
@@ -25,28 +27,27 @@ const UsuarioEditar = ({ usuario }) => {
             <label className="ant-form-item-label">Usuario: </label>
             <Input
               {...field}
-              className={"ant-form-item-control-input" + (!!errors?.usuario?.message && "has-error")}
+              disabled
+              className={"ant-form-item-control-input"}
             />
           </div>}
         />
+        <Controller
+          name="funcionario_id"
+          control={control}
+          render={({ field }) => {
+            return <Select
+              {...field}
+              options={[
+                { value: 1, label: "Chocolate" },
+                { value: 2, label: "Vanilla" },
+                { value: 3, label: "Strawberry" }
+              ]}
+            />
+          }}
+        />
+        <Button onClick={handleSubmit(onSubmit)} className='bg-color-info' icon={<PlusOutlined />} />
       </form>
-      {/* 
-      <Form layout='horizontal' onSubmit={handleSubmit(onSubmit)}>
-        <Item
-          label='Usuario'
-        >
-          <Controller
-            name="usuario"
-            control={control}
-            render={({ field }) =>
-              <Input
-                {...field}
-                className={!!errors?.usuario?.message && "has-error"}
-              />
-            }
-          />
-        </Item>
-      </Form> */}
     </div>
   )
 }

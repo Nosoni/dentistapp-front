@@ -17,8 +17,6 @@ const MainLayout = ({ children }) => {
   const menuData = menues;
   const settings = useSelector((state) => state.settings);
   const datosUsuario = useSelector((state) => state.usuarioData);
-  console.log(datosUsuario)
-  console.log(Object.keys(datosUsuario) === 0)
 
   useEffect(() => { Object.keys(datosUsuario).length === 0 && history.push("/public/login") }, [])
 
@@ -42,7 +40,7 @@ const MainLayout = ({ children }) => {
         fontStyle: 'oblique',
         color: 'rgba(31, 32, 34, 0.5)',
         fontSize: '15px',
-      }}>Usuario conectado: <lablel style={{ fontWeight: 'bold' }}>{datosUsuario?.usuario?.usuario}</lablel>
+      }}>Usuario conectado: <label style={{ fontWeight: 'bold' }}>{datosUsuario?.usuario?.usuario}</label>
       </div>
       <Actions />
     </Navbar>

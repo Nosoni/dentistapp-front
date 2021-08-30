@@ -19,7 +19,6 @@ const PatientsPage = () => {
 
   const getDatasource = async () => {
     const respuesta = await (await axios.get("./data/doctors.json")).data;
-    console.log(respuesta)
     setPatients(respuesta)
   }
 
