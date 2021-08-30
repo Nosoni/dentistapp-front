@@ -1,6 +1,7 @@
 //rfce
 import React, { useEffect, useState } from 'react'
-import { Button, Card, Table, Input, Modal } from 'antd';
+import { Button, Card, Table, Input } from 'antd';
+import Modal from '../components/Modal'
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -102,18 +103,16 @@ function Usuario() {
           </Card>
           <Modal
             visible={!!usuarioSeleccionado}
-            onCancel={() => setUsuarioSeleccionado(false)}
-            destroyOnClose
+            title='Editar usuario'
+            onClickCancelar={() => setUsuarioSeleccionado(false)}
             footer={null}
-            title={<h3 className='title'>Editar usuario</h3>}
           >
             <UsuarioEditar usuario={usuarioSeleccionado} />
           </Modal>
           <Modal
             visible={!!usuarioEliminar}
-            closable={() => setUsuarioEliminar(false)}
-            title={<h3 className='m-0'>ATENCIÓN</h3>}
-            onCancel={() => setUsuarioEliminar(false)}
+            title='ATENCIÓN'
+            onClickCancelar={() => setUsuarioEliminar(false)}
             footer={
               <div className='modal-footer d-flex justify-content-between'>
                 <Button className='bg-color-info' onClick={() => setUsuarioEliminar(false)}>
@@ -131,7 +130,7 @@ function Usuario() {
           </Modal>
         </div>
       }
-    </div>
+    </div >
   )
 }
 
