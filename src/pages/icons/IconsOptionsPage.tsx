@@ -35,24 +35,10 @@ const iconTypes = [
 
 const pageData: IPageData = {
   title: 'Icons options',
-  fulFilled: true,
-  breadcrumbs: [
-    {
-      title: 'Home',
-      route: 'dashboard'
-    },
-    {
-      title: 'UI Kit ',
-      route: 'dashboard'
-    },
-    {
-      title: 'Icons Options'
-    }
-  ]
 };
 
 const IconsOptionsPage = () => {
-  setPageData(pageData);
+  //setPageData(pageData);
 
   const displayIcons = (icons, props) => (
     <div className='elem-list'>

@@ -23,20 +23,21 @@ const UsuarioEditar = ({ usuario }) => {
         <Controller
           name="usuario"
           control={control}
-          render={({ field }) => <div className='ant-row ant-form-item'>
+          render={({ field }) => <div className="mb-2">
             <label className="ant-form-item-label">Usuario: </label>
             <Input
               {...field}
               disabled
-              className={"ant-form-item-control-input"}
             />
-          </div>}
+          </div>
+          }
         />
         <Controller
           name="funcionario_id"
           control={control}
-          render={({ field }) => {
-            return <Select
+          render={({ field }) => <div className="mb-2">
+            <label className="ant-form-item-label">Funcionario: </label>
+            <Select
               {...field}
               options={[
                 { value: 1, label: "Chocolate" },
@@ -44,7 +45,8 @@ const UsuarioEditar = ({ usuario }) => {
                 { value: 3, label: "Strawberry" }
               ]}
             />
-          }}
+          </div>
+          }
         />
         <Button onClick={handleSubmit(onSubmit)} className='bg-color-info' icon={<PlusOutlined />} />
       </form>

@@ -5,7 +5,7 @@ import { IPageData } from '../../interfaces/page';
 import { setPageData } from '../../redux/page-data/actions';
 import axios from 'axios';
 
-const iconsUrl = '/data/icons-icofont.json';
+const iconsUrl = './data/icons-icofont.json';
 
 const pageData: IPageData = {
   title: 'Icofont Icons',
