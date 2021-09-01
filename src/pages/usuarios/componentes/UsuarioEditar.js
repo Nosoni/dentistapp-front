@@ -10,6 +10,7 @@ import { funcionarioListar } from '../../../services/funcionarios';
 import { useSelector } from 'react-redux';
 
 const UsuarioEditar = ({ usuario }) => {
+  const existe = !!usuario?.id
   const [funcionarios, setFuncionarios] = useState([])
   const schema = yup.object({
     usuario: yup.string().required("Favor introduzca el Usuario")
@@ -29,7 +30,6 @@ const UsuarioEditar = ({ usuario }) => {
   }, [errors])
 
   useEffect(() => {
-    console.log()
     if (!funcionarios.length) {
       listarFuncionarios()
     }
@@ -43,7 +43,6 @@ const UsuarioEditar = ({ usuario }) => {
         label: (funcionario.nombres + " " + funcionario.apellidos)
       }
     })
-    console.log(list)
     setFuncionarios(list)
   }
 
@@ -68,7 +67,7 @@ const UsuarioEditar = ({ usuario }) => {
             <label className="ant-form-item-label">Usuario: </label>
             <Input
               {...field}
-              disabled
+              disabled={existe}
             />
           </div>
           }
@@ -85,7 +84,21 @@ const UsuarioEditar = ({ usuario }) => {
           </div>
           }
         />
-        <Button onClick={handleSubmit(onSubmit)} className='bg-color-info' icon={<PlusOutlined />} />
+        {!existe &&
+          <Controller
+            name="password"
+            control={control}
+            render={({ field }) => <div className="mb-2">
+              <label className="ant-form-item-label">Contraseña: </label>
+              <Input
+                {...field}
+                disabled={existe}
+              />
+            </div>
+            }
+          />
+        }
+        <Button onClick={handleSubmit(onSubmit)} className='mt-2 bg-color-info' icon={<PlusOutlined />} />
       </form>
     </div>
   )
