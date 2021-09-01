@@ -1,5 +1,5 @@
-import React from 'react'
-import { Input, Form, Button, Select } from 'antd';
+import React, { useEffect } from 'react'
+import { Input, Form, Button, Select, notification } from 'antd';
 import {
   PlusOutlined
 } from '@ant-design/icons';
@@ -15,6 +15,25 @@ const UsuarioEditar = ({ usuario }) => {
     defaultValues: usuario,
     resolver: yupResolver(schema)
   });
+
+  const openNotification = (type, titulo, descripcion) => {
+    notification[type]({
+      message: titulo,
+      description: descripcion,
+      onClick: () => {
+        console.log('Notification Clicked!');
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (errors) {
+      Object.entries(errors).forEach(([key, value]) => {
+        openNotification("error", "prueba", value.message)
+      });
+    }
+  }, [errors])
+
   const onSubmit = data => console.log("data", data);
 
   return (
