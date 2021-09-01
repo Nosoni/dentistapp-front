@@ -3,13 +3,11 @@ import React, { useEffect, useState } from 'react'
 import { Button, Card, Table, Input } from 'antd';
 import Modal from '../components/Modal'
 import { useForm } from "react-hook-form";
-import * as yup from "yup";
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   SearchOutlined,
   PlusOutlined
 } from '@ant-design/icons';
-import { usuarioFiltrar } from '../../services/usuarios';
+import { usuarioListar, usuarioFiltrar } from '../../services/usuarios';
 import { setPageData } from '../../redux/page-data/actions'
 import { useDispatch, useSelector } from 'react-redux';
 import UsuarioEditar from './componentes/UsuarioEditar';
@@ -27,10 +25,7 @@ function Usuario() {
   const token = useSelector((state) => state.usuarioData.token);
   const [usuariosList, setUsuariosList] = useState([])
 
-  const schema = yup.object({
-    usuario: yup.string().required("Favor introduzca el Usuario")
-  })
-  const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
   const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
   const [usuarioEliminar, setUsuarioEliminar] = useState(null);
@@ -55,13 +50,22 @@ function Usuario() {
     setUsuarioEliminar(usuario)
   };
 
-  const handleBuscarUsuario = async (filtro) => {
+  const filtrarUsuario = async (filtro) => {
     const respuesta = await usuarioFiltrar(token, filtro.usuario)
     setUsuariosList(respuesta)
   }
 
+  const listarUsuario = async () => {
+    const respuesta = await usuarioListar(token)
+    setUsuariosList(respuesta)
+  }
+
   const onSubmit = (filtro) => {
-    handleBuscarUsuario(filtro)
+    if (!filtro.usuario) {
+      listarUsuario()
+    } else {
+      filtrarUsuario(filtro)
+    }
   };
 
   return (
@@ -92,7 +96,10 @@ function Usuario() {
                 key: 'funcionario',
                 dataIndex: 'funcionario',
                 title: 'Funcionario',
-                render: (funcionario) => <strong>{funcionario?.nombres}</strong>
+                render: (funcionario) => {
+                  let nombre = (funcionario?.nombres ? funcionario?.nombres : "") + " " + (funcionario?.apellidos ? funcionario?.apellidos : "");
+                  return <strong>{nombre}</strong>
+                }
               }, {
                 key: 'actiones',
                 title: 'Actiones',

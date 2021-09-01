@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input, Form, Button, Select, notification } from 'antd';
 import {
   PlusOutlined
@@ -6,8 +6,11 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
+import { funcionarioListar } from '../../../services/funcionarios';
+import { useSelector } from 'react-redux';
 
 const UsuarioEditar = ({ usuario }) => {
+  const [funcionarios, setFuncionarios] = useState([])
   const schema = yup.object({
     usuario: yup.string().required("Favor introduzca el Usuario")
   })
@@ -15,24 +18,43 @@ const UsuarioEditar = ({ usuario }) => {
     defaultValues: usuario,
     resolver: yupResolver(schema)
   });
+  const token = useSelector((state) => state.usuarioData.token);
 
-  const openNotification = (type, titulo, descripcion) => {
+  useEffect(() => {
+    if (errors) {
+      Object.entries(errors).forEach(([key, value]) => {
+        openNotification("error", value.message)
+      });
+    }
+  }, [errors])
+
+  useEffect(() => {
+    console.log()
+    if (!funcionarios.length) {
+      listarFuncionarios()
+    }
+  }, [funcionarios])
+
+  const listarFuncionarios = async () => {
+    const respuesta = await funcionarioListar(token)
+    const list = respuesta.map(funcionario => {
+      return {
+        value: funcionario.id,
+        label: (funcionario.nombres + " " + funcionario.apellidos)
+      }
+    })
+    console.log(list)
+    setFuncionarios(list)
+  }
+
+  const openNotification = (type, descripcion) => {
     notification[type]({
-      message: titulo,
       description: descripcion,
       onClick: () => {
         console.log('Notification Clicked!');
       },
     });
   };
-
-  useEffect(() => {
-    if (errors) {
-      Object.entries(errors).forEach(([key, value]) => {
-        openNotification("error", "prueba", value.message)
-      });
-    }
-  }, [errors])
 
   const onSubmit = data => console.log("data", data);
 
@@ -58,11 +80,7 @@ const UsuarioEditar = ({ usuario }) => {
             <label className="ant-form-item-label">Funcionario: </label>
             <Select
               {...field}
-              options={[
-                { value: 1, label: "Chocolate" },
-                { value: 2, label: "Vanilla" },
-                { value: 3, label: "Strawberry" }
-              ]}
+              options={funcionarios}
             />
           </div>
           }

@@ -1,9 +1,9 @@
 import { server } from "../constantes/index";
-const servicio = "usuarios";
+const servicio = "funcionarios";
 const axios = require("axios")
 
-const usuarioFiltrar = async (token, usuario) => {
-  const url = `${server}/${servicio}/filtrar/${usuario}`;
+const funcionarioFiltrar = async (token, funcionario) => {
+  const url = `${server}/${servicio}/filtrar/${funcionario}`;
   const config = {
     method: "GET",
     url,
@@ -16,7 +16,7 @@ const usuarioFiltrar = async (token, usuario) => {
   return response.data
 };
 
-const usuarioListar = async (token) => {
+const funcionarioListar = async (token) => {
   const url = `${server}/${servicio}/listar`;
   const config = {
     method: "GET",
@@ -30,4 +30,4 @@ const usuarioListar = async (token) => {
   return response.data
 };
 
-export { usuarioFiltrar, usuarioListar }
+export { funcionarioFiltrar, funcionarioListar }
