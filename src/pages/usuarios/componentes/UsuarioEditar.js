@@ -8,13 +8,19 @@ import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { funcionarioListar } from '../../../services/funcionarios';
 import { useSelector } from 'react-redux';
+import { usuarioCrear, usuarioEditar } from '../../../services/usuarios';
 
-const UsuarioEditar = ({ usuario }) => {
+const UsuarioEditar = ({ usuario, onClickCancelar }) => {
   const existe = !!usuario?.id
   const [funcionarios, setFuncionarios] = useState([])
-  const schema = yup.object({
+  const shape = {
     usuario: yup.string().required("Favor introduzca el Usuario")
-  })
+  }
+  if (!existe) {
+    shape.password = yup.string().required("Favor introduzca la contraseña")
+    shape.confirmar = yup.string().required("Favor confirme la contraseña")
+  }
+  const schema = yup.object(shape)
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: usuario,
     resolver: yupResolver(schema)
@@ -55,7 +61,12 @@ const UsuarioEditar = ({ usuario }) => {
     });
   };
 
-  const onSubmit = data => console.log("data", data);
+  const onSubmit = async usuario => {
+    if (existe)
+      await usuarioEditar(token, usuario).then(() => openNotification("success", "Usuario editado con exito"))
+    else
+      await usuarioCrear(token, usuario).then(() => openNotification("success", "Usuario creado con exito"))
+  }
 
   return (
     <div>
@@ -85,20 +96,43 @@ const UsuarioEditar = ({ usuario }) => {
           }
         />
         {!existe &&
-          <Controller
-            name="password"
-            control={control}
-            render={({ field }) => <div className="mb-2">
-              <label className="ant-form-item-label">Contraseña: </label>
-              <Input
-                {...field}
-                disabled={existe}
-              />
-            </div>
-            }
-          />
+          <>
+            <Controller
+              name="password"
+              control={control}
+              render={({ field }) => <div className="mb-2">
+                <label className="ant-form-item-label">Contraseña: </label>
+                <Input
+                  {...field}
+                  disabled={existe}
+                  type="password"
+                />
+              </div>
+              }
+            />
+            <Controller
+              name="confirmar"
+              control={control}
+              render={({ field }) => <div className="mb-2">
+                <label className="ant-form-item-label">Confirmar contraseña: </label>
+                <Input
+                  {...field}
+                  disabled={existe}
+                  type="password"
+                />
+              </div>
+              }
+            />
+          </>
         }
-        <Button onClick={handleSubmit(onSubmit)} className='mt-2 bg-color-info' icon={<PlusOutlined />} />
+        <div className='mt-2 modal-footer d-flex justify-content-between'>
+          <Button className='bg-color-info' onClick={onClickCancelar}>
+            Cancelar
+          </Button>
+          <Button className='bg-color-success' onClick={handleSubmit(onSubmit)}>
+            Aceptar
+          </Button>
+        </div>
       </form>
     </div>
   )

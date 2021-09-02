@@ -18,17 +18,15 @@ const pageData = {
 
 function Usuario() {
   const dispatch = useDispatch();
+  const token = useSelector((state) => state.usuarioData.token);
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const [usuariosList, setUsuariosList] = useState([])
+  const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
+  const [usuarioEliminar, setUsuarioEliminar] = useState(null);
+
   useEffect(() => {
     dispatch(setPageData(pageData));
   }, [])
-
-  const token = useSelector((state) => state.usuarioData.token);
-  const [usuariosList, setUsuariosList] = useState([])
-
-  const { register, handleSubmit, formState: { errors } } = useForm();
-
-  const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
-  const [usuarioEliminar, setUsuarioEliminar] = useState(null);
 
   const usuariosAcciones = (usuario) => {
     return <div className='buttons-list nowrap'>
@@ -37,7 +35,6 @@ function Usuario() {
       </Button>
       <Button onClick={() => openEliminarModal(usuario)} shape='circle' className="bg-color-error">
         <span className='icofont icofont-ui-delete' />
-        {/* icofont-delete-alt */}
       </Button>
     </div>
   };
@@ -77,10 +74,19 @@ function Usuario() {
             <Button onClick={handleSubmit(onSubmit)} className='bg-color-info' icon={<SearchOutlined />}>
               Search
             </Button>
-            <Button className='bg-color-success' shape='circle' icon={<PlusOutlined />} />
+            <Button onClick={() => openEditModal({})} className='bg-color-success' shape='circle' icon={<PlusOutlined />} />
           </div>
         </Card>
       </div>
+      <Modal
+        visible={!!usuarioSeleccionado}
+        title='Editar usuario'
+        onClickCancelar={() => setUsuarioSeleccionado(false)}
+        footer={null}
+      >
+        <UsuarioEditar usuario={usuarioSeleccionado}
+          onClickCancelar={() => setUsuarioSeleccionado(false)} />
+      </Modal>
       {usuariosList?.length > 0 &&
         <div className='row justify-content-center'>
           <Card title="Resultado" className='col-md-12 col-sm-12'>
@@ -108,14 +114,6 @@ function Usuario() {
               pagination={{ hideOnSinglePage: true }}
             />
           </Card>
-          <Modal
-            visible={!!usuarioSeleccionado}
-            title='Editar usuario'
-            onClickCancelar={() => setUsuarioSeleccionado(false)}
-            footer={null}
-          >
-            <UsuarioEditar usuario={usuarioSeleccionado} />
-          </Modal>
           <Modal
             visible={!!usuarioEliminar}
             title='ATENCIÓN'
