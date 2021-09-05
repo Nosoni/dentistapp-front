@@ -13,8 +13,9 @@ const Sub = posed.div({
 });
 
 const ItemWithSub = ({ location, title, layout, sub, opened, onClick, urlBase }) => {
-  const permisosUsuario = useSelector((state) => state.usuarioData.usuario.permisos);
+  const permisosUsuario = useSelector((state) => state.usuarioData.usuario?.permisos);
 
+  console.log(permisosUsuario)
   const subItemClass = (routing) =>
     className({
       'menu-item': true,
