@@ -43,7 +43,7 @@ const UsuarioEditar = ({ usuario, onClickCancelar }) => {
 
   const listarFuncionarios = async () => {
     const respuesta = await funcionarioListar(token)
-    const list = respuesta.map(funcionario => {
+    const list = respuesta.datos.map(funcionario => {
       return {
         value: funcionario.id,
         label: (funcionario.nombres + " " + funcionario.apellidos)
@@ -62,10 +62,22 @@ const UsuarioEditar = ({ usuario, onClickCancelar }) => {
   };
 
   const onSubmit = async usuario => {
+    let respuesta;
     if (existe)
-      await usuarioEditar(token, usuario).then(() => openNotification("success", "Usuario editado con exito"))
+      respuesta = await usuarioEditar(token, usuario)
     else
-      await usuarioCrear(token, usuario).then(() => openNotification("success", "Usuario creado con exito"))
+      respuesta = await usuarioCrear(token, usuario)
+
+    console.log(respuesta)
+
+    if (!respuesta.error) {
+      console.log("editado con exito")
+      openNotification("success", respuesta.mensaje)
+    }
+    else {
+      console.log("no se ha podido editar")
+      openNotification("error", respuesta.mensaje)
+    }
   }
 
   return (

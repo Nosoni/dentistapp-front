@@ -1,5 +1,5 @@
+import { peticion } from ".";
 import { server } from "../constantes/index";
-const axios = require("axios")
 
 const autenticar = async (usuarioAutenticar) => {
   const url = `${server}/login`;
@@ -11,8 +11,7 @@ const autenticar = async (usuarioAutenticar) => {
     },
     data: JSON.stringify(usuarioAutenticar)
   }
-  const response = await axios(config)
-  return response.data
+  return await peticion(config)
 };
 
 export { autenticar }

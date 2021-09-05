@@ -15,7 +15,6 @@ const Sub = posed.div({
 const ItemWithSub = ({ location, title, layout, sub, opened, onClick, urlBase }) => {
   const permisosUsuario = useSelector((state) => state.usuarioData.usuario?.permisos);
 
-  console.log(permisosUsuario)
   const subItemClass = (routing) =>
     className({
       'menu-item': true,
@@ -24,7 +23,6 @@ const ItemWithSub = ({ location, title, layout, sub, opened, onClick, urlBase })
 
   const itemSub = sub.map((item, i) => {
     const tienePermiso = permisosUsuario.find((permiso) => permiso.nombre === item.permiso)
-    console.log(tienePermiso)
     //if (!!tienePermiso) {
     return (
       <li className={subItemClass(item.routing)} key={i}>

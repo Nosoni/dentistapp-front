@@ -49,12 +49,12 @@ function Usuario() {
 
   const filtrarUsuario = async (filtro) => {
     const respuesta = await usuarioFiltrar(token, filtro.usuario)
-    setUsuariosList(respuesta)
+    setUsuariosList(respuesta.datos)
   }
 
   const listarUsuario = async () => {
     const respuesta = await usuarioListar(token)
-    setUsuariosList(respuesta)
+    setUsuariosList(respuesta.datos)
   }
 
   const onSubmit = (filtro) => {

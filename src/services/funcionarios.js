@@ -1,33 +1,37 @@
+import { peticion } from ".";
 import { server } from "../constantes/index";
 const servicio = "funcionarios";
-const axios = require("axios")
 
 const funcionarioFiltrar = async (token, funcionario) => {
-  const url = `${server}/${servicio}/filtrar/${funcionario}`;
-  const config = {
-    method: "GET",
-    url,
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
-    },
-  }
-  const response = await axios(config)
-  return response.data
+  try {
+    const url = `${server}/${servicio}/filtrar/${funcionario}`;
+    const config = {
+      method: "GET",
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    }
+    return await peticion(config)
+  } catch (error) { }
 };
 
 const funcionarioListar = async (token) => {
-  const url = `${server}/${servicio}/listar`;
-  const config = {
-    method: "GET",
-    url,
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
-    },
+  try {
+    const url = `${server}/${servicio}/listar`;
+    const config = {
+      method: "GET",
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    }
+    return await peticion(config)
+  } catch (error) {
+    console.log(error)
   }
-  const response = await axios(config)
-  return response.data
 };
 
 export { funcionarioFiltrar, funcionarioListar }

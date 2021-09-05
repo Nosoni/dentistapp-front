@@ -1,66 +1,67 @@
+import { peticion } from ".";
 import { server } from "../constantes/index";
 const servicio = "usuarios";
-const axios = require("axios")
 
 const usuarioCrear = async (token, usuario) => {
-  const url = `${server}/${servicio}/crear`;
-  const config = {
-    method: "POST",
-    url,
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
-    },
-    data: JSON.stringify(usuario)
-  }
-  const response = await axios(config)
-  console.log(response.data)
-  return response.data
+  try {
+    const url = `${server}/${servicio}/crear`;
+    const config = {
+      method: "POST",
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      data: JSON.stringify(usuario)
+    }
+    return peticion(config)
+  } catch (error) { }
 }
 
 const usuarioEditar = async (token, usuario) => {
-  console.log(usuario)
-  const url = `${server}/${servicio}/editar`;
-  const config = {
-    method: "POST",
-    url,
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
-    },
-    data: JSON.stringify(usuario)
-  }
-  const response = await axios(config)
-  console.log(response.data)
-  return response.data
+  try {
+    const url = `${server}/${servicio}/editar`;
+    const config = {
+      method: "POST",
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      data: JSON.stringify(usuario)
+    }
+    return await peticion(config)
+  } catch (error) { }
 }
 
 const usuarioFiltrar = async (token, usuario) => {
-  const url = `${server}/${servicio}/filtrar/${usuario}`;
-  const config = {
-    method: "GET",
-    url,
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
-    },
-  }
-  const response = await axios(config)
-  return response.data
+  try {
+    const url = `${server}/${servicio}/filtrar/${usuario}`;
+    const config = {
+      method: "GET",
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    }
+    return await peticion(config)
+  } catch (error) { }
 };
 
 const usuarioListar = async (token) => {
-  const url = `${server}/${servicio}/listar`;
-  const config = {
-    method: "GET",
-    url,
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
-    },
-  }
-  const response = await axios(config)
-  return response.data
+  try {
+    const url = `${server}/${servicio}/listar`;
+    const config = {
+      method: "GET",
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    }
+    return await peticion(config)
+  } catch (error) { }
 };
 
 export { usuarioCrear, usuarioEditar, usuarioFiltrar, usuarioListar }

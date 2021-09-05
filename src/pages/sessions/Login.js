@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, notification } from 'antd';
 import { LoginOutlined } from '@ant-design/icons/lib';
 import PublicLayout from '../../layout/public/Public';
 import { useForm } from 'antd/es/form/Form';
@@ -15,11 +15,23 @@ const Login = () => {
   const history = useHistory();
   const [form] = useForm();
 
+  const openNotification = (type, descripcion) => {
+    notification[type]({
+      description: descripcion,
+    });
+  };
+
   const handleOnClickLogin = async () => {
     const datosForm = await form.validateFields();
-    const usuario = await autenticar(datosForm);
-    dispatch(setUsuarioData(usuario))
-    history.push("/inicio/dashboard")
+    const autenticacion = await autenticar(datosForm);
+    if (!autenticacion.error) {
+      dispatch(setUsuarioData(autenticacion.datos))
+      openNotification("success", autenticacion.mensaje)
+      history.push("/inicio/dashboard")
+    }
+    else {
+      openNotification("error", autenticacion.mensaje)
+    }
   };
 
   return (
