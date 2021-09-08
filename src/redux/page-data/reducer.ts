@@ -5,16 +5,19 @@ const initialState: IPageData = {
   title: '',
   loaded: false,
   fulFilled: false,
+  list: [],
+  selected: {},
+  deleted: {},
 };
 
 export const pageDataReducer = (state: IPageData = initialState, action: PageActionsTypes) => {
   switch (action.type) {
     case SET_PAGE_DATA:
-      return { ...action.payload, fulFilled: true, loaded: true };
+      return { ...state, ...action.payload, fulFilled: true, loaded: true };
     case UPDATE_PAGE_DATA:
       return { ...state, ...action.payload };
     case RESET_PAGE_DATA:
-      return { ...initialState };
+      return initialState;
     default:
       return state;
   }

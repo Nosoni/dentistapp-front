@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Input, Form, Button, Select, notification } from 'antd';
+import { Input, Form, Button, Select, notification, Card } from 'antd';
 import {
   PlusOutlined
 } from '@ant-design/icons';
@@ -7,25 +7,30 @@ import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { funcionarioListar } from '../../../services/funcionarios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { usuarioCrear, usuarioEditar } from '../../../services/usuarios';
+import { updateUsuarioData } from '../../../redux/usuario-data/actions';
 
-const UsuarioEditar = ({ usuario, onClickCancelar }) => {
-  const existe = !!usuario?.id
+const UsuarioEditar = ({ onClickCancelar }) => {
+  const dispatch = useDispatch();
+  const { selected } = useSelector((state) => state.pageData);
+  const token = useSelector((state) => state.usuarioData.token);
   const [funcionarios, setFuncionarios] = useState([])
+  const existe = !!selected?.id
+  let titulo = "Editar usuario"
   const shape = {
     usuario: yup.string().required("Favor introduzca el Usuario")
   }
   if (!existe) {
     shape.password = yup.string().required("Favor introduzca la contraseña")
     shape.confirmar = yup.string().required("Favor confirme la contraseña")
+    titulo = "Crear usuario"
   }
   const schema = yup.object(shape)
   const { control, handleSubmit, formState: { errors } } = useForm({
-    defaultValues: usuario,
+    defaultValues: selected,
     resolver: yupResolver(schema)
   });
-  const token = useSelector((state) => state.usuarioData.token);
 
   useEffect(() => {
     if (errors) {
@@ -36,21 +41,8 @@ const UsuarioEditar = ({ usuario, onClickCancelar }) => {
   }, [errors])
 
   useEffect(() => {
-    if (!funcionarios.length) {
-      listarFuncionarios()
-    }
-  }, [funcionarios])
-
-  const listarFuncionarios = async () => {
-    const respuesta = await funcionarioListar(token)
-    const list = respuesta.datos.map(funcionario => {
-      return {
-        value: funcionario.id,
-        label: (funcionario.nombres + " " + funcionario.apellidos)
-      }
-    })
-    setFuncionarios(list)
-  }
+    listarFuncionarios()
+  }, [])
 
   const openNotification = (type, descripcion) => {
     notification[type]({
@@ -61,6 +53,32 @@ const UsuarioEditar = ({ usuario, onClickCancelar }) => {
     });
   };
 
+  const validarPeticion = (respuesta, next) => {
+    if (respuesta.error) {
+      openNotification("error", respuesta.mensaje)
+      if (!respuesta.autenticado) {
+        dispatch(updateUsuarioData({ authenticated: false }));
+      }
+    } else {
+      next(respuesta)
+    }
+  }
+
+  const listarFuncionarios = async () => {
+    const respuesta = await funcionarioListar(token)
+    validarPeticion(respuesta, actualizarListUsuario)
+  }
+
+  const actualizarListUsuario = (respuesta) => {
+    const list = respuesta.datos.map(funcionario => {
+      return {
+        value: funcionario.id,
+        label: (funcionario.nombres + " " + funcionario.apellidos)
+      }
+    })
+    setFuncionarios(list)
+  }
+
   const onSubmit = async usuario => {
     let respuesta;
     if (existe)
@@ -68,21 +86,14 @@ const UsuarioEditar = ({ usuario, onClickCancelar }) => {
     else
       respuesta = await usuarioCrear(token, usuario)
 
-    console.log(respuesta)
-
-    if (!respuesta.error) {
-      console.log("editado con exito")
-      openNotification("success", respuesta.mensaje)
-    }
-    else {
-      console.log("no se ha podido editar")
-      openNotification("error", respuesta.mensaje)
-    }
+    validarPeticion(respuesta, (respuesta) => {
+      openNotification((respuesta.error ? "error" : "success"), respuesta.mensaje)
+    })
   }
 
   return (
-    <div>
-      <form className="ant-form ant-form-horizontal">
+    <div className='row justify-content-center'>
+      <Card title={titulo} className='col-md-6 col-sm-9 with-shadow'>
         <Controller
           name="usuario"
           control={control}
@@ -107,37 +118,31 @@ const UsuarioEditar = ({ usuario, onClickCancelar }) => {
           </div>
           }
         />
-        {!existe &&
-          <>
-            <Controller
-              name="password"
-              control={control}
-              render={({ field }) => <div className="mb-2">
-                <label className="ant-form-item-label">Contraseña: </label>
-                <Input
-                  {...field}
-                  disabled={existe}
-                  type="password"
-                />
-              </div>
-              }
+        <Controller
+          name="password"
+          control={control}
+          render={({ field }) => <div className="mb-2">
+            <label className="ant-form-item-label">Contraseña: </label>
+            <Input
+              {...field}
+              type="password"
             />
-            <Controller
-              name="confirmar"
-              control={control}
-              render={({ field }) => <div className="mb-2">
-                <label className="ant-form-item-label">Confirmar contraseña: </label>
-                <Input
-                  {...field}
-                  disabled={existe}
-                  type="password"
-                />
-              </div>
-              }
+          </div>
+          }
+        />
+        <Controller
+          name="confirmar"
+          control={control}
+          render={({ field }) => <div className="mb-2">
+            <label className="ant-form-item-label">Confirmar contraseña: </label>
+            <Input
+              {...field}
+              type="password"
             />
-          </>
-        }
-        <div className='mt-2 modal-footer d-flex justify-content-between'>
+          </div>
+          }
+        />
+        <div className='mt-4 modal-footer d-flex justify-content-between'>
           <Button className='bg-color-info' onClick={onClickCancelar}>
             Cancelar
           </Button>
@@ -145,7 +150,7 @@ const UsuarioEditar = ({ usuario, onClickCancelar }) => {
             Aceptar
           </Button>
         </div>
-      </form>
+      </Card>
     </div>
   )
 }

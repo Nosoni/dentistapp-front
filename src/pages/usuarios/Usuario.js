@@ -1,19 +1,20 @@
 //rfce
 import React, { useEffect, useState } from 'react'
-import { Button, Card, Table, Input } from 'antd';
+import { Button, Card, Table, Input, notification } from 'antd';
 import Modal from '../components/Modal'
 import { useForm } from "react-hook-form";
 import {
   SearchOutlined,
   PlusOutlined
 } from '@ant-design/icons';
-import { usuarioListar, usuarioFiltrar } from '../../services/usuarios';
+import { usuarioListar, usuarioFiltrar, usuarioEliminar } from '../../services/usuarios';
 import { setPageData, updatePageDada } from '../../redux/page-data/actions'
 import { useDispatch, useSelector } from 'react-redux';
 import UsuarioEditar from './componentes/UsuarioEditar';
+import { updateUsuarioData } from '../../redux/usuario-data/actions';
 
 const pageData = {
-  title: "Usuario",
+  title: "Usuarios",
   list: [],
   selected: {},
   deleted: {},
@@ -21,51 +22,79 @@ const pageData = {
 
 function Usuario() {
   const dispatch = useDispatch();
-  const token = useSelector((state) => state.usuarioData.token);
+  const { token } = useSelector((state) => state.usuarioData);
   const datosPagina = useSelector((state) => state.pageData);
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  //const [usuariosList, setUsuariosList] = useState([])
-  //const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
-  //const [usuarioEliminar, setUsuarioEliminar] = useState(null);
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const [esEdicion, setEsEdicion] = useState(false)
+  const [showModal, setShowModal] = useState(false)
 
   useEffect(() => {
     dispatch(setPageData(pageData));
   }, [])
 
+  const openNotification = (type, descripcion) => {
+    notification[type]({
+      description: descripcion,
+      onClick: () => {
+        console.log('Notification Clicked!');
+      },
+    });
+  };
+
   const usuariosAcciones = (usuario) => {
     return <div className='buttons-list nowrap'>
-      <Button onClick={() => openEditModal(usuario)} shape='circle' className="bg-color-info">
+      <Button onClick={() => seleccionarUsuarioEditar(true, usuario)} shape='circle' className="bg-color-info">
         <span className='icofont icofont-edit-alt' />
       </Button>
-      <Button onClick={() => openEliminarModal(usuario)} shape='circle' className="bg-color-error">
+      <Button onClick={() => seleccionarUsuarioEliminar(true, usuario)} shape='circle' className="bg-color-error">
         <span className='icofont icofont-ui-delete' />
       </Button>
     </div>
   };
 
-  const openEditModal = (usuario) => {
-    //setUsuarioSeleccionado(usuario)
-    dispatch(updatePageDada({ selected: usuario, deleted: {} }));
+  const validarPeticion = (seleccion, next) => {
+    console.log("eliminar", seleccion)
+    if (seleccion.error) {
+      openNotification("error", seleccion.mensaje)
+      if (!seleccion.autenticado) {
+        dispatch(updateUsuarioData({ authenticated: false }));
+      }
+    } else {
+      next(seleccion)
+    }
+  }
+
+  function actualizarEstadoPagina(objeto) {
+    dispatch(updatePageDada(objeto));
+  }
+
+  const seleccionarUsuarioEditar = (edicion, usuario) => {
+    setEsEdicion(edicion)
+    actualizarEstadoPagina({ selected: usuario, deleted: {} })
   };
 
-  const openEliminarModal = (usuario) => {
-    //setUsuarioEliminar(usuario)
-    dispatch(updatePageDada({ selected: {}, deleted: usuario }));
+  const seleccionarUsuarioEliminar = (mostrar, usuario) => {
+    setShowModal(mostrar)
+    actualizarEstadoPagina({ selected: {}, deleted: usuario });
   };
 
   const filtrarUsuario = async (filtro) => {
     const respuesta = await usuarioFiltrar(token, filtro.usuario)
-    //setUsuariosList(respuesta)
-    dispatch(updatePageDada({ list: respuesta }));
+    validarPeticion(respuesta, (seleccion) => actualizarEstadoPagina({ list: seleccion.datos }))
   }
 
   const listarUsuario = async () => {
     const respuesta = await usuarioListar(token)
-    //setUsuariosList(respuesta)
-    dispatch(updatePageDada({ list: respuesta }));
+    validarPeticion(respuesta, (seleccion) => actualizarEstadoPagina({ list: seleccion.datos }))
   }
 
-  const volver = async () => dispatch(setPageData(pageData));
+  const eliminarUsuario = async (usuario) => {
+    const respuesta = await usuarioEliminar(token, usuario.id)
+    validarPeticion(respuesta, (respuesta) => {
+      seleccionarUsuarioEliminar(false, {})
+      openNotification("success", respuesta.mensaje)
+    })
+  }
 
   const onSubmit = (filtro) => {
     if (!filtro.usuario) {
@@ -75,29 +104,24 @@ function Usuario() {
     }
   };
 
-  function empty(object) {
-    if (object) {
-      return Object.keys(object).length === 0
-    } else { return false }
-
-  }
-
   return (
     <div >
       {
-        empty(datosPagina.selected) ?
-          <div className='row justify-content-center'>
-            <Card title='Buscar' className='col-md-6 col-sm-12'>
-              <div className='elem-list'>
-                <Input placeholder='Introduzca el Usuario' {...register("usuario")} style={{ borderRadius: '10px' }} />
-                <Button onClick={handleSubmit(onSubmit)} className='bg-color-info' icon={<SearchOutlined />}>
-                  Search
-            </Button>
-                <Button onClick={() => openEditModal({})} className='bg-color-success' shape='circle' icon={<PlusOutlined />} />
-              </div>
-            </Card>
+        !esEdicion ?
+          <div>
             <div className='row justify-content-center'>
-              <Card title="Resultado" className='col-md-12 col-sm-12'>
+              <Card title='Buscar' className='col-md-9 col-sm-12 with-shadow'>
+                <div className='elem-list'>
+                  <Input placeholder='Introduzca el Usuario' {...register("usuario")} style={{ borderRadius: '10px' }} />
+                  <Button onClick={handleSubmit(onSubmit)} className='bg-color-info' icon={<SearchOutlined />}>
+                    Search
+                  </Button>
+                  <Button onClick={() => seleccionarUsuarioEditar(true, {})} className='bg-color-success' shape='circle' icon={<PlusOutlined />} />
+                </div>
+              </Card>
+            </div>
+            <div className='row justify-content-center'>
+              <Card title="Resultado" className='col-md-9 col-sm-12 with-shadow'>
                 <Table
                   rowKey='id'
                   dataSource={datosPagina.list}
@@ -119,32 +143,36 @@ function Usuario() {
                     title: 'Actiones',
                     render: usuariosAcciones,
                   },]}
-                  pagination={{ hideOnSinglePage: true }}
+                  pagination={{ pageSize: 5 }}
+                  locale={{ emptyText: 'Sin registros' }}
                 />
               </Card>
               <Modal
-                visible={!empty(datosPagina.deleted)}
+                visible={showModal}
                 title='ATENCIÓN'
-                onClickCancelar={() => volver()}
+                onClickCancelar={() => seleccionarUsuarioEliminar(false, {})}
                 footer={
                   <div className='modal-footer d-flex justify-content-between'>
-                    <Button className='bg-color-info' onClick={() => volver()}>
+                    <Button className='bg-color-info' onClick={() => seleccionarUsuarioEliminar(false, {})}>
                       Cancelar
-                </Button>
-                    <Button className='bg-color-error' onClick={() => console.log("usuario a eliminar", datosPagina.deleted)}>
+                    </Button>
+                    <Button className='bg-color-error' onClick={() => eliminarUsuario(datosPagina.deleted)}>
                       Aceptar
-                </Button>
+                    </Button>
                   </div>
                 }
               >
                 <p>
                   ¿Desea eliminar el usuario?
-            </p>
+                </p>
               </Modal>
             </div>
           </div>
           :
-          <UsuarioEditar usuario={datosPagina.selected} />
+          <UsuarioEditar onClickCancelar={() => {
+            seleccionarUsuarioEditar(false, {})
+            reset()
+          }} />
       }
     </div >
   )

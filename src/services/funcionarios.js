@@ -29,9 +29,7 @@ const funcionarioListar = async (token) => {
       },
     }
     return await peticion(config)
-  } catch (error) {
-    console.log(error)
-  }
+  } catch (error) { }
 };
 
 export { funcionarioFiltrar, funcionarioListar }

@@ -34,6 +34,21 @@ const usuarioEditar = async (token, usuario) => {
   } catch (error) { }
 }
 
+const usuarioEliminar = async (token, id) => {
+  try {
+    const url = `${server}/${servicio}/eliminar/${id}`;
+    const config = {
+      method: "POST",
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    }
+    return await peticion(config)
+  } catch (error) { }
+}
+
 const usuarioFiltrar = async (token, usuario) => {
   try {
     const url = `${server}/${servicio}/filtrar/${usuario}`;
@@ -64,4 +79,7 @@ const usuarioListar = async (token) => {
   } catch (error) { }
 };
 
-export { usuarioCrear, usuarioEditar, usuarioFiltrar, usuarioListar }
+export {
+  usuarioCrear, usuarioEditar, usuarioEliminar,
+  usuarioFiltrar, usuarioListar
+}

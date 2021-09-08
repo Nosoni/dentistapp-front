@@ -22,15 +22,19 @@ const Login = () => {
   };
 
   const handleOnClickLogin = async () => {
-    const datosForm = await form.validateFields();
-    const autenticacion = await autenticar(datosForm);
-    if (!autenticacion.error) {
-      dispatch(setUsuarioData(autenticacion.datos))
-      openNotification("success", autenticacion.mensaje)
-      history.push("/inicio/dashboard")
-    }
-    else {
-      openNotification("error", autenticacion.mensaje)
+    try {
+      const datosForm = await form.validateFields();
+      const autenticacion = await autenticar(datosForm);
+      if (!autenticacion.error) {
+        dispatch(setUsuarioData(autenticacion.datos))
+        openNotification("success", autenticacion.mensaje)
+        history.push("/inicio/dashboard")
+      }
+      else {
+        openNotification("error", autenticacion.mensaje)
+      }
+    } catch (error) {
+      openNotification("error", "No es posible conectar con el servidor.")
     }
   };
 

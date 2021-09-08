@@ -3,7 +3,7 @@ import BaseLayout from '../base/Base';
 import Logo from '../components/logo/Logo';
 import Menu from '../components/menu/MenuDA';
 import Navbar from '../components/navbar/Navbar';
-import LogoSvg from './../../assets/img/logo.svg';
+import LogoSvg from './../../assets/img/dentistapp-logo.svg';
 import Actions from '../components/actions/Actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleSidebar } from '../../redux/settings/actions';
@@ -18,7 +18,7 @@ const MainLayout = ({ children }) => {
   const settings = useSelector((state) => state.settings);
   const datosUsuario = useSelector((state) => state.usuarioData);
 
-  useEffect(() => { Object.keys(datosUsuario).length === 0 && history.push("/public/login") }, [])
+  useEffect(() => { !datosUsuario?.authenticated && history.push("/public/login") }, [datosUsuario])
 
   const handleCloseMenu = () => dispatch(toggleSidebar());
 

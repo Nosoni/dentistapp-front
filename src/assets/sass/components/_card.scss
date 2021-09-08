@@ -2,6 +2,7 @@
 
 $_shape: $shape;
 $_shadow: $shadow;
+$_shadow-hover: $shadow-hover;
 
 $_title-fs: 20px;
 $_title-fw: 500;
@@ -15,7 +16,7 @@ html {
     background: transparent;
     border: none;
     padding: 0 !important;
-    margin-bottom: $module-rem * 4;
+    margin-bottom: $module-rem * 2;
 
     .ant-card-cover {
       margin: (-$_v-padding) (-$_h-padding);
@@ -82,7 +83,7 @@ html {
   .ant-card.custom-bg-color,
   .ant-card.with-shadow,
   .ant-card[class*='bg'] {
-    box-shadow: $_shadow;
+    box-shadow: $_shadow-hover;
 
     .ant-card-head {
       padding: $module-rem $_h-padding !important;

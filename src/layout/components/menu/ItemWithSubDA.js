@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import posed from 'react-pose';
 import { useSelector } from 'react-redux';
 import className from '../../../utils/class-names';
+import { useHistory } from 'react-router';
 
 const isHorizontal = (layout) => window.innerWidth >= 992 && layout === 'horizontal';
 
@@ -14,6 +15,7 @@ const Sub = posed.div({
 
 const ItemWithSub = ({ location, title, layout, sub, opened, onClick, urlBase }) => {
   const permisosUsuario = useSelector((state) => state.usuarioData.usuario?.permisos);
+  const history = useHistory()
 
   const subItemClass = (routing) =>
     className({
@@ -31,6 +33,7 @@ const ItemWithSub = ({ location, title, layout, sub, opened, onClick, urlBase })
           className='item-link'
           activeClassName='active'
           replace
+          onClick={() => history.push(`/${urlBase}/${item.routing}`)}
         >
           <span className='link-text'>{item.title}</span>
         </NavLink>
