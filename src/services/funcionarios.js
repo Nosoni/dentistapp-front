@@ -2,9 +2,24 @@ import { peticion } from ".";
 import { server } from "../constantes/index";
 const servicio = "funcionarios";
 
-const funcionarioFiltrar = async (token, funcionario) => {
+const funcionarioEliminar = async (token, id) => {
   try {
-    const url = `${server}/${servicio}/filtrar/${funcionario}`;
+    const url = `${server}/${servicio}/eliminar/${id}`;
+    const config = {
+      method: "POST",
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    }
+    return await peticion(config)
+  } catch (error) { }
+}
+
+const funcionarioFiltrar = async (token, filtro) => {
+  try {
+    const url = `${server}/${servicio}/filtrar/${filtro}`;
     const config = {
       method: "GET",
       url,
@@ -32,4 +47,4 @@ const funcionarioListar = async (token) => {
   } catch (error) { }
 };
 
-export { funcionarioFiltrar, funcionarioListar }
+export { funcionarioEliminar, funcionarioFiltrar, funcionarioListar }

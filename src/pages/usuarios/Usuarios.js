@@ -20,11 +20,11 @@ const pageData = {
   deleted: {},
 };
 
-function Usuario() {
+function Usuarios() {
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.usuarioData);
   const datosPagina = useSelector((state) => state.pageData);
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const [esEdicion, setEsEdicion] = useState(false)
   const [showModal, setShowModal] = useState(false)
 
@@ -53,7 +53,6 @@ function Usuario() {
   };
 
   const validarPeticion = (seleccion, next) => {
-    console.log("eliminar", seleccion)
     if (seleccion.error) {
       openNotification("error", seleccion.mensaje)
       if (!seleccion.autenticado) {
@@ -140,7 +139,7 @@ function Usuario() {
                     }
                   }, {
                     key: 'actiones',
-                    title: 'Actiones',
+                    title: 'Acciones',
                     render: usuariosAcciones,
                   },]}
                   pagination={{ pageSize: 5 }}
@@ -178,4 +177,4 @@ function Usuario() {
   )
 }
 
-export default Usuario;
+export default Usuarios;

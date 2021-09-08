@@ -1,7 +1,8 @@
 import DashboardPage from "../pages/dashboards/dashboardDA/DashboardDA";
+import Funcionarios from "../pages/funcionarios/Funcionarios";
 import NotFound from "../pages/sessions/404";
 import Login from "../pages/sessions/Login";
-import Usuario from "../pages/usuarios/Usuario";
+import Usuarios from "../pages/usuarios/Usuarios";
 
 const rutasPublicas = [
   {
@@ -25,12 +26,12 @@ const rutasPrivadas = [
   {
     layout: "administracion",
     path: 'usuarios',
-    component: Usuario
+    component: Usuarios
   },
   {
     layout: "rrhh",
     path: 'funcionarios',
-    component: () => <div style={{ color: 'black' }}>funcionarios</div>
+    component: Funcionarios
   },
   {
     layout: "configuracion",

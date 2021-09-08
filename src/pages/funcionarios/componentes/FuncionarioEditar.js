@@ -8,20 +8,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { usuarioCrear, usuarioEditar } from '../../../services/usuarios';
 import { updateUsuarioData } from '../../../redux/usuario-data/actions';
 
-const UsuarioEditar = ({ onClickCancelar }) => {
+const UsuarioEditar = ({ selected, onClickCancelar }) => {
   const dispatch = useDispatch();
-  const { selected } = useSelector((state) => state.pageData);
   const token = useSelector((state) => state.usuarioData.token);
-  const [funcionarios, setFuncionarios] = useState([])
   const existe = !!selected?.id
-  let titulo = "Editar usuario"
+  let titulo = "Editar funcionario"
   const shape = {
-    usuario: yup.string().required("Favor introduzca el Usuario")
+    documento: yup.string().required("Favor introduzca el documento"),
+    tipo_documento_id: yup.string().required("Favor seleccione el tipo de documento"),
+    nombres: yup.string().required("Favor introduzca el nombre"),
+    apellidos: yup.string().required("Favor introduzca el apellido"),
   }
   if (!existe) {
-    shape.password = yup.string().required("Favor introduzca la contraseña")
-    shape.confirmar = yup.string().required("Favor confirme la contraseña")
-    titulo = "Crear usuario"
+    titulo = "Crear funcionario"
   }
   const schema = yup.object(shape)
   const { control, handleSubmit, formState: { errors } } = useForm({
@@ -36,10 +35,6 @@ const UsuarioEditar = ({ onClickCancelar }) => {
       });
     }
   }, [errors])
-
-  useEffect(() => {
-    listarFuncionarios()
-  }, [])
 
   const openNotification = (type, descripcion) => {
     notification[type]({
@@ -61,41 +56,27 @@ const UsuarioEditar = ({ onClickCancelar }) => {
     }
   }
 
-  const listarFuncionarios = async () => {
-    const respuesta = await funcionarioListar(token)
-    validarPeticion(respuesta, actualizarListUsuario)
-  }
-
-  const actualizarListUsuario = (respuesta) => {
-    const list = respuesta.datos.map(funcionario => {
-      return {
-        value: funcionario.id,
-        label: (funcionario.nombres + " " + funcionario.apellidos)
-      }
-    })
-    setFuncionarios(list)
-  }
-
-  const onSubmit = async usuario => {
+  const onSubmit = async funcionario => {
+    console.log(funcionario)
     let respuesta;
-    if (existe)
-      respuesta = await usuarioEditar(token, usuario)
-    else
-      respuesta = await usuarioCrear(token, usuario)
+    // if (existe)
+    //   respuesta = await usuarioEditar(token, usuario)
+    // else
+    //   respuesta = await usuarioCrear(token, usuario)
 
-    validarPeticion(respuesta, (respuesta) => {
-      openNotification((respuesta.error ? "error" : "success"), respuesta.mensaje)
-    })
+    // validarPeticion(respuesta, (respuesta) => {
+    //   openNotification((respuesta.error ? "error" : "success"), respuesta.mensaje)
+    // })
   }
 
   return (
     <div className='row justify-content-center'>
       <Card title={titulo} className='col-md-6 col-sm-9 with-shadow'>
         <Controller
-          name="usuario"
+          name="documento"
           control={control}
           render={({ field }) => <div className="mb-2">
-            <label className="ant-form-item-label">Usuario: </label>
+            <label className="ant-form-item-label">Documento: </label>
             <Input
               {...field}
               disabled={existe}
@@ -104,37 +85,35 @@ const UsuarioEditar = ({ onClickCancelar }) => {
           }
         />
         <Controller
-          name="funcionario_id"
+          name="tipo_documento_id"
           control={control}
           render={({ field }) => <div className="mb-2">
-            <label className="ant-form-item-label">Funcionario: </label>
+            <label className="ant-form-item-label">Tipo documento: </label>
             <Select
               {...field}
-              options={funcionarios}
+            //options={funcionarios}
             />
           </div>
           }
         />
         <Controller
-          name="password"
+          name="nombres"
           control={control}
           render={({ field }) => <div className="mb-2">
-            <label className="ant-form-item-label">Contraseña: </label>
+            <label className="ant-form-item-label">Nombres: </label>
             <Input
               {...field}
-              type="password"
             />
           </div>
           }
         />
         <Controller
-          name="confirmar"
+          name="apellidos"
           control={control}
           render={({ field }) => <div className="mb-2">
-            <label className="ant-form-item-label">Confirmar contraseña: </label>
+            <label className="ant-form-item-label">Apellidos: </label>
             <Input
               {...field}
-              type="password"
             />
           </div>
           }
