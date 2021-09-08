@@ -111,7 +111,7 @@ function Usuarios() {
             <div className='row justify-content-center'>
               <Card title='Buscar' className='col-md-9 col-sm-12 with-shadow'>
                 <div className='elem-list'>
-                  <Input placeholder='Introduzca el Usuario' {...register("usuario")} style={{ borderRadius: '10px' }} />
+                  <Input placeholder='Introduzca el Usuario' {...register("usuario")} />
                   <Button onClick={handleSubmit(onSubmit)} className='bg-color-info' icon={<SearchOutlined />}>
                     Search
                   </Button>

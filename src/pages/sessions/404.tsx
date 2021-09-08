@@ -5,9 +5,12 @@ import { HomeFilled } from '@ant-design/icons/lib';
 
 import BaseErrorPage from './BaseErrorPage';
 import { navigateHome } from '../../utils/naviagate-home';
+import { useHistory } from 'react-router';
 
-const NotFound = () => (
-  <BaseErrorPage
+const NotFound = () => {
+  const history = useHistory()
+
+  return (<BaseErrorPage
     subTitle={
       <h6 className='text-md text-center'>Sorry! The page you were looking for doesn't exist.</h6>
     }
@@ -15,7 +18,7 @@ const NotFound = () => (
     action={
       <Button
         type='primary'
-        onClick={navigateHome}
+        onClick={() => history.push("/inicio/dashboard")}
         style={{ width: 'auto' }}
         icon={<HomeFilled className='ml-0 mr-2' style={{ fontSize: '1em' }} />}
       >
@@ -29,6 +32,7 @@ const NotFound = () => (
       </h1>
     }
   />
-);
+  )
+};
 
 export default NotFound;

@@ -108,11 +108,11 @@ function Funcionarios() {
             <div className='row justify-content-center'>
               <Card title='Buscar' className='col-md-9 col-sm-12 with-shadow'>
                 <div className='elem-list'>
-                  <Input placeholder='Introduzca alguna informaicón del funcionario' {...register("filtro")} style={{ borderRadius: '10px' }} />
+                  <Input placeholder='Introduzca alguna información del funcionario' {...register("filtro")} style={{ borderRadius: '10px' }} />
                   <Button onClick={handleSubmit(onSubmit)} className='bg-color-info' icon={<SearchOutlined />}>
                     Search
                   </Button>
-                  <Button onClick={() => setEsEdicion(true, {})} className='bg-color-success' shape='circle' icon={<PlusOutlined />} />
+                  <Button onClick={() => setEsEdicion({ editar: true, funcionario: {} })} className='bg-color-success' shape='circle' icon={<PlusOutlined />} />
                 </div>
               </Card>
             </div>

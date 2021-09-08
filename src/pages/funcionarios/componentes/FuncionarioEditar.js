@@ -3,14 +3,15 @@ import { Input, Button, Select, notification, Card } from 'antd';
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
-import { funcionarioListar } from '../../../services/funcionarios';
+import { tiposDocumentosListar } from '../../../services/tipos_documentos';
 import { useDispatch, useSelector } from 'react-redux';
-import { usuarioCrear, usuarioEditar } from '../../../services/usuarios';
+import { funcionarioCrear, funcionarioEditar } from '../../../services/usuarios';
 import { updateUsuarioData } from '../../../redux/usuario-data/actions';
 
 const UsuarioEditar = ({ selected, onClickCancelar }) => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.usuarioData.token);
+  const [tiposDocumentos, setTiposDocumentos] = useState([])
   const existe = !!selected?.id
   let titulo = "Editar funcionario"
   const shape = {
@@ -36,6 +37,10 @@ const UsuarioEditar = ({ selected, onClickCancelar }) => {
     }
   }, [errors])
 
+  useEffect(() => {
+    listarTiposDocumentos()
+  }, [])
+
   const openNotification = (type, descripcion) => {
     notification[type]({
       description: descripcion,
@@ -56,6 +61,21 @@ const UsuarioEditar = ({ selected, onClickCancelar }) => {
     }
   }
 
+  const listarTiposDocumentos = async () => {
+    const respuesta = await tiposDocumentosListar(token)
+    validarPeticion(respuesta, (respuesta) => setListTiposDocumentos(respuesta.datos))
+  }
+
+  const setListTiposDocumentos = (datos) => {
+    const list = datos.map(tipo_documento => {
+      return {
+        value: tipo_documento.id,
+        label: tipo_documento.descripcion
+      }
+    })
+    setTiposDocumentos(list)
+  }
+
   const onSubmit = async funcionario => {
     console.log(funcionario)
     let respuesta;
@@ -72,30 +92,32 @@ const UsuarioEditar = ({ selected, onClickCancelar }) => {
   return (
     <div className='row justify-content-center'>
       <Card title={titulo} className='col-md-6 col-sm-9 with-shadow'>
-        <Controller
-          name="documento"
-          control={control}
-          render={({ field }) => <div className="mb-2">
-            <label className="ant-form-item-label">Documento: </label>
-            <Input
-              {...field}
-              disabled={existe}
-            />
-          </div>
-          }
-        />
-        <Controller
-          name="tipo_documento_id"
-          control={control}
-          render={({ field }) => <div className="mb-2">
-            <label className="ant-form-item-label">Tipo documento: </label>
-            <Select
-              {...field}
-            //options={funcionarios}
-            />
-          </div>
-          }
-        />
+        <div className='row'>
+          <Controller
+            name="documento"
+            control={control}
+            render={({ field }) => <div className="mb-2 col-md-6">
+              <label className="ant-form-item-label">Documento: </label>
+              <Input
+                {...field}
+                disabled={existe}
+              />
+            </div>
+            }
+          />
+          <Controller
+            name="tipo_documento_id"
+            control={control}
+            render={({ field }) => <div className="mb-2 col-md-6">
+              <label className="ant-form-item-label">Tipo documento: </label>
+              <Select
+                {...field}
+                options={tiposDocumentos}
+              />
+            </div>
+            }
+          />
+        </div>
         <Controller
           name="nombres"
           control={control}
