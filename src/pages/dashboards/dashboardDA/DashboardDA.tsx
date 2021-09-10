@@ -29,7 +29,7 @@ const DashboardPage = () => {
               </div>
 
               <div className='col-7'>
-                <h6 className='mt-0 mb-1'>Appointments</h6>
+                <h6 className='mt-0 mb-1'>Citas</h6>
                 <div className='count' style={{ fontSize: 20, color: '#336cfb', lineHeight: 1.4 }}>
                   213
                 </div>
@@ -49,7 +49,7 @@ const DashboardPage = () => {
               </div>
 
               <div className='col-7'>
-                <h6 className='mt-0 mb-1'>New patients</h6>
+                <h6 className='mt-0 mb-1'>Nuevos pacientes</h6>
                 <div className='count' style={{ fontSize: 20, color: '#336cfb', lineHeight: 1.4 }}>
                   213
                 </div>
@@ -69,7 +69,7 @@ const DashboardPage = () => {
               </div>
 
               <div className='col-7'>
-                <h6 className='mt-0 mb-1'>Operations</h6>
+                <h6 className='mt-0 mb-1'>Tratamientos</h6>
                 <div className='count' style={{ fontSize: 20, color: '#336cfb', lineHeight: 1.4 }}>
                   23
                 </div>
@@ -89,58 +89,15 @@ const DashboardPage = () => {
               </div>
 
               <div className='col-7'>
-                <h6 className='mt-0 mb-1'>Earnings</h6>
+                <h6 className='mt-0 mb-1'>Ingresos</h6>
                 <div className='count' style={{ fontSize: 20, color: '#336cfb', lineHeight: 1.4 }}>
-                  $5238
+                  500.000 Gs.
                 </div>
               </div>
             </div>
           </Card>
         </div>
       </div>
-
-      <div className='row'>
-        <div className='col-sm-12 col-md-6'>
-          <Card>
-            <h4 className='mt-0 mb-1'>$25038</h4>
-            <p className='mb-0' style={{ color: '#9d9d9d' }}>
-              Income in current month
-            </p>
-
-          </Card>
-        </div>
-
-        <div className='col-sm-12 col-md-6'>
-          <Card>
-            <h4 className='mt-0 mb-1'>$2195</h4>
-            <p className='mb-0' style={{ color: '#9d9d9d' }}>
-              Income in current week
-            </p>
-
-          </Card>
-        </div>
-      </div>
-
-      <div className='row'>
-        <div className='col-12 col-md-4'>
-          <Card title={'patients age'}>
-          </Card>
-        </div>
-
-        <div className='col-12 col-md-4'>
-          <Card title={'patients gender'}>
-          </Card>
-        </div>
-
-        <div className='col-12 col-md-4'>
-          <Card title={'Departments'}>
-          </Card>
-        </div>
-      </div>
-
-      <Card title='Last appointments' className='mb-0'>
-        <AppointmentsTable data={[]} />
-      </Card>
     </>
   );
 };

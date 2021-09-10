@@ -5,7 +5,7 @@ import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { tiposDocumentosListar } from '../../../services/tipos_documentos';
 import { useDispatch, useSelector } from 'react-redux';
-import { funcionarioCrear, funcionarioEditar } from '../../../services/usuarios';
+import { funcionarioCrear, funcionarioEditar } from '../../../services/funcionarios';
 import { updateUsuarioData } from '../../../redux/usuario-data/actions';
 
 const UsuarioEditar = ({ selected, onClickCancelar }) => {
@@ -79,14 +79,14 @@ const UsuarioEditar = ({ selected, onClickCancelar }) => {
   const onSubmit = async funcionario => {
     console.log(funcionario)
     let respuesta;
-    // if (existe)
-    //   respuesta = await usuarioEditar(token, usuario)
-    // else
-    //   respuesta = await usuarioCrear(token, usuario)
+    if (existe)
+      respuesta = await funcionarioEditar(token, funcionario)
+    else
+      respuesta = await funcionarioCrear(token, funcionario)
 
-    // validarPeticion(respuesta, (respuesta) => {
-    //   openNotification((respuesta.error ? "error" : "success"), respuesta.mensaje)
-    // })
+    validarPeticion(respuesta, (respuesta) => {
+      openNotification((respuesta.error ? "error" : "success"), respuesta.mensaje)
+    })
   }
 
   return (
@@ -96,7 +96,7 @@ const UsuarioEditar = ({ selected, onClickCancelar }) => {
           <Controller
             name="documento"
             control={control}
-            render={({ field }) => <div className="mb-2 col-md-6">
+            render={({ field }) => <div className="mb-2 col-md-4">
               <label className="ant-form-item-label">Documento: </label>
               <Input
                 {...field}
@@ -108,7 +108,7 @@ const UsuarioEditar = ({ selected, onClickCancelar }) => {
           <Controller
             name="tipo_documento_id"
             control={control}
-            render={({ field }) => <div className="mb-2 col-md-6">
+            render={({ field }) => <div className="mb-2 col-md-4">
               <label className="ant-form-item-label">Tipo documento: </label>
               <Select
                 {...field}
@@ -117,29 +117,91 @@ const UsuarioEditar = ({ selected, onClickCancelar }) => {
             </div>
             }
           />
+          <Controller
+          name="fecha_ingreso"
+          control={control}
+          render={({ field }) => <div className="mb-2 col-md-4">
+            <label className="ant-form-item-label">Fecha de ingreso: </label>
+            <Input
+              {...field}
+            />
+          </div>
+          }
+        />
         </div>
-        <Controller
-          name="nombres"
-          control={control}
-          render={({ field }) => <div className="mb-2">
-            <label className="ant-form-item-label">Nombres: </label>
-            <Input
-              {...field}
-            />
-          </div>
-          }
-        />
-        <Controller
-          name="apellidos"
-          control={control}
-          render={({ field }) => <div className="mb-2">
-            <label className="ant-form-item-label">Apellidos: </label>
-            <Input
-              {...field}
-            />
-          </div>
-          }
-        />
+        <div className='row'>
+          <Controller
+            name="nombres"
+            control={control}
+            render={({ field }) => <div className="mb-2 col-md-6">
+              <label className="ant-form-item-label">Nombres: </label>
+              <Input
+                {...field}
+              />
+            </div>
+            }
+          />
+          <Controller
+            name="apellidos"
+            control={control}
+            render={({ field }) => <div className="mb-2 col-md-6">
+              <label className="ant-form-item-label">Apellidos: </label>
+              <Input
+                {...field}
+              />
+            </div>
+            }
+          />
+        </div>
+        <div className='row'>
+          <Controller
+            name="ciudad"
+            control={control}
+            render={({ field }) => <div className="mb-2 col-md-6">
+              <label className="ant-form-item-label">Ciudad: </label>
+              <Input
+                {...field}
+              />
+            </div>
+            }
+          />
+          <Controller
+            name="direccion"
+            control={control}
+            render={({ field }) => <div className="mb-2 col-md-6">
+              <label className="ant-form-item-label">Dirección: </label>
+              <Input
+                {...field}
+              />
+            </div>
+            }
+          />
+        </div>
+        <div className='row'>
+          <Controller
+            name="telefono"
+            control={control}
+            render={({ field }) => <div className="mb-2 col-md-6">
+              <label className="ant-form-item-label">Teléfono: </label>
+              <Input
+                {...field}
+              />
+            </div>
+            }
+          />
+          <Controller
+            name="email"
+            control={control}
+            render={({ field }) => <div className="mb-2 col-md-6">
+              <label className="ant-form-item-label">Email: </label>
+              <Input
+                {...field}
+                type="email"
+              />
+            </div>
+            }
+          />
+        </div>
         <div className='mt-4 modal-footer d-flex justify-content-between'>
           <Button className='bg-color-info' onClick={onClickCancelar}>
             Cancelar
