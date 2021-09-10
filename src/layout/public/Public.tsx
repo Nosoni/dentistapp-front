@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import './Public.scss';
 import Logo from '../components/logo/Logo';
-import LogoSvg from '../../assets/img/logo.svg';
+import LogoSvg from '../../assets/img/dentistapp-logo.svg';
 
 type Props = { children: ReactNode; bgImg?: string; transparent?: boolean };
 
