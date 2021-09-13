@@ -119,7 +119,7 @@ function Usuarios() {
             <div className='row justify-content-center'>
               <Card title='Buscar' className='col-md-9 col-sm-12 with-shadow'>
                 <div className='elem-list'>
-                  <Input placeholder='Introduzca el Usuario' {...register("usuario")} />
+                  <Input placeholder='Introduzca el usuario' {...register("usuario")} />
                   <ButtonsTooltips
                     onClick={handleSubmit(onSubmit)}
                     className="bg-color-info"
