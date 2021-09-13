@@ -8,8 +8,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { funcionarioCrear, funcionarioEditar } from '../../../services/funcionarios';
 import { updateUsuarioData } from '../../../redux/usuario-data/actions';
 
-const UsuarioEditar = ({ selected, onClickCancelar }) => {
+const UsuarioEditar = ({ onClickCancelar }) => {
   const dispatch = useDispatch();
+  const { selected } = useSelector((state) => state.pageData);
   const token = useSelector((state) => state.usuarioData.token);
   const [tiposDocumentos, setTiposDocumentos] = useState([])
   const existe = !!selected?.id
@@ -53,7 +54,7 @@ const UsuarioEditar = ({ selected, onClickCancelar }) => {
   const validarPeticion = (respuesta, next) => {
     if (respuesta.error) {
       openNotification("error", respuesta.mensaje)
-      if (!respuesta.autenticado) {
+      if (respuesta.autenticado === false) {
         dispatch(updateUsuarioData({ authenticated: false }));
       }
     } else {
@@ -77,7 +78,6 @@ const UsuarioEditar = ({ selected, onClickCancelar }) => {
   }
 
   const onSubmit = async funcionario => {
-    console.log(funcionario)
     let respuesta;
     if (existe)
       respuesta = await funcionarioEditar(token, funcionario)
@@ -118,16 +118,16 @@ const UsuarioEditar = ({ selected, onClickCancelar }) => {
             }
           />
           <Controller
-          name="fecha_ingreso"
-          control={control}
-          render={({ field }) => <div className="mb-2 col-md-4">
-            <label className="ant-form-item-label">Fecha de ingreso: </label>
-            <Input
-              {...field}
-            />
-          </div>
-          }
-        />
+            name="fecha_ingreso"
+            control={control}
+            render={({ field }) => <div className="mb-2 col-md-4">
+              <label className="ant-form-item-label">Fecha de ingreso: </label>
+              <Input
+                {...field}
+              />
+            </div>
+            }
+          />
         </div>
         <div className='row'>
           <Controller
@@ -204,7 +204,7 @@ const UsuarioEditar = ({ selected, onClickCancelar }) => {
         </div>
         <div className='mt-4 modal-footer d-flex justify-content-between'>
           <Button className='bg-color-info' onClick={onClickCancelar}>
-            Cancelar
+            Volver
           </Button>
           <Button className='bg-color-success' onClick={handleSubmit(onSubmit)}>
             Aceptar

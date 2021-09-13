@@ -51,17 +51,17 @@ const Login = () => {
         <Item name='password' rules={[{ required: true, message: <></> }]}>
           <Input placeholder='Contraseña' type='password' />
         </Item>
-
-        <Button
-          className="mt-3"
-          block={false}
-          type='primary'
-          onClick={handleOnClickLogin}
-          htmlType='submit'
-          icon={<LoginOutlined style={{ fontSize: '1.3rem' }} />}
-        >
-          Login
-        </Button>
+        <div className="row justify-content-center">
+          <Button
+            className="bg-color-info"
+            block={false}
+            type='primary'
+            onClick={handleOnClickLogin}
+            htmlType='submit'
+          >
+            Iniciar sesión
+          </Button>
+        </div>
       </Form>
       <br />
     </PublicLayout>

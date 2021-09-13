@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Card, Table, Input, notification } from 'antd';
+import Modal from '../components/Modal'
 import { useForm } from "react-hook-form";
 import {
   SearchOutlined,
   PlusOutlined
 } from '@ant-design/icons';
-import { funcionarioListar, funcionarioFiltrar } from '../../services/funcionarios';
+import { funcionarioListar, funcionarioFiltrar, funcionarioEliminar } from '../../services/funcionarios';
 import { setPageData, updatePageDada } from '../../redux/page-data/actions'
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUsuarioData } from '../../redux/usuario-data/actions';
 import FuncionarioEditar from './componentes/FuncionarioEditar';
+import ButtonsTooltips from '../components/ButtonsTooltips';
 
 const pageData = {
   title: "Funcionarios",
@@ -23,7 +25,8 @@ function Funcionarios() {
   const { token } = useSelector((state) => state.usuarioData);
   const datosPagina = useSelector((state) => state.pageData);
   const { register, handleSubmit, reset } = useForm();
-  const [esEdicion, setEsEdicion] = useState({ editar: false, funcionario: {} })
+  const [esEdicion, setEsEdicion] = useState(false)
+  const [showModal, setShowModal] = useState(false)
 
   useEffect(() => {
     dispatch(setPageData(pageData));
@@ -40,18 +43,27 @@ function Funcionarios() {
 
   const acciones = (funcionario) => {
     return <div className='buttons-list nowrap'>
-      <Button onClick={() => {
-        setEsEdicion({ editar: true, funcionario })
-      }} shape='circle' className="bg-color-info">
+      <ButtonsTooltips
+        onClick={() => seleccionarFuncionarioEditar(true, funcionario)}
+        shape='circle'
+        className="bg-color-info"
+        tooltipsTitle="Editar">
         <span className='icofont icofont-edit-alt' />
-      </Button>
+      </ButtonsTooltips>
+      <ButtonsTooltips
+        onClick={() => seleccionarFuncionarioEliminar(true, funcionario)}
+        shape='circle'
+        className="bg-color-error"
+        tooltipsTitle="Eliminar">
+        <span className='icofont icofont-ui-delete' />
+      </ButtonsTooltips>
     </div>
   };
 
   const validarPeticion = (respuesta, next) => {
     if (respuesta.error) {
       openNotification("error", respuesta.mensaje)
-      if (!respuesta.autenticado) {
+      if (respuesta.autenticado === false) {
         dispatch(updateUsuarioData({ authenticated: false }));
       }
     } else {
@@ -63,15 +75,15 @@ function Funcionarios() {
     dispatch(updatePageDada(objeto));
   }
 
-  // const seleccionarUsuarioEditar = (edicion, usuario) => {
-  //   setEsEdicion(edicion)
-  //   actualizarEstadoPagina({ selected: usuario, deleted: {} })
-  // };
+  const seleccionarFuncionarioEditar = (edicion, funcionario) => {
+    setEsEdicion(edicion)
+    actualizarEstadoPagina({ selected: funcionario, deleted: {} })
+  };
 
-  // const seleccionarUsuarioEliminar = (mostrar, usuario) => {
-  //   setShowModal(mostrar)
-  //   actualizarEstadoPagina({ selected: {}, deleted: usuario });
-  // };
+  const seleccionarFuncionarioEliminar = (mostrar, funcionario) => {
+    setShowModal(mostrar)
+    actualizarEstadoPagina({ selected: {}, deleted: funcionario });
+  };
 
   const filtrarFuncionario = async (filtro) => {
     const respuesta = await funcionarioFiltrar(token, filtro.filtro)
@@ -83,13 +95,13 @@ function Funcionarios() {
     validarPeticion(respuesta, (respuesta) => actualizarEstadoPagina({ list: respuesta.datos }))
   }
 
-  // const eliminarUsuario = async (usuario) => {
-  //   const respuesta = await usuarioEliminar(token, usuario.id)
-  //   validarPeticion(respuesta, (respuesta) => {
-  //     seleccionarUsuarioEliminar(false, {})
-  //     openNotification("success", respuesta.mensaje)
-  //   })
-  // }
+  const eliminarFuncionario = async (funcionario) => {
+    const respuesta = await funcionarioEliminar(token, funcionario.id)
+    validarPeticion(respuesta, (respuesta) => {
+      seleccionarFuncionarioEliminar(false, {})
+      openNotification("success", respuesta.mensaje)
+    })
+  }
 
   const onSubmit = (filtro) => {
     if (!filtro.filtro) {
@@ -101,18 +113,25 @@ function Funcionarios() {
 
   return (
     <div >
-      {console.log(esEdicion)}
       {
-        !esEdicion.editar ?
+        !esEdicion ?
           <div>
             <div className='row justify-content-center'>
               <Card title='Buscar' className='col-md-9 col-sm-12 with-shadow'>
                 <div className='elem-list'>
                   <Input placeholder='Introduzca alguna información del funcionario' {...register("filtro")} style={{ borderRadius: '10px' }} />
-                  <Button onClick={handleSubmit(onSubmit)} className='bg-color-info' icon={<SearchOutlined />}>
-                    Search
-                  </Button>
-                  <Button onClick={() => setEsEdicion({ editar: true, funcionario: {} })} className='bg-color-success' shape='circle' icon={<PlusOutlined />} />
+                  <ButtonsTooltips
+                    onClick={handleSubmit(onSubmit)}
+                    className="bg-color-info"
+                    tooltipsTitle="Buscar"
+                    shape='circle'
+                    icon={<SearchOutlined />} />
+                  <ButtonsTooltips
+                    onClick={() => seleccionarFuncionarioEditar(true, {})}
+                    className='bg-color-success'
+                    tooltipsTitle="Nuevo"
+                    shape='circle'
+                    icon={<PlusOutlined />} />
                 </div>
               </Card>
             </div>
@@ -151,11 +170,30 @@ function Funcionarios() {
                   locale={{ emptyText: 'Sin registros' }}
                 />
               </Card>
+              <Modal
+                visible={showModal}
+                title='ATENCIÓN'
+                onClickCancelar={() => seleccionarFuncionarioEliminar(false, {})}
+                footer={
+                  <div className='modal-footer d-flex justify-content-between'>
+                    <Button className='bg-color-info' onClick={() => seleccionarFuncionarioEliminar(false, {})}>
+                      Cancelar
+                    </Button>
+                    <Button className='bg-color-error' onClick={() => eliminarFuncionario(datosPagina.deleted)}>
+                      Aceptar
+                    </Button>
+                  </div>
+                }
+              >
+                <p>
+                  ¿Desea eliminar el funcionario?
+                </p>
+              </Modal>
             </div>
           </div>
           :
-          <FuncionarioEditar selected={esEdicion.funcionario} onClickCancelar={() => {
-            setEsEdicion({ editar: false, funcionario: {} })
+          <FuncionarioEditar onClickCancelar={() => {
+            seleccionarFuncionarioEditar(false, {})
             reset()
           }} />
       }

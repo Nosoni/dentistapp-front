@@ -12,6 +12,7 @@ import { setPageData, updatePageDada } from '../../redux/page-data/actions'
 import { useDispatch, useSelector } from 'react-redux';
 import UsuarioEditar from './componentes/UsuarioEditar';
 import { updateUsuarioData } from '../../redux/usuario-data/actions';
+import ButtonsTooltips from '../components/ButtonsTooltips';
 
 const pageData = {
   title: "Usuarios",
@@ -43,19 +44,26 @@ function Usuarios() {
 
   const usuariosAcciones = (usuario) => {
     return <div className='buttons-list nowrap'>
-      <Button onClick={() => seleccionarUsuarioEditar(true, usuario)} shape='circle' className="bg-color-info">
+      <ButtonsTooltips
+        onClick={() => seleccionarUsuarioEditar(true, usuario)}
+        shape='circle'
+        className="bg-color-info"
+        tooltipsTitle="Editar">
         <span className='icofont icofont-edit-alt' />
-      </Button>
-      <Button onClick={() => seleccionarUsuarioEliminar(true, usuario)} shape='circle' className="bg-color-error">
+      </ButtonsTooltips>
+      <ButtonsTooltips
+        onClick={() => seleccionarUsuarioEliminar(true, usuario)}
+        shape='circle'
+        className="bg-color-error"
+        tooltipsTitle="Eliminar">
         <span className='icofont icofont-ui-delete' />
-      </Button>
+      </ButtonsTooltips>
     </div>
   };
 
   const validarPeticion = (seleccion, next) => {
     if (seleccion.error) {
-      openNotification("error", seleccion.mensaje)
-      if (!seleccion.autenticado) {
+      if (seleccion.autenticado === false) {
         dispatch(updateUsuarioData({ authenticated: false }));
       }
     } else {
@@ -112,10 +120,18 @@ function Usuarios() {
               <Card title='Buscar' className='col-md-9 col-sm-12 with-shadow'>
                 <div className='elem-list'>
                   <Input placeholder='Introduzca el Usuario' {...register("usuario")} />
-                  <Button onClick={handleSubmit(onSubmit)} className='bg-color-info' icon={<SearchOutlined />}>
-                    Search
-                  </Button>
-                  <Button onClick={() => seleccionarUsuarioEditar(true, {})} className='bg-color-success' shape='circle' icon={<PlusOutlined />} />
+                  <ButtonsTooltips
+                    onClick={handleSubmit(onSubmit)}
+                    className="bg-color-info"
+                    tooltipsTitle="Buscar"
+                    shape='circle'
+                    icon={<SearchOutlined />} />
+                  <ButtonsTooltips
+                    onClick={() => seleccionarUsuarioEditar(true, {})}
+                    className='bg-color-success'
+                    tooltipsTitle="Nuevo"
+                    shape='circle'
+                    icon={<PlusOutlined />} />
                 </div>
               </Card>
             </div>

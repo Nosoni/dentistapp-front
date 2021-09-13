@@ -53,7 +53,7 @@ const UsuarioEditar = ({ onClickCancelar }) => {
   const validarPeticion = (respuesta, next) => {
     if (respuesta.error) {
       openNotification("error", respuesta.mensaje)
-      if (!respuesta.autenticado) {
+      if (respuesta.autenticado === false) {
         dispatch(updateUsuarioData({ authenticated: false }));
       }
     } else {
@@ -87,6 +87,16 @@ const UsuarioEditar = ({ onClickCancelar }) => {
       openNotification((respuesta.error ? "error" : "success"), respuesta.mensaje)
     })
   }
+
+  // de muestra
+  // const cardTitulo = () => {
+  //   return <div className="row justify-content-between m-0 p-0">
+  //     {titulo}
+  //     <Button onClick={() => { }} shape='circle' className="bg-color-error">
+  //       <span className='icofont icofont-ui-delete' />
+  //     </Button>
+  //   </div>
+  // }
 
   return (
     <div className='row justify-content-center'>
@@ -141,7 +151,7 @@ const UsuarioEditar = ({ onClickCancelar }) => {
         />
         <div className='mt-4 modal-footer d-flex justify-content-between'>
           <Button className='bg-color-info' onClick={onClickCancelar}>
-            Cancelar
+            Volver
           </Button>
           <Button className='bg-color-success' onClick={handleSubmit(onSubmit)}>
             Aceptar
