@@ -1,5 +1,6 @@
 import DashboardPage from "../pages/dashboards/dashboardDA/DashboardDA";
 import Funcionarios from "../pages/funcionarios/Funcionarios";
+import Roles from "../pages/roles/Roles";
 import NotFound from "../pages/sessions/404";
 import Login from "../pages/sessions/Login";
 import Usuarios from "../pages/usuarios/Usuarios";
@@ -36,7 +37,7 @@ const rutasPrivadas = [
   {
     layout: "configuracion",
     path: 'roles',
-    component: () => <div>roles</div>
+    component: Roles
   },
   {
     layout: "stock",
