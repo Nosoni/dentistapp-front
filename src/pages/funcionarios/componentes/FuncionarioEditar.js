@@ -124,7 +124,8 @@ const UsuarioEditar = ({ onClickCancelar }) => {
             render={({ field }) => <div className="mb-2 col-md-4">
               <label className="ant-form-item-label">Fecha de ingreso: </label>
               <DatePicker
-              placeholder="Seleccione la fecha"
+                placeholder="Seleccione la fecha"
+                format="DD/MM/YYYY"
                 {...field}
               />
             </div>
