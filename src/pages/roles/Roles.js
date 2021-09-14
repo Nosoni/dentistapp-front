@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import { Button, Card, Table, Input, notification } from 'antd';
+import React, { useState } from 'react'
+import { Card, Table, Input } from 'antd';
 import { useForm } from "react-hook-form";
 import {
   SearchOutlined,
   PlusOutlined
 } from '@ant-design/icons';
-import { useDispatch, useSelector } from 'react-redux';
-import { setPageData, updatePageDada } from '../../redux/page-data/actions'
 import ButtonsTooltips from '../components/ButtonsTooltips';
-import { updateUsuarioData } from '../../redux/usuario-data/actions';
-import { rolFiltrar, rolListar } from '../../services/roles';
+import { rolEliminar, rolFiltrar, rolListar } from '../../services/roles';
+import withPageActions from '../HOC/withPageActions';
+import RolesEditar from './componentes/RolesEditar';
+import BotoneraTableAcciones from '../components/BotoneraTableAcciones';
+import BotoneraModalFooterActions from '../components/BotoneraFooterActions';
+import ModalDA from '../components/Modal';
 
 const pageData = {
   title: "Roles",
@@ -18,46 +20,20 @@ const pageData = {
   deleted: {}
 };
 
-const Roles = () => {
-  const dispatch = useDispatch();
-  const { token } = useSelector((state) => state.usuarioData);
-  const datosPagina = useSelector((state) => state.pageData);
+const Roles = (props) => {
   const { register, handleSubmit, reset } = useForm();
+  const { validarPeticion, actualizarEstadoPagina } = props
+  const { token } = props.usuarioData;
+  const { list, deleted } = props.pageData;
   const [esEdicion, setEsEdicion] = useState(false)
   const [showModal, setShowModal] = useState(false)
 
-  useEffect(() => {
-    dispatch(setPageData(pageData));
-  }, [])
-
-  const openNotification = (type, descripcion) => {
-    notification[type]({
-      description: descripcion,
-      onClick: () => {
-        console.log('Notification Clicked!');
-      },
-    });
-  };
-
-  const validarPeticion = (respuesta, next) => {
-    if (respuesta.error) {
-      openNotification("error", respuesta.mensaje)
-      if (respuesta.autenticado === false) {
-        dispatch(updateUsuarioData({ authenticated: false }));
-      }
-    } else {
-      next(respuesta)
-    }
+  const acciones = (rol) => {
+    return <BotoneraTableAcciones
+      onClickEditar={() => editarRol(true, rol)}
+      onClickEliminar={() => modalRolEliminar(true, rol)}
+    />
   }
-
-  const actualizarEstadoPagina = (objeto) => {
-    dispatch(updatePageDada(objeto));
-  }
-
-  const seleccionarRolEditar = (edicion, rol) => {
-    setEsEdicion(edicion)
-    actualizarEstadoPagina({ selected: rol, deleted: {} })
-  };
 
   const listarRol = async () => {
     const respuesta = await rolListar(token)
@@ -69,13 +45,25 @@ const Roles = () => {
     validarPeticion(respuesta, (respuesta) => actualizarEstadoPagina({ list: respuesta.datos }))
   }
 
-  // const eliminarRol = async (funcionario) => {
-  //   const respuesta = await funcionarioEliminar(token, funcionario.id)
-  //   validarPeticion(respuesta, (respuesta) => {
-  //     seleccionarFuncionarioEliminar(false, {})
-  //     openNotification("success", respuesta.mensaje)
-  //   })
-  // }
+  const nuevoRol = () => {
+    setEsEdicion(true)
+    actualizarEstadoPagina({ selected: {}, deleted: {} })
+  }
+
+  const editarRol = (edicion, rol) => {
+    setEsEdicion(edicion)
+    actualizarEstadoPagina({ selected: rol, deleted: {} })
+  }
+
+  const modalRolEliminar = (mostrar, rol) => {
+    setShowModal(mostrar)
+    actualizarEstadoPagina({ selected: {}, deleted: rol });
+  };
+
+  const eliminarRol = async (rol) => {
+    const respuesta = await rolEliminar(token, rol.id)
+    validarPeticion(respuesta, () => modalRolEliminar(false, {}), true)
+  }
 
   const onSubmit = (filtro) => {
     if (!filtro.rol) {
@@ -85,51 +73,81 @@ const Roles = () => {
     }
   };
 
-  return (
-    <>
-      <div className='row justify-content-center'>
-        <Card title='Buscar' className='col-md-9 col-sm-12 with-shadow'>
-          <div className='elem-list'>
-            <Input placeholder='Introduzca el rol' {...register("rol")} style={{ borderRadius: '10px' }} />
-            <ButtonsTooltips
-              onClick={handleSubmit(onSubmit)}
-              className="bg-color-info"
-              tooltipsTitle="Buscar"
-              shape='circle'
-              icon={<SearchOutlined />} />
-            <ButtonsTooltips
-              onClick={() => seleccionarRolEditar(true, {})}
-              className='bg-color-success'
-              tooltipsTitle="Nuevo"
-              shape='circle'
-              icon={<PlusOutlined />} />
+  return <>
+    {
+      !esEdicion ?
+        <>
+          <div className='row justify-content-center'>
+            <Card title='Buscar' className='col-md-9 col-sm-12 with-shadow'>
+              <div className='elem-list'>
+                <Input placeholder='Introduzca el rol'
+                  {...register("rol")}
+                  style={{ borderRadius: '10px' }} />
+                <ButtonsTooltips
+                  onClick={handleSubmit(onSubmit)}
+                  className="bg-color-info"
+                  tooltipsTitle="Buscar"
+                  shape='circle'
+                  icon={<SearchOutlined />} />
+                <ButtonsTooltips
+                  onClick={() => nuevoRol()}
+                  className='bg-color-success'
+                  tooltipsTitle="Nuevo"
+                  shape='circle'
+                  icon={<PlusOutlined />} />
+              </div>
+            </Card>
           </div>
-        </Card>
-      </div>
-      <div className='row justify-content-center'>
-        <Card title="Resultado" className='col-md-9 col-sm-12 with-shadow'>
-          <Table
-            rowKey='id'
-            dataSource={datosPagina.list}
-            columns={[{
-              key: 'nombre',
-              dataIndex: 'nombre',
-              title: 'Nombre',
-              render: (nombre) => {
-                return <strong>{nombre}</strong>
+          <div className='row justify-content-center'>
+            <Card title="Resultado" className='col-md-9 col-sm-12 with-shadow'>
+              <Table
+                rowKey='id'
+                dataSource={list}
+                columns={[{
+                  key: 'nombre',
+                  dataIndex: 'nombre',
+                  title: 'Nombre',
+                  render: (nombre) => {
+                    return <strong>{nombre}</strong>
+                  }
+                }, {
+                  key: 'descripcion',
+                  dataIndex: 'descripcion',
+                  title: 'Descripción',
+                }, {
+                  key: 'actiones',
+                  title: 'Acciones',
+                  render: acciones,
+                },]}
+                pagination={{ pageSize: 5 }}
+                locale={{ emptyText: 'Sin registros' }}
+              />
+            </Card>
+            <ModalDA
+              visible={showModal}
+              title='ATENCIÓN'
+              onClickCancelar={() => modalRolEliminar(false, {})}
+              footer={
+                <BotoneraModalFooterActions
+                  onClickCancelar={() => modalRolEliminar(false, {})}
+                  onClickAceptar={() => eliminarRol(deleted)}
+                  esEliminar
+                />
               }
-            }, {
-              key: 'descripcion',
-              dataIndex: 'descripcion',
-              title: 'Descripción',
-            },]}
-            pagination={{ pageSize: 5 }}
-            locale={{ emptyText: 'Sin registros' }}
-          />
-        </Card>
-      </div>
-    </>
-  )
+            >
+              <p>
+                ¿Desea eliminar el funcionario?
+              </p>
+            </ModalDA>
+          </div>
+        </>
+        :
+        <RolesEditar onClickCancelar={() => {
+          editarRol(false, {})
+          reset()
+        }} />
+    }
+  </>
 }
 
-export default Roles
+export default withPageActions(Roles)(pageData)

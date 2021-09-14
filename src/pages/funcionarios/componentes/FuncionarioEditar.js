@@ -45,10 +45,7 @@ const UsuarioEditar = ({ onClickCancelar }) => {
 
   const openNotification = (type, descripcion) => {
     notification[type]({
-      description: descripcion,
-      onClick: () => {
-        console.log('Notification Clicked!');
-      },
+      description: descripcion
     });
   };
 
