@@ -1,10 +1,10 @@
 import { peticion } from ".";
 import { server } from "../constantes/index";
-const servicio = "permisos";
+const servicio = "usuarios_roles";
 
-const permisoListar = async (token) => {
+const obtenerRolesDelUsuario = async (token, usuario_id) => {
   try {
-    const url = `${server}/${servicio}/listar`;
+    const url = `${server}/${servicio}/obtenerRolesDelUsuario/${usuario_id}`;
     const config = {
       method: "GET",
       url,
@@ -17,6 +17,4 @@ const permisoListar = async (token) => {
   } catch (error) { }
 };
 
-export {
-  permisoListar
-}
+export { obtenerRolesDelUsuario }

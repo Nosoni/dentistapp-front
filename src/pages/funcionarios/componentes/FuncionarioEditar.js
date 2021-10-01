@@ -8,10 +8,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { funcionarioCrear, funcionarioEditar } from '../../../services/funcionarios';
 import { updateUsuarioData } from '../../../redux/usuario-data/actions';
 import "./index.css"
+import moment from 'moment';
 
 const UsuarioEditar = ({ onClickCancelar }) => {
   const dispatch = useDispatch();
   const { selected } = useSelector((state) => state.pageData);
+  selected.fecha_ingreso = !!selected.fecha_ingreso && moment.utc(selected.fecha_ingreso)
   const token = useSelector((state) => state.usuarioData.token);
   const [tiposDocumentos, setTiposDocumentos] = useState([])
   const existe = !!selected?.id

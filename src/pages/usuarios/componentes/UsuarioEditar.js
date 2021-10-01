@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react'
-import { Input, Button, Select, notification, Card } from 'antd';
+import { Input, Button, Select, notification, Card, Row, Col } from 'antd';
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { funcionarioListar } from '../../../services/funcionarios';
-import { useDispatch, useSelector } from 'react-redux';
 import { usuarioCrear, usuarioEditar } from '../../../services/usuarios';
-import { updateUsuarioData } from '../../../redux/usuario-data/actions';
+import { rolListar } from '../../../services/roles';
+import { obtenerRolesDelUsuario } from '../../../services/usuarios_roles';
+import withPageActions from '../../HOC/withPageActions';
+import ListaTransferir from '../../components/ListaTransferir';
 
-const UsuarioEditar = ({ onClickCancelar }) => {
-  const dispatch = useDispatch();
-  const { selected } = useSelector((state) => state.pageData);
-  const token = useSelector((state) => state.usuarioData.token);
+const UsuarioEditar = (props) => {
+  const { onClickCancelar, validarPeticion } = props
+  const { token } = props.usuarioData;
+  const { selected } = props.pageData;
   const [funcionarios, setFuncionarios] = useState([])
+  const [dataSource, setDataSource] = useState([])
+  const [listado, setlistado] = useState([])
   const existe = !!selected?.id
   let titulo = "Editar usuario"
   const shape = {
@@ -30,6 +34,11 @@ const UsuarioEditar = ({ onClickCancelar }) => {
   });
 
   useEffect(() => {
+    listarFuncionarios()
+    transferListDatasource()
+  }, [])
+
+  useEffect(() => {
     if (errors) {
       Object.entries(errors).forEach(([key, value]) => {
         openNotification("error", value.message)
@@ -37,30 +46,14 @@ const UsuarioEditar = ({ onClickCancelar }) => {
     }
   }, [errors])
 
-  useEffect(() => {
-    listarFuncionarios()
-  }, [])
-
   const openNotification = (type, descripcion) => {
     notification[type]({
       description: descripcion
     });
   };
 
-  const validarPeticion = (respuesta, next) => {
-    if (respuesta.error) {
-      openNotification("error", respuesta.mensaje)
-      if (respuesta.autenticado === false) {
-        dispatch(updateUsuarioData({ authenticated: false }));
-      }
-    } else {
-      next(respuesta)
-    }
-  }
-
   const listarFuncionarios = async () => {
-    const respuesta = await funcionarioListar(token)
-    validarPeticion(respuesta, actualizarListUsuario)
+    validarPeticion(funcionarioListar(token), actualizarListUsuario)
   }
 
   const actualizarListUsuario = (respuesta) => {
@@ -74,15 +67,39 @@ const UsuarioEditar = ({ onClickCancelar }) => {
   }
 
   const onSubmit = async usuario => {
-    let respuesta;
     if (existe)
-      respuesta = await usuarioEditar(token, usuario)
+      validarPeticion(usuarioEditar(token, usuario))
     else
-      respuesta = await usuarioCrear(token, usuario)
+      validarPeticion(usuarioCrear(token, usuario))
+  }
 
-    validarPeticion(respuesta, (respuesta) => {
-      openNotification((respuesta.error ? "error" : "success"), respuesta.mensaje)
+  const transferListDatasource = async () => {
+    validarPeticion(rolListar(token), rolesTodos)
+    validarPeticion(obtenerRolesDelUsuario(token, selected.id), rolesTiene)
+  }
+
+  const rolesTodos = (respuesta) => {
+    const format = respuesta.datos.map(row => {
+      return {
+        key: row.id,
+        title: row.nombre,
+        description: row.descripcion,
+      }
     })
+    console.log("todos", format)
+    setDataSource(format)
+  }
+
+  const rolesTiene = (respuesta) => {
+    const format = respuesta.datos.map(row => {
+      return row.id
+    })
+    console.log("tiene", format)
+    setlistado(format)
+  }
+
+  const actualizar = (datos) => {
+    setlistado(datos)
   }
 
   // de muestra
@@ -97,55 +114,66 @@ const UsuarioEditar = ({ onClickCancelar }) => {
 
   return (
     <div className='row justify-content-center'>
-      <Card title={titulo} className='col-md-6 col-sm-9 with-shadow'>
-        <Controller
-          name="usuario"
-          control={control}
-          render={({ field }) => <div className="mb-2">
-            <label className="ant-form-item-label">Usuario: </label>
-            <Input
-              {...field}
-              disabled={existe}
+      <Card title={titulo} className='col-md-9 col-sm-6 with-shadow'>
+        <Row>
+          <Col className='col-4 col-md-4'>
+            <Controller
+              name="usuario"
+              control={control}
+              render={({ field }) => <div className="mb-2">
+                <label className="ant-form-item-label">Usuario: </label>
+                <Input
+                  {...field}
+                  disabled={existe}
+                />
+              </div>
+              }
             />
-          </div>
-          }
-        />
-        <Controller
-          name="funcionario_id"
-          control={control}
-          render={({ field }) => <div className="mb-2">
-            <label className="ant-form-item-label">Funcionario: </label>
-            <Select
-              {...field}
-              options={funcionarios}
+            <Controller
+              name="funcionario_id"
+              control={control}
+              render={({ field }) => <div className="mb-2">
+                <label className="ant-form-item-label">Funcionario: </label>
+                <Select
+                  {...field}
+                  options={funcionarios}
+                />
+              </div>
+              }
             />
-          </div>
-          }
-        />
-        <Controller
-          name="password"
-          control={control}
-          render={({ field }) => <div className="mb-2">
-            <label className="ant-form-item-label">Contraseña: </label>
-            <Input
-              {...field}
-              type="password"
+            <Controller
+              name="password"
+              control={control}
+              render={({ field }) => <div className="mb-2">
+                <label className="ant-form-item-label">Contraseña: </label>
+                <Input
+                  {...field}
+                  type="password"
+                />
+              </div>
+              }
             />
-          </div>
-          }
-        />
-        <Controller
-          name="confirmar"
-          control={control}
-          render={({ field }) => <div className="mb-2">
-            <label className="ant-form-item-label">Confirmar contraseña: </label>
-            <Input
-              {...field}
-              type="password"
+            <Controller
+              name="confirmar"
+              control={control}
+              render={({ field }) => <div className="mb-2">
+                <label className="ant-form-item-label">Confirmar contraseña: </label>
+                <Input
+                  {...field}
+                  type="password"
+                />
+              </div>
+              }
             />
-          </div>
-          }
-        />
+          </Col>
+          <Col className='col-8 col-md-8'>
+            <ListaTransferir
+              title="Roles"
+              dataSource={dataSource}
+              listado={listado}
+              handleChange={actualizar} />
+          </Col>
+        </Row>
         <div className='mt-4 modal-footer d-flex justify-content-between'>
           <Button className='bg-color-info' onClick={onClickCancelar}>
             Volver
@@ -159,4 +187,4 @@ const UsuarioEditar = ({ onClickCancelar }) => {
   )
 }
 
-export default UsuarioEditar
+export default withPageActions(UsuarioEditar)(null)

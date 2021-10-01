@@ -16,7 +16,7 @@ const menues = [
     sub: [{
       title: "Funcionarios",
       routing: "funcionarios",
-      permiso: ""
+      permiso: permisos.VER_MENU_FUNCIONARIO
     }]
   },
   {
@@ -25,7 +25,7 @@ const menues = [
     sub: [{
       title: "Roles",
       routing: "roles",
-      permiso: ""
+      permiso: permisos.VER_MENU_ROL
     }]
   },
   {

@@ -8,12 +8,14 @@ import { rolCrear, rolEditar } from '../../../services/roles';
 import BotoneraFooterActions from '../../components/BotoneraFooterActions';
 import ListaTransferir from '../../components/ListaTransferir';
 import { permisoListar } from '../../../services/permisos';
-import { permisosRolesFiltrar } from '../../../services/roles_permisos';
+import { obtenerPermisosDelRol } from '../../../services/roles_permisos';
 
 const RolesEditar = (props) => {
   const { onClickCancelar, validarPeticion } = props
   const { token } = props.usuarioData;
   const { selected } = props.pageData;
+  const [dataSource, setDataSource] = useState([])
+  const [listado, setlistado] = useState([])
   const existe = !!selected?.id
   let titulo = "Editar rol"
   const shape = {
@@ -27,6 +29,10 @@ const RolesEditar = (props) => {
     defaultValues: selected,
     resolver: yupResolver(schema)
   });
+
+  useEffect(() => {
+    transferListDatasource()
+  }, [])
 
   useEffect(() => {
     if (errors) {
@@ -49,34 +55,9 @@ const RolesEditar = (props) => {
       validarPeticion(rolCrear(token, rol), () => { }, true)
   }
 
-  const [dataSource, setDataSource] = useState([])
-  const [listado, setlistado] = useState([])
-
-  console.log("todos", dataSource)
-  console.log("rolTiene", listado)
-
-  useEffect(() => {
-    buscarPermisos()
-    buscarRolesPermisos()
-  }, [])
-
-  const prepararListado = async () => {
-    const todos = await permisoListar(token)
-    validarPeticion(todos, () => { })
-    const tiene = await permisosRolesFiltrar(token, selected.id)
-    validarPeticion(tiene, () => { })
-
-    const filtrado = todos.datos.map(row => {
-      return {
-        key: row.id,
-        title: row.descripcion,
-        chosen: tiene.datos.find(permiso => permiso.id === row.id)
-      }
-    })
-  }
-
-  const buscarPermisos = async () => {
+  const transferListDatasource = async () => {
     validarPeticion(permisoListar(token), permisosTodos)
+    validarPeticion(obtenerPermisosDelRol(token, selected.id), permisosTiene)
   }
 
   const permisosTodos = (respuesta) => {
@@ -87,10 +68,6 @@ const RolesEditar = (props) => {
       }
     })
     setDataSource(format)
-  }
-
-  const buscarRolesPermisos = async () => {
-    validarPeticion(permisosRolesFiltrar(token, selected.id), permisosTiene)
   }
 
   const permisosTiene = (respuesta) => {
@@ -129,7 +106,11 @@ const RolesEditar = (props) => {
           </div>
           }
         />
-        <ListaTransferir dataSource={dataSource} listado={listado} handleChange={actualizar} />
+        <ListaTransferir
+          title="Permisos"
+          dataSource={dataSource}
+          listado={listado}
+          handleChange={actualizar} />
         <div className="mt-4">
           <BotoneraFooterActions
             onClickCancelar={onClickCancelar}

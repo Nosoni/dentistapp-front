@@ -25,23 +25,23 @@ const ItemWithSub = ({ location, title, layout, sub, opened, onClick, urlBase })
 
   const itemSub = sub.map((item, i) => {
     const tienePermiso = permisosUsuario.find((permiso) => permiso.nombre === item.permiso)
-    //if (!!tienePermiso) {
-    return (
-      <li className={subItemClass(item.routing)} key={i}>
-        <NavLink
-          to={`/${urlBase}/${item.routing}`}
-          className='item-link'
-          activeClassName='active'
-          replace
-          onClick={() => history.push(`/${urlBase}/${item.routing}`)}
-        >
-          <span className='link-text'>{item.title}</span>
-        </NavLink>
-      </li>
-    )
-    //} else {
-    // return null
-    //}
+    if (!!tienePermiso) {
+      return (
+        <li className={subItemClass(item.routing)} key={i}>
+          <NavLink
+            to={`/${urlBase}/${item.routing}`}
+            className='item-link'
+            activeClassName='active'
+            replace
+            onClick={() => history.push(`/${urlBase}/${item.routing}`)}
+          >
+            <span className='link-text'>{item.title}</span>
+          </NavLink>
+        </li>
+      )
+    } else {
+      return null
+    }
   });
 
   const handleOnClick = () => {

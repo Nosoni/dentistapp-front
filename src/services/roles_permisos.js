@@ -17,9 +17,9 @@ const rolesPermisosFiltrar = async (token, rol_id) => {
   } catch (error) { }
 };
 
-const permisosRolesFiltrar = async (token, rol_id) => {
+const obtenerPermisosDelRol = async (token, rol_id) => {
   try {
-    const url = `${server}/${servicio}/obtenerPermisosRol/${rol_id}`;
+    const url = `${server}/${servicio}/obtenerPermisosDelRol/${rol_id}`;
     const config = {
       method: "GET",
       url,
@@ -32,4 +32,4 @@ const permisosRolesFiltrar = async (token, rol_id) => {
   } catch (error) { }
 };
 
-export { rolesPermisosFiltrar, permisosRolesFiltrar }
+export { rolesPermisosFiltrar, obtenerPermisosDelRol }

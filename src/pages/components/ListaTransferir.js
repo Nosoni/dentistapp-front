@@ -1,13 +1,12 @@
 import React from 'react'
 import { Transfer } from 'antd';
 
-const ListaTransferir = ({ dataSource, listado, handleChange }) => {
+const ListaTransferir = ({ title, dataSource, listado, handleChange }) => {
 
-  //tener cuidado con option
   const filtrarOpcion = (inputValue, option) => option.title.indexOf(inputValue) > -1;
 
-  return (
-    dataSource.length > 0 &&
+  return <div>
+    <label className="ant-form-item-label">{title}</label>
     <Transfer
       dataSource={dataSource}
       showSearch
@@ -20,12 +19,12 @@ const ListaTransferir = ({ dataSource, listado, handleChange }) => {
         searchPlaceholder: 'Buscar'
       }}
       listStyle={{
-        width: 550,
+        width: 500,
         height: 300,
       }}
       titles={['Para asignar', 'Asignados']}
     />
-  )
+  </div>
 }
 
 export default ListaTransferir
