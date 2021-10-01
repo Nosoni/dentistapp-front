@@ -3,6 +3,7 @@ import { notification } from 'antd';
 import { setPageData, updatePageDada } from '../../redux/page-data/actions';
 import { updateUsuarioData } from '../../redux/usuario-data/actions';
 import { connect } from 'react-redux'
+import { trackPromise} from 'react-promise-tracker';
 
 const withPageActions = (Component) => {
   function selectors(state) {
@@ -28,7 +29,8 @@ const withPageActions = (Component) => {
         });
       };
 
-      validarPeticion = (respuesta, next, notificar) => {
+      validarPeticion = async (event, next, notificar) => {
+        const respuesta = await trackPromise(event)
         if (respuesta.error) {
           this.openNotification("error", respuesta.mensaje)
           if (respuesta.autenticado === false) {

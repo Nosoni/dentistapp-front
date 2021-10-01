@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import BaseLayout from '../base/Base';
 import Logo from '../components/logo/Logo';
 import Menu from '../components/menu/MenuDA';
@@ -9,9 +9,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toggleSidebar } from '../../redux/settings/actions';
 import { menues } from '../../constantes/menu';
 import { useHistory } from 'react-router-dom'
+import { usePromiseTracker } from "react-promise-tracker";
+import { Spin } from 'antd';
 import './Main.scss';
 
 const MainLayout = ({ children }) => {
+  const { promiseInProgress } = usePromiseTracker();
   const dispatch = useDispatch();
   const history = useHistory();
   const menuData = menues;
@@ -75,7 +78,9 @@ const MainLayout = ({ children }) => {
   return (
     <>
       <BaseLayout orientation={settings.layout} nav={nav} topNav={additionalNav}>
-        {children}
+        <Spin spinning={promiseInProgress}>
+          {children}
+        </Spin>
       </BaseLayout>
     </>
   );

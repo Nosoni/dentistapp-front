@@ -7,10 +7,12 @@ import { useDispatch } from 'react-redux';
 import { setUsuarioData } from '../../redux/usuario-data/actions';
 import { autenticar } from '../../services/autenticar';
 import { useHistory } from 'react-router-dom'
+import withPageActions from '../HOC/withPageActions';
 
 const { Item } = Form;
 
-const Login = () => {
+const Login = (props) => {
+  const { validarPeticion } = props
   const dispatch = useDispatch();
   const history = useHistory();
   const [form] = useForm();
@@ -24,15 +26,13 @@ const Login = () => {
   const handleOnClickLogin = async () => {
     try {
       const datosForm = await form.validateFields();
-      const autenticacion = await autenticar(datosForm);
-      if (!autenticacion.error) {
-        dispatch(setUsuarioData(autenticacion.datos))
-        openNotification("success", autenticacion.mensaje)
-        history.push("/inicio/dashboard")
-      }
-      else {
-        openNotification("error", autenticacion.mensaje)
-      }
+      //const autenticacion = await autenticar(datosForm);
+      validarPeticion(autenticar(datosForm),
+        (autenticacion) => {
+          dispatch(setUsuarioData(autenticacion.datos))
+          history.push("/inicio/dashboard")
+        },
+        true)
     } catch (error) {
       openNotification("error", "No es posible conectar con el servidor.")
     }
@@ -68,4 +68,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default withPageActions(Login)(null)

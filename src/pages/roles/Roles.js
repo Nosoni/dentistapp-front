@@ -36,13 +36,11 @@ const Roles = (props) => {
   }
 
   const listarRol = async () => {
-    const respuesta = await rolListar(token)
-    validarPeticion(respuesta, (respuesta) => actualizarEstadoPagina({ list: respuesta.datos }))
+    validarPeticion(rolListar(token), (respuesta) => actualizarEstadoPagina({ list: respuesta.datos }))
   }
 
   const filtrarRol = async (filtro) => {
-    const respuesta = await rolFiltrar(token, filtro.rol)
-    validarPeticion(respuesta, (respuesta) => actualizarEstadoPagina({ list: respuesta.datos }))
+    validarPeticion(rolFiltrar(token, filtro.rol), (respuesta) => actualizarEstadoPagina({ list: respuesta.datos }))
   }
 
   const nuevoRol = () => {
@@ -61,8 +59,7 @@ const Roles = (props) => {
   };
 
   const eliminarRol = async (rol) => {
-    const respuesta = await rolEliminar(token, rol.id)
-    validarPeticion(respuesta, () => modalRolEliminar(false, {}), true)
+    validarPeticion(rolEliminar(token, rol.id), () => modalRolEliminar(false, {}), true)
   }
 
   const onSubmit = (filtro) => {
