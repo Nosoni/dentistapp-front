@@ -100,10 +100,10 @@ const PacientesEditar = (props) => {
             }
           />
           <Controller
-            name="descripcion"
+            name="apellido"
             control={control}
             render={({ field }) => <div className="mb-2 col-md-4">
-              <label className="ant-form-item-label">Descripción: </label>
+              <label className="ant-form-item-label">Apellido: </label>
               <Input
                 {...field}
               />

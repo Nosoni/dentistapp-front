@@ -68,14 +68,16 @@ const UsuarioEditar = (props) => {
 
   const onSubmit = async usuario => {
     if (existe)
-      validarPeticion(usuarioEditar(token, usuario))
+      validarPeticion(usuarioEditar(token, usuario), () => { }, true)
     else
-      validarPeticion(usuarioCrear(token, usuario))
+      validarPeticion(usuarioCrear(token, usuario), () => { }, true)
   }
 
   const transferListDatasource = async () => {
     validarPeticion(rolListar(token), rolesTodos)
-    validarPeticion(obtenerRolesDelUsuario(token, selected.id), rolesTiene)
+    if (existe) {
+      validarPeticion(obtenerRolesDelUsuario(token, selected.id), rolesTiene)
+    }
   }
 
   const rolesTodos = (respuesta) => {
