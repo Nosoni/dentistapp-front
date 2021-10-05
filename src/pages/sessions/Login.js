@@ -24,18 +24,14 @@ const Login = (props) => {
   };
 
   const handleOnClickLogin = async () => {
-    try {
-      const datosForm = await form.validateFields();
-      //const autenticacion = await autenticar(datosForm);
-      validarPeticion(autenticar(datosForm),
-        (autenticacion) => {
-          dispatch(setUsuarioData(autenticacion.datos))
-          history.push("/inicio/dashboard")
-        },
-        true)
-    } catch (error) {
-      openNotification("error", "No es posible conectar con el servidor.")
-    }
+    const datosForm = await form.validateFields();
+    //const autenticacion = await autenticar(datosForm);
+    validarPeticion(autenticar(datosForm),
+      (autenticacion) => {
+        dispatch(setUsuarioData(autenticacion.datos))
+        history.push("/inicio/dashboard")
+      },
+      true)
   };
 
   return (

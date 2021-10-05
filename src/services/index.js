@@ -9,10 +9,18 @@ const peticion = async (configuracion) => {
       datos: respuesta.data.datos,
     }
   } catch (error) {
-    return {
-      error: true,
-      mensaje: error.response.data.mensaje,
-      autenticado: error.response.data.authenticated
+    if (error.response) {
+      return {
+        error: true,
+        mensaje: error.response.data.mensaje,
+        autenticado: error.response.data.authenticated
+      }
+    } else {
+      return {
+        error: true,
+        mensaje: "No es posible conectar con el servidor.",
+        autenticado: false
+      }
     }
   }
 }

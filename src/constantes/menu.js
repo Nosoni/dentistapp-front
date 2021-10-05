@@ -1,6 +1,7 @@
 import { permisos } from "./index"
 
 const menues = [
+  //#region administracion
   {
     layout: "administracion",
     title: "Administración",
@@ -8,9 +9,15 @@ const menues = [
       title: "Usuarios",
       routing: "usuarios",
       permiso: permisos.VER_MENU_USUARIO
+    }, {
+      title: "Pacientes",
+      routing: "pacientes",
+      permiso: permisos.VER_MENU_PACIENTE
     }]
-  },
-  {
+  }
+  //#endregion administracion
+  //#region rrhh
+  , {
     layout: "rrhh",
     title: "Recursos Humanos",
     sub: [{
@@ -18,8 +25,10 @@ const menues = [
       routing: "funcionarios",
       permiso: permisos.VER_MENU_FUNCIONARIO
     }]
-  },
-  {
+  }
+  //#endregion rrhh
+  //#region configuracion
+  , {
     layout: "configuracion",
     title: "Configuración",
     sub: [{
@@ -27,8 +36,10 @@ const menues = [
       routing: "roles",
       permiso: permisos.VER_MENU_ROL
     }]
-  },
-  {
+  }
+  //#endregion configuracion
+  //#region insumos
+  , {
     layout: "stock",
     title: "Stock",
     sub: [{
@@ -36,8 +47,10 @@ const menues = [
       routing: "insumos",
       permiso: ""
     }]
-  },
-  {
+  }
+  //#endregion insumos
+  //#region facturacion
+  , {
     layout: "facturacion",
     title: "Facturación",
     sub: [{
@@ -45,12 +58,15 @@ const menues = [
       routing: "presupuestos",
       permiso: ""
     }]
-  },
-  {
+  }
+  //#endregion facturacion
+  //#region reportes
+  , {
     layout: "reportes",
     title: "Reportes",
     permiso: ""
   }
+  //#endregion reportes
 ]
 
 export { menues }

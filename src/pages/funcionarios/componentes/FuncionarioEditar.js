@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Input, Button, Select, notification, Card, DatePicker } from 'antd';
+import { Input, Button, Select, notification, Card } from 'antd';
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -7,8 +7,8 @@ import { tiposDocumentosListar } from '../../../services/tipos_documentos';
 import { useDispatch, useSelector } from 'react-redux';
 import { funcionarioCrear, funcionarioEditar } from '../../../services/funcionarios';
 import { updateUsuarioData } from '../../../redux/usuario-data/actions';
-import "./index.css"
 import moment from 'moment';
+import DateTimePicker from '../../components/DateTimePicker';
 
 const UsuarioEditar = ({ onClickCancelar }) => {
   const dispatch = useDispatch();
@@ -64,10 +64,10 @@ const UsuarioEditar = ({ onClickCancelar }) => {
 
   const listarTiposDocumentos = async () => {
     const respuesta = await tiposDocumentosListar(token)
-    validarPeticion(respuesta, (respuesta) => setListTiposDocumentos(respuesta.datos))
+    validarPeticion(respuesta, (respuesta) => formatListTiposDocumentos(respuesta.datos))
   }
 
-  const setListTiposDocumentos = (datos) => {
+  const formatListTiposDocumentos = (datos) => {
     const list = datos.map(tipo_documento => {
       return {
         value: tipo_documento.id,
@@ -122,9 +122,7 @@ const UsuarioEditar = ({ onClickCancelar }) => {
             control={control}
             render={({ field }) => <div className="mb-2 col-md-4">
               <label className="ant-form-item-label">Fecha de ingreso: </label>
-              <DatePicker
-                placeholder="Seleccione la fecha"
-                format="DD/MM/YYYY"
+              <DateTimePicker
                 {...field}
               />
             </div>

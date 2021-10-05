@@ -1,5 +1,6 @@
 import DashboardPage from "../pages/dashboards/dashboardDA/DashboardDA";
 import Funcionarios from "../pages/funcionarios/Funcionarios";
+import Pacientes from "../pages/pacientes/Pacientes";
 import Roles from "../pages/roles/Roles";
 import NotFound from "../pages/sessions/404";
 import Login from "../pages/sessions/Login";
@@ -28,6 +29,11 @@ const rutasPrivadas = [
     layout: "administracion",
     path: 'usuarios',
     component: Usuarios
+  },
+  {
+    layout: "administracion",
+    path: 'pacientes',
+    component: Pacientes
   },
   {
     layout: "rrhh",

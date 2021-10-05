@@ -86,7 +86,6 @@ const UsuarioEditar = (props) => {
         description: row.descripcion,
       }
     })
-    console.log("todos", format)
     setDataSource(format)
   }
 
@@ -94,7 +93,6 @@ const UsuarioEditar = (props) => {
     const format = respuesta.datos.map(row => {
       return row.id
     })
-    console.log("tiene", format)
     setlistado(format)
   }
 

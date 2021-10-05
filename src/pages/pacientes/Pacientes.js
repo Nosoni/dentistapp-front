@@ -6,21 +6,21 @@ import {
   PlusOutlined
 } from '@ant-design/icons';
 import ButtonsTooltips from '../components/ButtonsTooltips';
-import { rolEliminar, rolFiltrar, rolListar } from '../../services/roles';
+import { pacienteEliminar, pacienteFiltrar, pacienteListar } from '../../services/pacientes';
 import withPageActions from '../HOC/withPageActions';
-import RolesEditar from './componentes/RolesEditar';
+import PacientesEditar from './componentes/PacientesEditar';
 import BotoneraTableAcciones from '../components/BotoneraTableAcciones';
 import BotoneraModalFooterActions from '../components/BotoneraFooterActions';
 import ModalDA from '../components/Modal';
 
 const pageData = {
-  title: "Roles",
+  title: "Pacientes",
   list: [],
   selected: {},
   deleted: {}
 };
 
-const Roles = (props) => {
+const Pacientes = (props) => {
   const { register, handleSubmit, reset } = useForm();
   const { validarPeticion, actualizarEstadoPagina } = props
   const { token } = props.usuarioData;
@@ -28,46 +28,48 @@ const Roles = (props) => {
   const [esEdicion, setEsEdicion] = useState(false)
   const [showModal, setShowModal] = useState(false)
 
-  const acciones = (rol) => {
+  const acciones = (paciente) => {
     return <BotoneraTableAcciones
-      onClickEditar={() => editarRol(true, rol)}
-      onClickEliminar={() => modalRolEliminar(true, rol)}
+      onClickEditar={() => editarPaciente(true, paciente)}
+      onClickEliminar={() => modalPacienteEliminar(true, paciente)}
     />
   }
 
-  const listarRol = async () => {
-    validarPeticion(rolListar(token), (respuesta) => actualizarEstadoPagina({ list: respuesta.datos }))
+  const listarPaciente = async () => {
+    validarPeticion(pacienteListar(token), (respuesta) => {
+      actualizarEstadoPagina({ list: respuesta.datos })
+    })
   }
 
-  const filtrarRol = async (filtro) => {
-    validarPeticion(rolFiltrar(token, filtro.rol), (respuesta) => actualizarEstadoPagina({ list: respuesta.datos }))
+  const filtrarPaciente = async (filtro) => {
+    validarPeticion(pacienteFiltrar(token, filtro.paciente), (respuesta) => actualizarEstadoPagina({ list: respuesta.datos }))
   }
 
-  const nuevoRol = () => {
+  const nuevoPaciente = () => {
     setEsEdicion(true)
     actualizarEstadoPagina({ selected: {}, deleted: {} })
   }
 
-  const editarRol = (edicion, rol) => {
+  const editarPaciente = (edicion, paciente) => {
     setEsEdicion(edicion)
-    actualizarEstadoPagina({ selected: rol, deleted: {} })
+    actualizarEstadoPagina({ selected: paciente, deleted: {} })
   }
 
-  const modalRolEliminar = (mostrar, rol) => {
+  const modalPacienteEliminar = (mostrar, paciente) => {
     setShowModal(mostrar)
-    actualizarEstadoPagina({ selected: {}, deleted: rol });
+    actualizarEstadoPagina({ selected: {}, deleted: paciente });
   };
 
-  const eliminarRol = async (rol) => {
-    await validarPeticion(rolEliminar(token, rol.id), () => modalRolEliminar(false, {}), true)
+  const eliminarPaciente = async (paciente) => {
+    await validarPeticion(pacienteEliminar(token, paciente.id), () => modalPacienteEliminar(false, {}), true)
     handleSubmit(onSubmit)()
   }
 
   const onSubmit = (filtro) => {
-    if (!filtro.rol) {
-      listarRol()
+    if (!filtro.paciente) {
+      listarPaciente()
     } else {
-      filtrarRol(filtro)
+      filtrarPaciente(filtro)
     }
   };
 
@@ -78,8 +80,8 @@ const Roles = (props) => {
           <div className='row justify-content-center'>
             <Card title='Buscar' className='col-md-9 col-sm-12 with-shadow'>
               <div className='elem-list'>
-                <Input placeholder='Introduzca el rol'
-                  {...register("rol")}
+                <Input placeholder='Introduzca información del paciente'
+                  {...register("paciente")}
                   style={{ borderRadius: '10px' }} />
                 <ButtonsTooltips
                   onClick={handleSubmit(onSubmit)}
@@ -88,7 +90,7 @@ const Roles = (props) => {
                   shape='circle'
                   icon={<SearchOutlined />} />
                 <ButtonsTooltips
-                  onClick={() => nuevoRol()}
+                  onClick={() => nuevoPaciente()}
                   className='bg-color-success'
                   tooltipsTitle="Nuevo"
                   shape='circle'
@@ -102,16 +104,17 @@ const Roles = (props) => {
                 rowKey='id'
                 dataSource={list}
                 columns={[{
-                  key: 'nombre',
-                  dataIndex: 'nombre',
-                  title: 'Nombre',
-                  render: (nombre) => {
-                    return <strong>{nombre}</strong>
-                  }
+                  key: 'documento',
+                  dataIndex: 'documento',
+                  title: 'Documento',
                 }, {
-                  key: 'descripcion',
-                  dataIndex: 'descripcion',
-                  title: 'Descripción',
+                  key: 'nombres',
+                  dataIndex: 'nombres',
+                  title: 'Nombres',
+                }, {
+                  key: 'apellidos',
+                  dataIndex: 'apellidos',
+                  title: 'Apellidos',
                 }, {
                   key: 'actiones',
                   title: 'Acciones',
@@ -124,28 +127,28 @@ const Roles = (props) => {
             <ModalDA
               visible={showModal}
               title='ATENCIÓN'
-              onClickCancelar={() => modalRolEliminar(false, {})}
+              onClickCancelar={() => modalPacienteEliminar(false, {})}
               footer={
                 <BotoneraModalFooterActions
-                  onClickCancelar={() => modalRolEliminar(false, {})}
-                  onClickAceptar={() => eliminarRol(deleted)}
+                  onClickCancelar={() => modalPacienteEliminar(false, {})}
+                  onClickAceptar={() => eliminarPaciente(deleted)}
                   esEliminar
                 />
               }
             >
               <p>
-                ¿Desea eliminar el rol?
+                ¿Desea eliminar al paciente?
               </p>
             </ModalDA>
           </div>
         </>
         :
-        <RolesEditar onClickCancelar={() => {
-          editarRol(false, {})
+        <PacientesEditar onClickCancelar={() => {
+          editarPaciente(false, {})
           reset()
         }} />
     }
   </>
 }
 
-export default withPageActions(Roles)(pageData)
+export default withPageActions(Pacientes)(pageData)
