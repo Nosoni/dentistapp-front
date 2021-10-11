@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import withPageActions from '../../HOC/withPageActions'
+import { Card, Input, notification, Select, Tabs } from 'antd';
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Card, Input, notification, Select } from 'antd';
 import { pacienteCrear, pacienteEditar } from '../../../services/pacientes';
-import BotoneraFooterActions from '../../components/BotoneraFooterActions';
-import moment from 'moment';
-import DateTimePicker from '../../components/DateTimePicker';
 import { tiposDocumentosListar } from '../../../services/tipos_documentos';
+import BotoneraFooterActions from '../../components/BotoneraFooterActions';
+import DateTimePicker from '../../components/DateTimePicker';
+import FichaMedica from './FichaMedica';
+import moment from 'moment';
 
 const PacientesEditar = (props) => {
   const { onClickCancelar, validarPeticion } = props
   const { token } = props.usuarioData;
   const { selected } = props.pageData;
+  const { TabPane } = Tabs;
   selected.fecha_nacimiento = !!selected.fecha_nacimiento && moment.utc(selected.fecha_nacimiento)
   const [tiposDocumentos, setTiposDocumentos] = useState([])
   const existe = !!selected?.id
@@ -23,6 +25,7 @@ const PacientesEditar = (props) => {
     tipo_documento_id: yup.string().required("Favor seleccione el tipo documento"),
     nombres: yup.string().required("Favor introduzca el nombre"),
     apellidos: yup.string().required("Favor introduzca el apellido"),
+    email: yup.string().email("Favor introduzca un email válido"),
   }
   if (!existe) {
     titulo = "Crear paciente"
@@ -30,7 +33,7 @@ const PacientesEditar = (props) => {
   const schema = yup.object(shape)
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: selected,
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
   });
 
   useEffect(() => {
@@ -74,75 +77,128 @@ const PacientesEditar = (props) => {
 
   return (
     <div className='row justify-content-center'>
-      <Card title={titulo} className='col-md-6 col-sm-9 with-shadow'>
-        <div className='row'>
-          <Controller
-            name="documento"
-            control={control}
-            render={({ field }) => <div className="mb-2 col-md-4">
-              <label className="ant-form-item-label">Documento: </label>
-              <Input
-                {...field}
-                disabled={existe}
+      <Card title={titulo} className='with-shadow col-md-9'>
+        <Tabs defaultActiveKey={1}>
+          <TabPane tab="Datos básicos" key={1}>
+            <div className='row mb-2'>
+              <Controller
+                name="documento"
+                control={control}
+                render={({ field }) => <div className="col-md-3">
+                  <label className="ant-form-item-label">Documento: </label>
+                  <Input
+                    {...field}
+                    disabled={existe}
+                  />
+                </div>
+                }
+              />
+              <Controller
+                name="nombres"
+                control={control}
+                render={({ field }) => <div className="col-md-4">
+                  <label className="ant-form-item-label">Nombres: </label>
+                  <Input
+                    {...field}
+                  />
+                </div>
+                }
+              />
+              <Controller
+                name="apellidos"
+                control={control}
+                render={({ field }) => <div className="col-md-4">
+                  <label className="ant-form-item-label">Apellidos: </label>
+                  <Input
+                    {...field}
+                  />
+                </div>
+                }
               />
             </div>
-            }
-          />
-          <Controller
-            name="nombre"
-            control={control}
-            render={({ field }) => <div className="mb-2 col-md-4">
-              <label className="ant-form-item-label">Nombre: </label>
-              <Input
-                {...field}
+            <div className='row mb-2'>
+              <Controller
+                name="tipo_documento_id"
+                control={control}
+                render={({ field }) => <div className="col-md-3">
+                  <label className="ant-form-item-label">Tipo documento: </label>
+                  <Select
+                    {...field}
+                    options={tiposDocumentos}
+                  />
+                </div>
+                }
+              />
+              <Controller
+                name="fecha_nacimiento"
+                control={control}
+                render={({ field, ref }) => <div className="col-md-3">
+                  <label className="ant-form-item-label">Fecha de nacimiento: </label>
+                  <DateTimePicker
+                    {...field}
+                    ref={ref}
+                  />
+                </div>
+                }
+              />
+              <Controller
+                name="telefono"
+                control={control}
+                render={({ field }) => <div className="col-md-3">
+                  <label className="ant-form-item-label">Teléfono: </label>
+                  <Input
+                    {...field}
+                  />
+                </div>
+                }
+              />
+              <Controller
+                name="email"
+                control={control}
+                render={({ field }) => <div className="col-md-3">
+                  <label className="ant-form-item-label">Email: </label>
+                  <Input
+                    {...field}
+                  />
+                </div>
+                }
               />
             </div>
-            }
-          />
-          <Controller
-            name="apellido"
-            control={control}
-            render={({ field }) => <div className="mb-2 col-md-4">
-              <label className="ant-form-item-label">Apellido: </label>
-              <Input
-                {...field}
+            <div className='row mb-2'>
+              <Controller
+                name="ciudad"
+                control={control}
+                render={({ field }) => <div className="col-md-4">
+                  <label className="ant-form-item-label">Ciudad: </label>
+                  <Input
+                    {...field}
+                  />
+                </div>
+                }
+              />
+              <Controller
+                name="direccion"
+                control={control}
+                render={({ field }) => <div className="col-md-5">
+                  <label className="ant-form-item-label">Dirección: </label>
+                  <Input
+                    {...field}
+                  />
+                </div>
+                }
               />
             </div>
-            }
-          />
-        </div>
-        <div className='row'>
-
-          <Controller
-            name="tipo_documento_id"
-            control={control}
-            render={({ field }) => <div className="mb-2 col-md-4">
-              <label className="ant-form-item-label">Tipo documento: </label>
-              <Select
-                {...field}
-                options={tiposDocumentos}
+            <div className="mt-4">
+              <BotoneraFooterActions
+                onClickCancelar={onClickCancelar}
+                onClickAceptar={handleSubmit(onSubmit)}
               />
             </div>
-            }
-          />
-          <Controller
-            name="fecha_ingreso"
-            control={control}
-            render={({ field }) => <div className="mb-2 col-md-4">
-              <label className="ant-form-item-label">Fecha de nacimiento: </label>
-              <DateTimePicker
-                {...field}
-              />
-            </div>
-            }
-          />
-        </div>
-        <div className="mt-4">
-          <BotoneraFooterActions
-            onClickCancelar={onClickCancelar}
-            onClickAceptar={handleSubmit(onSubmit)}
-          />
-        </div>
+          </TabPane>
+          <TabPane tab="Ficha médica" key={2}>
+            <FichaMedica ficha={selected.ficha_medica} {...props}/>
+          </TabPane>
+        </Tabs>
       </Card>
     </div>
   )

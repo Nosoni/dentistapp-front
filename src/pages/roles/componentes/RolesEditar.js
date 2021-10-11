@@ -57,7 +57,9 @@ const RolesEditar = (props) => {
 
   const transferListDatasource = async () => {
     validarPeticion(permisoListar(token), permisosTodos)
-    validarPeticion(obtenerPermisosDelRol(token, selected.id), permisosTiene)
+    if (existe) {
+      validarPeticion(obtenerPermisosDelRol(token, selected.id), permisosTiene)
+    }
   }
 
   const permisosTodos = (respuesta) => {

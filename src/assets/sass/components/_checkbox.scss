@@ -65,3 +65,7 @@ $_label-color: (
     }
   }
 }
+
+.ant-checkbox-wrapper + .ant-checkbox-wrapper {
+  margin-left: 0px;
+}
