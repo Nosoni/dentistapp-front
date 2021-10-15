@@ -1,18 +1,14 @@
 //rfce
-import React, { useEffect, useState } from 'react'
-import { Button, Card, Table, Input, notification } from 'antd';
-import Modal from '../components/Modal'
+import React, { useState } from 'react'
+import { Card, Table, Input } from 'antd';
 import { useForm } from "react-hook-form";
-import {
-  SearchOutlined,
-  PlusOutlined
-} from '@ant-design/icons';
 import { usuarioListar, usuarioFiltrar, usuarioEliminar } from '../../services/usuarios';
-import { setPageData, updatePageDada } from '../../redux/page-data/actions'
-import { useDispatch, useSelector } from 'react-redux';
 import UsuarioEditar from './componentes/UsuarioEditar';
-import { updateUsuarioData } from '../../redux/usuario-data/actions';
-import ButtonsTooltips from '../components/ButtonsTooltips';
+import withPageActions from '../HOC/withPageActions';
+import ModalDA from '../components/Modal';
+import BotoneraTableAcciones from '../components/BotoneraTableAcciones';
+import BotoneraModalFooterActions from '../components/BotoneraFooterActions';
+import BuscadorAcciones from '../components/BuscadorAcciones';
 
 const pageData = {
   title: "Usuarios",
@@ -21,83 +17,49 @@ const pageData = {
   deleted: {},
 };
 
-function Usuarios() {
-  const dispatch = useDispatch();
-  const { token } = useSelector((state) => state.usuarioData);
-  const datosPagina = useSelector((state) => state.pageData);
+function Usuarios(props) {
   const { register, handleSubmit, reset } = useForm();
+  const { validarPeticion, actualizarEstadoPagina } = props
+  const { token } = props.usuarioData;
+  const { list, deleted } = props.pageData;
   const [esEdicion, setEsEdicion] = useState(false)
   const [showModal, setShowModal] = useState(false)
 
-  useEffect(() => {
-    dispatch(setPageData(pageData));
-  }, [])
-
-  const openNotification = (type, descripcion) => {
-    notification[type]({
-      description: descripcion
-    });
-  };
-
-  const usuariosAcciones = (usuario) => {
-    return <div className='buttons-list nowrap'>
-      <ButtonsTooltips
-        onClick={() => seleccionarUsuarioEditar(true, usuario)}
-        shape='circle'
-        className="bg-color-info"
-        tooltipsTitle="Editar">
-        <span className='icofont icofont-edit-alt' />
-      </ButtonsTooltips>
-      <ButtonsTooltips
-        onClick={() => seleccionarUsuarioEliminar(true, usuario)}
-        shape='circle'
-        className="bg-color-error"
-        tooltipsTitle="Eliminar">
-        <span className='icofont icofont-ui-delete' />
-      </ButtonsTooltips>
-    </div>
-  };
-
-  const validarPeticion = (seleccion, next) => {
-    if (seleccion.error) {
-      if (seleccion.autenticado === false) {
-        dispatch(updateUsuarioData({ authenticated: false }));
-      }
-    } else {
-      next(seleccion)
-    }
+  const acciones = (usuario) => {
+    return <BotoneraTableAcciones
+      onClickEditar={() => editarUsuario(true, usuario)}
+      onClickEliminar={() => modalUsuarioEliminar(true, usuario)}
+    />
   }
 
-  function actualizarEstadoPagina(objeto) {
-    dispatch(updatePageDada(objeto));
+  const listarUsuario = async () => {
+    validarPeticion(usuarioListar(token), (respuesta) => {
+      actualizarEstadoPagina({ list: respuesta.datos })
+    })
   }
 
-  const seleccionarUsuarioEditar = (edicion, usuario) => {
+  const filtrarUsuario = async (filtro) => {
+    validarPeticion(usuarioFiltrar(token, filtro.usuario), (respuesta) => actualizarEstadoPagina({ list: respuesta.datos }))
+  }
+
+  const nuevoUsuario = () => {
+    setEsEdicion(true)
+    actualizarEstadoPagina({ selected: {}, deleted: {} })
+  }
+
+  const editarUsuario = (edicion, usuario) => {
     setEsEdicion(edicion)
     actualizarEstadoPagina({ selected: usuario, deleted: {} })
   };
 
-  const seleccionarUsuarioEliminar = (mostrar, usuario) => {
+  const modalUsuarioEliminar = (mostrar, usuario) => {
     setShowModal(mostrar)
     actualizarEstadoPagina({ selected: {}, deleted: usuario });
   };
 
-  const filtrarUsuario = async (filtro) => {
-    const respuesta = await usuarioFiltrar(token, filtro.usuario)
-    validarPeticion(respuesta, (seleccion) => actualizarEstadoPagina({ list: seleccion.datos }))
-  }
-
-  const listarUsuario = async () => {
-    const respuesta = await usuarioListar(token)
-    validarPeticion(respuesta, (seleccion) => actualizarEstadoPagina({ list: seleccion.datos }))
-  }
-
   const eliminarUsuario = async (usuario) => {
-    const respuesta = await usuarioEliminar(token, usuario.id)
-    validarPeticion(respuesta, (respuesta) => {
-      seleccionarUsuarioEliminar(false, {})
-      openNotification("success", respuesta.mensaje)
-    })
+    await validarPeticion(usuarioEliminar(token, usuario.id), () => modalUsuarioEliminar(false, {}), true)
+    handleSubmit(onSubmit)()
   }
 
   const onSubmit = (filtro) => {
@@ -108,86 +70,72 @@ function Usuarios() {
     }
   };
 
-  return (
-    <div >
-      {
-        !esEdicion ?
-          <div>
-            <div className='row justify-content-center'>
-              <Card title='Buscar' className='col-md-9 col-sm-12 with-shadow'>
-                <div className='elem-list'>
-                  <Input placeholder='Introduzca el usuario' {...register("usuario")} />
-                  <ButtonsTooltips
-                    onClick={handleSubmit(onSubmit)}
-                    className="bg-color-info"
-                    tooltipsTitle="Buscar"
-                    shape='circle'
-                    icon={<SearchOutlined />} />
-                  <ButtonsTooltips
-                    onClick={() => seleccionarUsuarioEditar(true, {})}
-                    className='bg-color-success'
-                    tooltipsTitle="Nuevo"
-                    shape='circle'
-                    icon={<PlusOutlined />} />
-                </div>
-              </Card>
-            </div>
-            <div className='row justify-content-center'>
-              <Card title="Resultado" className='col-md-9 col-sm-12 with-shadow'>
-                <Table
-                  rowKey='id'
-                  dataSource={datosPagina.list}
-                  columns={[{
-                    key: 'usuario',
-                    dataIndex: 'usuario',
-                    title: 'Usuario',
-                    render: (usuario) => <strong>{usuario}</strong>
-                  }, {
-                    key: 'funcionario',
-                    dataIndex: 'funcionario',
-                    title: 'Funcionario',
-                    render: (funcionario) => {
-                      let nombre = (funcionario?.nombres ? funcionario?.nombres : "") + " " + (funcionario?.apellidos ? funcionario?.apellidos : "");
-                      return <strong>{nombre}</strong>
-                    }
-                  }, {
-                    key: 'actiones',
-                    title: 'Acciones',
-                    render: usuariosAcciones,
-                  },]}
-                  pagination={{ pageSize: 5 }}
-                  locale={{ emptyText: 'Sin registros' }}
-                />
-              </Card>
-              <Modal
-                visible={showModal}
-                title='ATENCIÓN'
-                onClickCancelar={() => seleccionarUsuarioEliminar(false, {})}
-                footer={
-                  <div className='modal-footer d-flex justify-content-between'>
-                    <Button className='bg-color-info' onClick={() => seleccionarUsuarioEliminar(false, {})}>
-                      Cancelar
-                    </Button>
-                    <Button className='bg-color-error' onClick={() => eliminarUsuario(datosPagina.deleted)}>
-                      Aceptar
-                    </Button>
-                  </div>
-                }
-              >
-                <p>
-                  ¿Desea eliminar el usuario?
-                </p>
-              </Modal>
-            </div>
+  return <>
+    {
+      !esEdicion ?
+        <div>
+          <div className='row justify-content-center'>
+            <Card title='Buscar' className='col-md-9 col-sm-12 with-shadow'>
+              <BuscadorAcciones
+                placeholder="Introduzca el usuario"
+                registro={register("usuario")}
+                buscar={handleSubmit(onSubmit)}
+                nuevo={() => nuevoUsuario()}
+              />
+            </Card>
           </div>
-          :
-          <UsuarioEditar onClickCancelar={() => {
-            seleccionarUsuarioEditar(false, {})
-            reset()
-          }} />
-      }
-    </div >
-  )
+          <div className='row justify-content-center'>
+            <Card title="Resultado" className='col-md-9 col-sm-12 with-shadow'>
+              <Table
+                rowKey='id'
+                dataSource={list}
+                columns={[{
+                  key: 'usuario',
+                  dataIndex: 'usuario',
+                  title: 'Usuario',
+                  render: (usuario) => <strong>{usuario}</strong>
+                }, {
+                  key: 'funcionario',
+                  dataIndex: 'funcionario',
+                  title: 'Funcionario',
+                  render: (funcionario) => {
+                    let nombre = (funcionario?.nombres ? funcionario?.nombres : "") + " " + (funcionario?.apellidos ? funcionario?.apellidos : "");
+                    return nombre
+                  }
+                }, {
+                  key: 'actiones',
+                  title: 'Acciones',
+                  render: acciones,
+                },]}
+                pagination={{ pageSize: 5 }}
+                locale={{ emptyText: 'Sin registros' }}
+              />
+            </Card>
+            <ModalDA
+              visible={showModal}
+              title='ATENCIÓN'
+              onClickCancelar={() => modalUsuarioEliminar(false, {})}
+              footer={
+                <BotoneraModalFooterActions
+                  onClickCancelar={() => modalUsuarioEliminar(false, {})}
+                  onClickAceptar={() => eliminarUsuario(deleted)}
+                  esEliminar
+                />
+              }
+            >
+              <p>
+                ¿Desea eliminar el usuario?
+              </p>
+            </ModalDA>
+          </div>
+        </div>
+        :
+        <UsuarioEditar onClickCancelar={() => {
+          editarUsuario(false, {})
+          reset()
+        }} />
+    }
+  </ >
 }
 
-export default Usuarios;
+export default withPageActions(Usuarios)(pageData)

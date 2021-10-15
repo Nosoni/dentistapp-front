@@ -9,15 +9,12 @@ const FichaMedica = ({ ficha, ...props }) => {
     defaultValues: ficha,
   });
   const { token } = props.usuarioData;
-  const { onClickCancelar, validarPeticion } = props
-
+  const { onClickCancelar, validarPeticion, pageData: { selected } } = props
   const onSubmit = async ficha_medica => {
-    console.log(ficha)
-    console.log(ficha_medica)
     if (!!ficha_medica.id)
       validarPeticion(fichaMedicaEditar(token, ficha_medica), () => { }, true)
     else
-      validarPeticion(fichaMedicaCrear(token, ficha_medica), () => { }, true)
+      validarPeticion(fichaMedicaCrear(token, { ficha_medica, paciente_id: selected.id }), () => { }, true)
   }
 
   return (

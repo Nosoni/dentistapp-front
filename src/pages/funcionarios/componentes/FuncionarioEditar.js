@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Input, Button, Select, notification, Card } from 'antd';
+import { Input, Button, Select, notification, Card, DatePicker } from 'antd';
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -7,13 +7,13 @@ import { tiposDocumentosListar } from '../../../services/tipos_documentos';
 import { useDispatch, useSelector } from 'react-redux';
 import { funcionarioCrear, funcionarioEditar } from '../../../services/funcionarios';
 import { updateUsuarioData } from '../../../redux/usuario-data/actions';
-import moment from 'moment';
-import DateTimePicker from '../../components/DateTimePicker';
+import { validarFecha } from '../../../utils/helpers';
+import '../../components/css/datetimepicker.css';
 
 const UsuarioEditar = ({ onClickCancelar }) => {
   const dispatch = useDispatch();
   const { selected } = useSelector((state) => state.pageData);
-  selected.fecha_ingreso = !!selected.fecha_ingreso && moment.utc(selected.fecha_ingreso)
+  selected.fecha_ingreso = validarFecha(selected.fecha_ingreso)
   const token = useSelector((state) => state.usuarioData.token);
   const [tiposDocumentos, setTiposDocumentos] = useState([])
   const existe = !!selected?.id
@@ -122,7 +122,9 @@ const UsuarioEditar = ({ onClickCancelar }) => {
             control={control}
             render={({ field }) => <div className="mb-2 col-md-4">
               <label className="ant-form-item-label">Fecha de ingreso: </label>
-              <DateTimePicker
+              <DatePicker
+                placeholder="Seleccione la fecha"
+                format="DD/MM/YYYY"
                 {...field}
               />
             </div>

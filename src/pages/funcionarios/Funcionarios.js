@@ -98,6 +98,7 @@ function Funcionarios() {
       seleccionarFuncionarioEliminar(false, {})
       openNotification("success", respuesta.mensaje)
     })
+    handleSubmit(onSubmit)()
   }
 
   const onSubmit = (filtro) => {

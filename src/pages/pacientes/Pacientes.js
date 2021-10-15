@@ -1,17 +1,13 @@
 import React, { useState } from 'react'
 import { Card, Table, Input } from 'antd';
 import { useForm } from "react-hook-form";
-import {
-  SearchOutlined,
-  PlusOutlined
-} from '@ant-design/icons';
-import ButtonsTooltips from '../components/ButtonsTooltips';
 import { pacienteEliminar, pacienteFiltrar, pacienteListar } from '../../services/pacientes';
 import withPageActions from '../HOC/withPageActions';
 import PacientesEditar from './componentes/PacientesEditar';
 import BotoneraTableAcciones from '../components/BotoneraTableAcciones';
 import BotoneraModalFooterActions from '../components/BotoneraFooterActions';
 import ModalDA from '../components/Modal';
+import BuscadorAcciones from '../components/BuscadorAcciones';
 
 const pageData = {
   title: "Pacientes",
@@ -79,23 +75,11 @@ const Pacientes = (props) => {
         <>
           <div className='row justify-content-center'>
             <Card title='Buscar' className='col-md-9 col-sm-12 with-shadow'>
-              <div className='elem-list'>
-                <Input placeholder='Introduzca información del paciente'
-                  {...register("paciente")}
-                  style={{ borderRadius: '10px' }} />
-                <ButtonsTooltips
-                  onClick={handleSubmit(onSubmit)}
-                  className="bg-color-info"
-                  tooltipsTitle="Buscar"
-                  shape='circle'
-                  icon={<SearchOutlined />} />
-                <ButtonsTooltips
-                  onClick={() => nuevoPaciente()}
-                  className='bg-color-success'
-                  tooltipsTitle="Nuevo"
-                  shape='circle'
-                  icon={<PlusOutlined />} />
-              </div>
+              <BuscadorAcciones
+                registro={register("paciente")}
+                buscar={handleSubmit(onSubmit)}
+                nuevo={() => nuevoPaciente()}
+              />
             </Card>
           </div>
           <div className='row justify-content-center'>

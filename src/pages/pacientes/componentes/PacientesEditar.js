@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import withPageActions from '../../HOC/withPageActions'
-import { Card, Input, notification, Select, Tabs } from 'antd';
+import { Card, DatePicker, Input, notification, Select, Tabs } from 'antd';
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { pacienteCrear, pacienteEditar } from '../../../services/pacientes';
 import { tiposDocumentosListar } from '../../../services/tipos_documentos';
 import BotoneraFooterActions from '../../components/BotoneraFooterActions';
-import DateTimePicker from '../../components/DateTimePicker';
 import FichaMedica from './FichaMedica';
-import moment from 'moment';
+import { validarFecha } from '../../../utils/helpers';
+import '../../components/css/datetimepicker.css';
 
 const PacientesEditar = (props) => {
   const { onClickCancelar, validarPeticion } = props
   const { token } = props.usuarioData;
   const { selected } = props.pageData;
+  selected.fecha_nacimiento = validarFecha(selected.fecha_nacimiento)
   const { TabPane } = Tabs;
-  selected.fecha_nacimiento = !!selected.fecha_nacimiento && moment.utc(selected.fecha_nacimiento)
   const [tiposDocumentos, setTiposDocumentos] = useState([])
   const existe = !!selected?.id
   let titulo = "Editar paciente"
@@ -25,11 +25,11 @@ const PacientesEditar = (props) => {
     tipo_documento_id: yup.string().required("Favor seleccione el tipo documento"),
     nombres: yup.string().required("Favor introduzca el nombre"),
     apellidos: yup.string().required("Favor introduzca el apellido"),
-    email: yup.string().email("Favor introduzca un email válido"),
   }
   if (!existe) {
     titulo = "Crear paciente"
   }
+
   const schema = yup.object(shape)
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: selected,
@@ -132,11 +132,12 @@ const PacientesEditar = (props) => {
               <Controller
                 name="fecha_nacimiento"
                 control={control}
-                render={({ field, ref }) => <div className="col-md-3">
+                render={({ field }) => <div className="col-md-3">
                   <label className="ant-form-item-label">Fecha de nacimiento: </label>
-                  <DateTimePicker
+                  <DatePicker
+                    placeholder="Seleccione la fecha"
+                    format="DD/MM/YYYY"
                     {...field}
-                    ref={ref}
                   />
                 </div>
                 }
@@ -195,9 +196,12 @@ const PacientesEditar = (props) => {
               />
             </div>
           </TabPane>
-          <TabPane tab="Ficha médica" key={2}>
-            <FichaMedica ficha={selected.ficha_medica} {...props}/>
-          </TabPane>
+          {
+            existe &&
+            <TabPane tab="Ficha médica" key={2}>
+              <FichaMedica ficha={selected.ficha_medica} {...props} />
+            </TabPane>
+          }
         </Tabs>
       </Card>
     </div>
