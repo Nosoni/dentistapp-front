@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button, Form, Input, notification } from 'antd';
-import { LoginOutlined } from '@ant-design/icons/lib';
 import PublicLayout from '../../layout/public/Public';
 import { useForm } from 'antd/es/form/Form';
 import { useDispatch } from 'react-redux';
@@ -25,7 +24,6 @@ const Login = (props) => {
 
   const handleOnClickLogin = async () => {
     const datosForm = await form.validateFields();
-    //const autenticacion = await autenticar(datosForm);
     validarPeticion(autenticar(datosForm),
       (autenticacion) => {
         dispatch(setUsuarioData(autenticacion.datos))

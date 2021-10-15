@@ -7,7 +7,6 @@ import {
 } from '@ant-design/icons';
 
 const BuscadorAcciones = (props) => {
-  console.log(props)
   return (
     <div className='elem-list'>
       <Input placeholder={props.placeholder ? props.placeholder : "Introduzca un valor de búsqueda"}

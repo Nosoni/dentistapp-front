@@ -66,13 +66,6 @@ const UsuarioEditar = (props) => {
     setFuncionarios(list)
   }
 
-  const onSubmit = async usuario => {
-    if (existe)
-      validarPeticion(usuarioEditar(token, usuario), () => { }, true)
-    else
-      validarPeticion(usuarioCrear(token, usuario), () => { }, true)
-  }
-
   const transferListDatasource = async () => {
     validarPeticion(rolListar(token), rolesTodos)
     if (existe) {
@@ -100,6 +93,13 @@ const UsuarioEditar = (props) => {
 
   const actualizar = (datos) => {
     setlistado(datos)
+  }
+
+  const onSubmit = async usuario => {
+    if (existe)
+      validarPeticion(usuarioEditar(token, {...usuario, roles: listado}), () => { }, true)
+    else
+      validarPeticion(usuarioCrear(token, {...usuario, roles: listado}), () => { }, true)
   }
 
   // de muestra
