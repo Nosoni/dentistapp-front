@@ -48,13 +48,6 @@ const RolesEditar = (props) => {
     });
   };
 
-  const onSubmit = async rol => {
-    if (existe)
-      validarPeticion(rolEditar(token, rol), () => { }, true)
-    else
-      validarPeticion(rolCrear(token, rol), () => { }, true)
-  }
-
   const transferListDatasource = async () => {
     validarPeticion(permisoListar(token), permisosTodos)
     if (existe) {
@@ -81,6 +74,13 @@ const RolesEditar = (props) => {
 
   const actualizar = (datos) => {
     setlistado(datos)
+  }
+
+  const onSubmit = async rol => {
+    if (existe)
+      validarPeticion(rolEditar(token, {...rol, permisos: listado}), () => { }, true)
+    else
+      validarPeticion(rolCrear(token, {...rol, permisos: listado}), () => { }, true)
   }
 
   return (
