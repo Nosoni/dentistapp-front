@@ -1,5 +1,5 @@
-import { Button } from 'antd'
 import React from 'react'
+import { Button } from 'antd'
 
 const BotoneraFooterActions = ({ onClickCancelar, onClickAceptar, esEliminar }) => {
   return (
@@ -14,4 +14,4 @@ const BotoneraFooterActions = ({ onClickCancelar, onClickAceptar, esEliminar }) 
   )
 }
 
-export default BotoneraFooterActions
+export default BotoneraFooterActions;

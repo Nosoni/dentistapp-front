@@ -19,9 +19,8 @@ const pageData = {
 
 function Usuarios(props) {
   const { register, handleSubmit, reset } = useForm();
-  const { validarPeticion, actualizarEstadoPagina } = props
-  const { token } = props.usuarioData;
-  const { list, deleted } = props.pageData;
+  const { validarPeticion, actualizarEstadoPagina,
+    usuarioData: { token }, pageData: { list, deleted } } = props
   const [esEdicion, setEsEdicion] = useState(false)
   const [showModal, setShowModal] = useState(false)
 

@@ -22,7 +22,7 @@ const fichaMedicaEditar = async (token, ficha_medica) => {
   try {
     const url = `${server}/${servicio}/editar`;
     const config = {
-      method: "POST",
+      method: "PUT",
       url,
       headers: {
         'Content-Type': 'application/json',

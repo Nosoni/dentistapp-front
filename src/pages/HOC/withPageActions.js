@@ -3,7 +3,7 @@ import { notification } from 'antd';
 import { setPageData, updatePageDada } from '../../redux/page-data/actions';
 import { updateUsuarioData } from '../../redux/usuario-data/actions';
 import { connect } from 'react-redux'
-import { trackPromise} from 'react-promise-tracker';
+import { trackPromise } from 'react-promise-tracker';
 
 const withPageActions = (Component) => {
   function selectors(state) {
@@ -15,7 +15,7 @@ const withPageActions = (Component) => {
   return (pageData) => connect((state) => selectors(state), { setPageData, updatePageDada, updateUsuarioData })
     (class extends React.Component {
       componentWillMount() {
-        if (pageData) {
+        if (pageData && this.props.pageData.title !== pageData.title) {
           this.props.setPageData(pageData)
         }
       }

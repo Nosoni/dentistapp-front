@@ -1,17 +1,13 @@
 import React, { useState } from 'react'
-import { Card, Table, Input } from 'antd';
+import { Card, Table } from 'antd';
 import { useForm } from "react-hook-form";
-import {
-  SearchOutlined,
-  PlusOutlined
-} from '@ant-design/icons';
-import ButtonsTooltips from '../components/ButtonsTooltips';
 import { rolEliminar, rolFiltrar, rolListar } from '../../services/roles';
 import withPageActions from '../HOC/withPageActions';
 import RolesEditar from './componentes/RolesEditar';
 import BotoneraTableAcciones from '../components/BotoneraTableAcciones';
 import BotoneraModalFooterActions from '../components/BotoneraFooterActions';
 import ModalDA from '../components/Modal';
+import BuscadorAcciones from '../components/BuscadorAcciones';
 
 const pageData = {
   title: "Roles",
@@ -22,9 +18,8 @@ const pageData = {
 
 const Roles = (props) => {
   const { register, handleSubmit, reset } = useForm();
-  const { validarPeticion, actualizarEstadoPagina } = props
-  const { token } = props.usuarioData;
-  const { list, deleted } = props.pageData;
+  const { validarPeticion, actualizarEstadoPagina,
+    usuarioData: { token }, pageData: { list, deleted } } = props;
   const [esEdicion, setEsEdicion] = useState(false)
   const [showModal, setShowModal] = useState(false)
 
@@ -77,23 +72,11 @@ const Roles = (props) => {
         <>
           <div className='row justify-content-center'>
             <Card title='Buscar' className='col-md-9 col-sm-12 with-shadow'>
-              <div className='elem-list'>
-                <Input placeholder='Introduzca el rol'
-                  {...register("rol")}
-                  style={{ borderRadius: '10px' }} />
-                <ButtonsTooltips
-                  onClick={handleSubmit(onSubmit)}
-                  className="bg-color-info"
-                  tooltipsTitle="Buscar"
-                  shape='circle'
-                  icon={<SearchOutlined />} />
-                <ButtonsTooltips
-                  onClick={() => nuevoRol()}
-                  className='bg-color-success'
-                  tooltipsTitle="Nuevo"
-                  shape='circle'
-                  icon={<PlusOutlined />} />
-              </div>
+              <BuscadorAcciones
+                registro={register("rol")}
+                buscar={handleSubmit(onSubmit)}
+                nuevo={() => nuevoRol()}
+              />
             </Card>
           </div>
           <div className='row justify-content-center'>
@@ -105,9 +88,7 @@ const Roles = (props) => {
                   key: 'nombre',
                   dataIndex: 'nombre',
                   title: 'Nombre',
-                  render: (nombre) => {
-                    return <strong>{nombre}</strong>
-                  }
+                  render: (nombre) => <strong>{nombre}</strong>
                 }, {
                   key: 'descripcion',
                   dataIndex: 'descripcion',
