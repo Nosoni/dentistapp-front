@@ -10,7 +10,7 @@ import { updateUsuarioData } from '../../../redux/usuario-data/actions';
 import { validarFecha } from '../../../utils/helpers';
 import '../../components/css/datetimepicker.css';
 
-const UsuarioEditar = ({ onClickCancelar }) => {
+const FuncionarioEditar = ({ onClickCancelar }) => {
   const dispatch = useDispatch();
   const { selected } = useSelector((state) => state.pageData);
   selected.fecha_ingreso = validarFecha(selected.fecha_ingreso)
@@ -217,4 +217,5 @@ const UsuarioEditar = ({ onClickCancelar }) => {
   )
 }
 
-export default UsuarioEditar
+export default FuncionarioEditar
+//TODO add hocwithactions

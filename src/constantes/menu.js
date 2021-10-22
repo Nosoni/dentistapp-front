@@ -24,6 +24,10 @@ const menues = [
       title: "Funcionarios",
       routing: "funcionarios",
       permiso: permisos.VER_MENU_FUNCIONARIO
+    }, {
+      title: "Doctores",
+      routing: "doctores",
+      permiso: permisos.VER_MENU_DOCTOR
     }]
   }
   //#endregion rrhh

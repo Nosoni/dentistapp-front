@@ -3,7 +3,7 @@ import { Card, Table } from 'antd';
 import { useForm } from "react-hook-form";
 import { rolEliminar, rolFiltrar, rolListar } from '../../services/roles';
 import withPageActions from '../HOC/withPageActions';
-import RolesEditar from './componentes/RolesEditar';
+import RolEditar from './componentes/RolEditar';
 import BotoneraTableAcciones from '../components/BotoneraTableAcciones';
 import BotoneraModalFooterActions from '../components/BotoneraFooterActions';
 import ModalDA from '../components/Modal';
@@ -121,7 +121,7 @@ const Roles = (props) => {
           </div>
         </>
         :
-        <RolesEditar onClickCancelar={() => {
+        <RolEditar onClickCancelar={() => {
           editarRol(false, {})
           reset()
         }} />

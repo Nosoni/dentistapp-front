@@ -1,6 +1,6 @@
 //rfce
 import React, { useState } from 'react'
-import { Card, Table, Input } from 'antd';
+import { Card, Table } from 'antd';
 import { useForm } from "react-hook-form";
 import { usuarioListar, usuarioFiltrar, usuarioEliminar } from '../../services/usuarios';
 import UsuarioEditar from './componentes/UsuarioEditar';

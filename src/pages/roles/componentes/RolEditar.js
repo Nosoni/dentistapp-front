@@ -10,7 +10,7 @@ import ListaTransferir from '../../components/ListaTransferir';
 import { permisoListar } from '../../../services/permisos';
 import { obtenerPermisosDelRol } from '../../../services/roles_permisos';
 
-const RolesEditar = (props) => {
+const RolEditar = (props) => {
   const { onClickCancelar, validarPeticion } = props
   const { token } = props.usuarioData;
   const { selected } = props.pageData;
@@ -78,9 +78,9 @@ const RolesEditar = (props) => {
 
   const onSubmit = async rol => {
     if (existe)
-      validarPeticion(rolEditar(token, {...rol, permisos: listado}), () => { }, true)
+      validarPeticion(rolEditar(token, { ...rol, permisos: listado }), () => { }, true)
     else
-      validarPeticion(rolCrear(token, {...rol, permisos: listado}), () => { }, true)
+      validarPeticion(rolCrear(token, { ...rol, permisos: listado }), () => { }, true)
   }
 
   return (
@@ -124,4 +124,4 @@ const RolesEditar = (props) => {
   )
 }
 
-export default withPageActions(RolesEditar)(null)
+export default withPageActions(RolEditar)(null)

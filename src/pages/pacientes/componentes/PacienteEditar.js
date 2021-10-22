@@ -11,7 +11,7 @@ import FichaMedica from './FichaMedica';
 import { validarFecha } from '../../../utils/helpers';
 import '../../components/css/datetimepicker.css';
 
-const PacientesEditar = (props) => {
+const PacienteEditar = (props) => {
   const { onClickCancelar, validarPeticion } = props
   const { token } = props.usuarioData;
   const { selected } = props.pageData;
@@ -208,4 +208,4 @@ const PacientesEditar = (props) => {
   )
 }
 
-export default withPageActions(PacientesEditar)(null)
+export default withPageActions(PacienteEditar)(null)

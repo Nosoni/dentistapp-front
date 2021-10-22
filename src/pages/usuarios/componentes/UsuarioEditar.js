@@ -11,9 +11,8 @@ import withPageActions from '../../HOC/withPageActions';
 import ListaTransferir from '../../components/ListaTransferir';
 
 const UsuarioEditar = (props) => {
-  const { onClickCancelar, validarPeticion } = props
-  const { token } = props.usuarioData;
-  const { selected } = props.pageData;
+  const { onClickCancelar, validarPeticion,
+    usuarioData: { token }, pageData: { selected } } = props
   const [funcionarios, setFuncionarios] = useState([])
   const [dataSource, setDataSource] = useState([])
   const [listado, setlistado] = useState([])
@@ -53,10 +52,10 @@ const UsuarioEditar = (props) => {
   };
 
   const listarFuncionarios = async () => {
-    validarPeticion(funcionarioListar(token), actualizarListUsuario)
+    validarPeticion(funcionarioListar(token), actualizarListFuncionario)
   }
 
-  const actualizarListUsuario = (respuesta) => {
+  const actualizarListFuncionario = (respuesta) => {
     const list = respuesta.datos.map(funcionario => {
       return {
         value: funcionario.id,
@@ -97,9 +96,9 @@ const UsuarioEditar = (props) => {
 
   const onSubmit = async usuario => {
     if (existe)
-      validarPeticion(usuarioEditar(token, {...usuario, roles: listado}), () => { }, true)
+      validarPeticion(usuarioEditar(token, { ...usuario, roles: listado }), () => { }, true)
     else
-      validarPeticion(usuarioCrear(token, {...usuario, roles: listado}), () => { }, true)
+      validarPeticion(usuarioCrear(token, { ...usuario, roles: listado }), () => { }, true)
   }
 
   // de muestra

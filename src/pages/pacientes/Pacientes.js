@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { Card, Table, Input } from 'antd';
+import { Card, Table } from 'antd';
 import { useForm } from "react-hook-form";
 import { pacienteEliminar, pacienteFiltrar, pacienteListar } from '../../services/pacientes';
 import withPageActions from '../HOC/withPageActions';
-import PacientesEditar from './componentes/PacientesEditar';
+import PacienteEditar from './componentes/PacienteEditar';
 import BotoneraTableAcciones from '../components/BotoneraTableAcciones';
 import BotoneraModalFooterActions from '../components/BotoneraFooterActions';
 import ModalDA from '../components/Modal';
@@ -127,7 +127,7 @@ const Pacientes = (props) => {
           </div>
         </>
         :
-        <PacientesEditar onClickCancelar={() => {
+        <PacienteEditar onClickCancelar={() => {
           editarPaciente(false, {})
           reset()
         }} />

@@ -2,67 +2,67 @@ import React, { useState } from 'react'
 import { Card, Table } from 'antd';
 import Modal from '../components/Modal'
 import { useForm } from "react-hook-form";
-import { funcionarioListar, funcionarioFiltrar, funcionarioEliminar } from '../../services/funcionarios';
-import FuncionarioEditar from './componentes/FuncionarioEditar';
+import { doctorListar, doctorFiltrar, doctorEliminar } from '../../services/doctores';
+import DoctorEditar from './componentes/DoctorEditar';
 import BotoneraTableAcciones from '../components/BotoneraTableAcciones';
 import BuscadorAcciones from '../components/BuscadorAcciones';
 import BotoneraModalFooterActions from '../components/BotoneraFooterActions';
 import withPageActions from '../HOC/withPageActions';
 
 const pageData = {
-  title: "Funcionarios",
+  title: "Doctores",
   list: [],
   selected: {},
   deleted: {}
 };
 
-function Funcionarios(props) {
+function Doctores(props) {
   const { register, handleSubmit, reset } = useForm();
   const { validarPeticion, actualizarEstadoPagina,
     usuarioData: { token }, pageData: { list, deleted } } = props;
   const [esEdicion, setEsEdicion] = useState(false)
   const [showModal, setShowModal] = useState(false)
 
-  const acciones = (funcionario) => {
+  const acciones = (doctor) => {
     return <BotoneraTableAcciones
-      onClickEditar={() => editarFuncionario(true, funcionario)}
-      onClickEliminar={() => modalFuncionarioEliminar(true, funcionario)}
+      onClickEditar={() => editarDoctor(true, doctor)}
+      onClickEliminar={() => modalDoctorEliminar(true, doctor)}
     />
   }
 
-  const listarFuncionario = async () => {
-    validarPeticion(funcionarioListar(token), (respuesta) => actualizarEstadoPagina({ list: respuesta.datos }))
+  const listarDoctor = async () => {
+    validarPeticion(doctorListar(token), (respuesta) => actualizarEstadoPagina({ list: respuesta.datos }))
   }
 
-  const filtrarFuncionario = async (filtro) => {
-    validarPeticion(funcionarioFiltrar(token, filtro.filtro), (respuesta) => actualizarEstadoPagina({ list: respuesta.datos }))
+  const filtrarDoctor = async (filtro) => {
+    validarPeticion(doctorFiltrar(token, filtro.filtro), (respuesta) => actualizarEstadoPagina({ list: respuesta.datos }))
   }
 
-  const nuevoFuncionario = () => {
+  const nuevoDoctor = () => {
     setEsEdicion(true)
     actualizarEstadoPagina({ selected: {}, deleted: {} })
   }
 
-  const editarFuncionario = (edicion, funcionario) => {
+  const editarDoctor = (edicion, doctor) => {
     setEsEdicion(edicion)
-    actualizarEstadoPagina({ selected: funcionario, deleted: {} })
+    actualizarEstadoPagina({ selected: doctor, deleted: {} })
   }
 
-  const modalFuncionarioEliminar = (mostrar, funcionario) => {
+  const modalDoctorEliminar = (mostrar, doctor) => {
     setShowModal(mostrar)
-    actualizarEstadoPagina({ selected: {}, deleted: funcionario });
+    actualizarEstadoPagina({ selected: {}, deleted: doctor });
   };
 
-  const eliminarFuncionario = async (funcionario) => {
-    await validarPeticion(funcionarioEliminar(token, funcionario.id), () => modalFuncionarioEliminar(false, {}), true)
+  const eliminarDoctor = async (doctor) => {
+    await validarPeticion(doctorEliminar(token, doctor.id), () => modalDoctorEliminar(false, {}), true)
     handleSubmit(onSubmit)()
   }
 
   const onSubmit = (filtro) => {
     if (!filtro.filtro) {
-      listarFuncionario()
+      listarDoctor()
     } else {
-      filtrarFuncionario(filtro)
+      filtrarDoctor(filtro)
     }
   };
 
@@ -76,7 +76,7 @@ function Funcionarios(props) {
                 <BuscadorAcciones
                   registro={register("filtro")}
                   buscar={handleSubmit(onSubmit)}
-                  nuevo={() => nuevoFuncionario()}
+                  nuevo={() => nuevoDoctor()}
                 />
               </Card>
             </div>
@@ -112,24 +112,24 @@ function Funcionarios(props) {
               <Modal
                 visible={showModal}
                 title='ATENCIÓN'
-                onClickCancelar={() => modalFuncionarioEliminar(false, {})}
+                onClickCancelar={() => modalDoctorEliminar(false, {})}
                 footer={
                   <BotoneraModalFooterActions
-                    onClickCancelar={() => modalFuncionarioEliminar(false, {})}
-                    onClickAceptar={() => eliminarFuncionario(deleted)}
+                    onClickCancelar={() => modalDoctorEliminar(false, {})}
+                    onClickAceptar={() => eliminarDoctor(deleted)}
                     esEliminar
                   />
                 }
               >
                 <p>
-                  ¿Desea eliminar el funcionario?
+                  ¿Desea eliminar al doctor?
                 </p>
               </Modal>
             </div>
           </div>
           :
-          <FuncionarioEditar onClickCancelar={() => {
-            editarFuncionario(false, {})
+          <DoctorEditar onClickCancelar={() => {
+            editarDoctor(false, {})
             reset()
           }} />
       }
@@ -137,4 +137,4 @@ function Funcionarios(props) {
   )
 }
 
-export default withPageActions(Funcionarios)(pageData)
+export default withPageActions(Doctores)(pageData)
