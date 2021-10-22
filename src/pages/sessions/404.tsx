@@ -4,7 +4,6 @@ import { Button } from 'antd';
 import { HomeFilled } from '@ant-design/icons/lib';
 
 import BaseErrorPage from './BaseErrorPage';
-import { navigateHome } from '../../utils/naviagate-home';
 import { useHistory } from 'react-router';
 
 const NotFound = () => {

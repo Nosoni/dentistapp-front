@@ -16,12 +16,6 @@ const Login = (props) => {
   const history = useHistory();
   const [form] = useForm();
 
-  const openNotification = (type, descripcion) => {
-    notification[type]({
-      description: descripcion,
-    });
-  };
-
   const handleOnClickLogin = async () => {
     const datosForm = await form.validateFields();
     validarPeticion(autenticar(datosForm),

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { IMenuItem, IMenuItemSub } from '../../../interfaces/main-menu';
 
 import classNames from '../../../utils/class-names';
 
@@ -24,7 +23,6 @@ const Menu = ({
   opened
 }) => {
   const [menu, setMenu] = useState([]);
-  const permisosUsuario = useSelector((state) => state.usuarioData);
 
   useEffect(() => {
     setMenu(data);
