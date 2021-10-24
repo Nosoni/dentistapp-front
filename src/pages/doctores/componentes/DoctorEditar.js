@@ -5,7 +5,11 @@ import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { funcionarioListar } from '../../../services/funcionarios';
 import { doctorCrear, doctorEditar } from '../../../services/doctores';
+import { especialidadListar } from '../../../services/especialidades';
+import { obtenerEspecialidadDoctor } from '../../../services/doctores_especialidades';
 import withPageActions from '../../HOC/withPageActions';
+import BotoneraFooterActions from '../../components/BotoneraFooterActions';
+import ListaTransferir from '../../components/ListaTransferir';
 
 const DoctorEditar = (props) => {
   const { onClickCancelar, validarPeticion,
@@ -61,9 +65,9 @@ const DoctorEditar = (props) => {
   }
 
   const transferListDatasource = async () => {
-    //validarPeticion(especialidadListar(token), especialidadesTodos)
+    validarPeticion(especialidadListar(token), especialidadesTodos)
     if (existe) {
-      //validarPeticion(obtenerEspecialidadDoctor(token, selected.id), rolesTiene)
+      validarPeticion(obtenerEspecialidadDoctor(token, selected.id), especialidadesTiene)
     }
   }
 
@@ -71,15 +75,16 @@ const DoctorEditar = (props) => {
     const format = respuesta.datos.map(row => {
       return {
         key: row.id,
-        title: row.nombre,
+        title: row.descripcion,
       }
     })
     setDataSource(format)
   }
 
   const especialidadesTiene = (respuesta) => {
+    console.log(respuesta)
     const format = respuesta.datos.map(row => {
-      return row.id
+      return row.especialidad_id
     })
     setlistado(format)
   }
@@ -98,15 +103,40 @@ const DoctorEditar = (props) => {
   return (
     <div className='row justify-content-center'>
       <Card title={titulo} className='col-md-6 col-sm-9 with-shadow'>
-
-        <div className='mt-4 modal-footer d-flex justify-content-between'>
-          <Button className='bg-color-info' onClick={onClickCancelar}>
-            Volver
-          </Button>
-          <Button className='bg-color-success' onClick={handleSubmit(onSubmit)}>
-            Aceptar
-          </Button>
+        <div className='row mb-2'>
+          <Controller
+            name="funcionario_id"
+            control={control}
+            render={({ field }) => <div className="col-md-6">
+              <label className="ant-form-item-label">Funcionario: </label>
+              <Select
+                {...field}
+                options={funcionarios}
+              />
+            </div>
+            }
+          />
+          <Controller
+            name="registro_profesional"
+            control={control}
+            render={({ field }) => <div className="col-md-6">
+              <label className="ant-form-item-label">Registro profesional: </label>
+              <Input
+                {...field}
+              />
+            </div>
+            }
+          />
         </div>
+        <ListaTransferir
+          title="Especialidades "
+          dataSource={dataSource}
+          listado={listado}
+          handleChange={actualizar} />
+        <BotoneraFooterActions
+          onClickCancelar={onClickCancelar}
+          onClickAceptar={handleSubmit(onSubmit)}
+        />
       </Card>
     </div>
   )

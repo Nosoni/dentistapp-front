@@ -92,11 +92,11 @@ const FuncionarioEditar = ({ onClickCancelar }) => {
   return (
     <div className='row justify-content-center'>
       <Card title={titulo} className='col-md-6 col-sm-9 with-shadow'>
-        <div className='row'>
+        <div className='row mb-2'>
           <Controller
             name="documento"
             control={control}
-            render={({ field }) => <div className="mb-2 col-md-4">
+            render={({ field }) => <div className="col-md-4">
               <label className="ant-form-item-label">Documento: </label>
               <Input
                 {...field}
@@ -108,7 +108,7 @@ const FuncionarioEditar = ({ onClickCancelar }) => {
           <Controller
             name="tipo_documento_id"
             control={control}
-            render={({ field }) => <div className="mb-2 col-md-4">
+            render={({ field }) => <div className="col-md-4">
               <label className="ant-form-item-label">Tipo documento: </label>
               <Select
                 {...field}
@@ -120,7 +120,7 @@ const FuncionarioEditar = ({ onClickCancelar }) => {
           <Controller
             name="fecha_ingreso"
             control={control}
-            render={({ field }) => <div className="mb-2 col-md-4">
+            render={({ field }) => <div className="col-md-4">
               <label className="ant-form-item-label">Fecha de ingreso: </label>
               <DatePicker
                 placeholder="Seleccione la fecha"
@@ -131,11 +131,11 @@ const FuncionarioEditar = ({ onClickCancelar }) => {
             }
           />
         </div>
-        <div className='row'>
+        <div className='row mb-2'>
           <Controller
             name="nombres"
             control={control}
-            render={({ field }) => <div className="mb-2 col-md-6">
+            render={({ field }) => <div className="col-md-6">
               <label className="ant-form-item-label">Nombres: </label>
               <Input
                 {...field}
@@ -146,7 +146,7 @@ const FuncionarioEditar = ({ onClickCancelar }) => {
           <Controller
             name="apellidos"
             control={control}
-            render={({ field }) => <div className="mb-2 col-md-6">
+            render={({ field }) => <div className="col-md-6">
               <label className="ant-form-item-label">Apellidos: </label>
               <Input
                 {...field}
@@ -155,11 +155,11 @@ const FuncionarioEditar = ({ onClickCancelar }) => {
             }
           />
         </div>
-        <div className='row'>
+        <div className='row mb-2'>
           <Controller
             name="ciudad"
             control={control}
-            render={({ field }) => <div className="mb-2 col-md-6">
+            render={({ field }) => <div className="col-md-6">
               <label className="ant-form-item-label">Ciudad: </label>
               <Input
                 {...field}
@@ -170,7 +170,7 @@ const FuncionarioEditar = ({ onClickCancelar }) => {
           <Controller
             name="direccion"
             control={control}
-            render={({ field }) => <div className="mb-2 col-md-6">
+            render={({ field }) => <div className="col-md-6">
               <label className="ant-form-item-label">Dirección: </label>
               <Input
                 {...field}
@@ -183,7 +183,7 @@ const FuncionarioEditar = ({ onClickCancelar }) => {
           <Controller
             name="telefono"
             control={control}
-            render={({ field }) => <div className="mb-2 col-md-6">
+            render={({ field }) => <div className="col-md-6">
               <label className="ant-form-item-label">Teléfono: </label>
               <Input
                 {...field}
@@ -194,7 +194,7 @@ const FuncionarioEditar = ({ onClickCancelar }) => {
           <Controller
             name="email"
             control={control}
-            render={({ field }) => <div className="mb-2 col-md-6">
+            render={({ field }) => <div className="col-md-6">
               <label className="ant-form-item-label">Email: </label>
               <Input
                 {...field}

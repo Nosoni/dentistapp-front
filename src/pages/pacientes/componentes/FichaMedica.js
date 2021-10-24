@@ -34,7 +34,7 @@ const FichaMedica = ({ ficha, ...props }) => {
         <Controller
           name="otro_medico_observacion"
           control={control}
-          render={({ field }) => <div className="mb-2 col-md-6">
+          render={({ field }) => <div className="col-md-6">
             <label>En caso de ser atendido por otro médico. Escriba el nombre, contacto y especialiad del médico</label>
             <Input
               {...field}
@@ -305,12 +305,10 @@ const FichaMedica = ({ ficha, ...props }) => {
           />
         </div>
       </div>
-      <div className="mt-4">
-        <BotoneraFooterActions
-          onClickCancelar={onClickCancelar}
-          onClickAceptar={handleSubmit(onSubmit)}
-        />
-      </div>
+      <BotoneraFooterActions
+        onClickCancelar={onClickCancelar}
+        onClickAceptar={handleSubmit(onSubmit)}
+      />
     </>
   )
 }

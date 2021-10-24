@@ -86,20 +86,16 @@ function Doctores(props) {
                   rowKey='id'
                   dataSource={list}
                   columns={[{
-                    key: 'documento',
-                    dataIndex: 'documento',
-                    title: 'Documento',
-                    render: (documento) => {
-                      return <strong>{documento}</strong>
+                    key: 'funcionario',
+                    dataIndex: 'funcionario',
+                    title: 'Funcionario',
+                    render: (funcionario) => {
+                      return <strong>{funcionario.nombres + " " + funcionario.apellidos }</strong>
                     }
                   }, {
-                    key: 'nombres',
-                    dataIndex: 'nombres',
-                    title: 'Nombres',
-                  }, {
-                    key: 'apellidos',
-                    dataIndex: 'apellidos',
-                    title: 'Apellidos',
+                    key: 'registro_profesional',
+                    dataIndex: 'registro_profesional',
+                    title: 'Registro profesional',
                   }, {
                     key: 'actiones',
                     title: 'Acciones',

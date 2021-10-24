@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Input, Button, Select, notification, Card, Row, Col } from 'antd';
+import { Input, Select, notification, Card, Row, Col } from 'antd';
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -9,6 +9,7 @@ import { rolListar } from '../../../services/roles';
 import { obtenerRolesDelUsuario } from '../../../services/usuarios_roles';
 import withPageActions from '../../HOC/withPageActions';
 import ListaTransferir from '../../components/ListaTransferir';
+import BotoneraFooterActions from '../../components/BotoneraFooterActions';
 
 const UsuarioEditar = (props) => {
   const { onClickCancelar, validarPeticion,
@@ -173,14 +174,10 @@ const UsuarioEditar = (props) => {
               handleChange={actualizar} />
           </Col>
         </Row>
-        <div className='mt-4 modal-footer d-flex justify-content-between'>
-          <Button className='bg-color-info' onClick={onClickCancelar}>
-            Volver
-          </Button>
-          <Button className='bg-color-success' onClick={handleSubmit(onSubmit)}>
-            Aceptar
-          </Button>
-        </div>
+        <BotoneraFooterActions
+          onClickCancelar={onClickCancelar}
+          onClickAceptar={handleSubmit(onSubmit)}
+        />
       </Card>
     </div>
   )

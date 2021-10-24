@@ -113,12 +113,10 @@ const RolEditar = (props) => {
           dataSource={dataSource}
           listado={listado}
           handleChange={actualizar} />
-        <div className="mt-4">
-          <BotoneraFooterActions
-            onClickCancelar={onClickCancelar}
-            onClickAceptar={handleSubmit(onSubmit)}
-          />
-        </div>
+        <BotoneraFooterActions
+          onClickCancelar={onClickCancelar}
+          onClickAceptar={handleSubmit(onSubmit)}
+        />
       </Card>
     </div>
   )

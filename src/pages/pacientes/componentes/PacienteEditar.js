@@ -189,12 +189,10 @@ const PacienteEditar = (props) => {
                 }
               />
             </div>
-            <div className="mt-4">
-              <BotoneraFooterActions
-                onClickCancelar={onClickCancelar}
-                onClickAceptar={handleSubmit(onSubmit)}
-              />
-            </div>
+            <BotoneraFooterActions
+              onClickCancelar={onClickCancelar}
+              onClickAceptar={handleSubmit(onSubmit)}
+            />
           </TabPane>
           {
             existe &&
