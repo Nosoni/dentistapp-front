@@ -28,6 +28,10 @@ const menues = [
       title: "Doctores",
       routing: "doctores",
       permiso: permisos.VER_MENU_DOCTOR
+    }, {
+      title: "Especialidades",
+      routing: "especialidades",
+      permiso: permisos.VER_MENU_ESPECIALIDAD
     }]
   }
   //#endregion rrhh
