@@ -19,7 +19,7 @@ const ListaTransferir = ({ title, dataSource, listado, handleChange }) => {
         searchPlaceholder: 'Buscar'
       }}
       listStyle={{
-        width: 500,
+        width: '46%',
         height: 300,
       }}
       titles={['Para asignar', 'Asignados']}

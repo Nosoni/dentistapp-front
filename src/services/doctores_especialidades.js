@@ -2,10 +2,10 @@ import { peticion } from ".";
 import { server } from "../constantes/index";
 const servicio = "doctores_especialidades";
 
-const obtenerEspecialidadDoctor = async (token, doctor_id) => {
+const obtenerEspecialidadesDoctor = async (token, doctor_id) => {
   console.log(doctor_id)
   try {
-    const url = `${server}/${servicio}/obtenerEspecialidadDoctor/${doctor_id}`;
+    const url = `${server}/${servicio}/obtenerEspecialidadesDoctor/${doctor_id}`;
     const config = {
       method: "GET",
       url,
@@ -18,4 +18,4 @@ const obtenerEspecialidadDoctor = async (token, doctor_id) => {
   } catch (error) { }
 };
 
-export { obtenerEspecialidadDoctor }
+export { obtenerEspecialidadesDoctor }

@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { funcionarioListar } from '../../../services/funcionarios';
 import { doctorCrear, doctorEditar } from '../../../services/doctores';
 import { especialidadListar } from '../../../services/especialidades';
-import { obtenerEspecialidadDoctor } from '../../../services/doctores_especialidades';
+import { obtenerEspecialidadesDoctor } from '../../../services/doctores_especialidades';
 import withPageActions from '../../HOC/withPageActions';
 import BotoneraFooterActions from '../../components/BotoneraFooterActions';
 import ListaTransferir from '../../components/ListaTransferir';
@@ -67,7 +67,7 @@ const DoctorEditar = (props) => {
   const transferListDatasource = async () => {
     validarPeticion(especialidadListar(token), especialidadesTodos)
     if (existe) {
-      validarPeticion(obtenerEspecialidadDoctor(token, selected.id), especialidadesTiene)
+      validarPeticion(obtenerEspecialidadesDoctor(token, selected.id), especialidadesTiene)
     }
   }
 
