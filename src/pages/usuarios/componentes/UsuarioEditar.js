@@ -137,6 +137,7 @@ const UsuarioEditar = (props) => {
                 <Select
                   {...field}
                   options={funcionarios}
+                  allowClear
                 />
               </div>
               }
