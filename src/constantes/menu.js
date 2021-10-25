@@ -43,6 +43,10 @@ const menues = [
       title: "Roles",
       routing: "roles",
       permiso: permisos.VER_MENU_ROL
+    },{
+      title: "Tratamientos y Servicios",
+      routing: "tratamientos-servicios",
+      permiso: permisos.VER_MENU_TRATAMIENTO_SERVICIO
     }]
   }
   //#endregion configuracion

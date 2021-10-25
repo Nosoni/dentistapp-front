@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Input, Select, notification, Card } from 'antd';
+import { Input, notification, Card, TimePicker } from 'antd';
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -7,17 +7,17 @@ import { especialidadCrear, especialidadEditar, especialidadListar } from '../..
 import withPageActions from '../../HOC/withPageActions';
 import BotoneraFooterActions from '../../components/BotoneraFooterActions';
 
-const EspecialidadEditar = (props) => {
+const TratamientoServicioEditar = (props) => {
   const { onClickCancelar, validarPeticion,
     usuarioData: { token }, pageData: { selected } } = props
   const [especialidad, setEspecialidad] = useState([])
   const existe = !!selected?.id
-  let titulo = "Editar especialidad"
+  let titulo = "Editar tratamientos y servicios"
   const shape = {
     nombre: yup.string().required("Favor indicar el nombre"),
   }
   if (!existe) {
-    titulo = "Crear especialidad"
+    titulo = "Crear tratamientos y servicios"
   }
   const schema = yup.object(shape)
   const { control, handleSubmit, formState: { errors } } = useForm({
@@ -79,19 +79,6 @@ const EspecialidadEditar = (props) => {
             </div>
             }
           />
-          <Controller
-            name="especialidad_padre_id"
-            control={control}
-            render={({ field }) => <div className="col-md-6">
-              <label className="ant-form-item-label">Especialidad padre: </label>
-              <Select
-                {...field}
-                allowClear
-                options={especialidad}
-              />
-            </div>
-            }
-          />
         </div>
         <div className='row mb-2'>
           <Controller
@@ -100,6 +87,33 @@ const EspecialidadEditar = (props) => {
             render={({ field }) => <div className="col-md-12">
               <label className="ant-form-item-label">Descripción: </label>
               <Input
+                {...field}
+              />
+            </div>
+            }
+          />
+          <Controller
+            name="precio"
+            control={control}
+            render={({ field }) => <div className="col-md-12">
+              <label className="ant-form-item-label">Precio: </label>
+              <Input
+                type='number'
+                {...field}
+              />
+            </div>
+            }
+          />
+          <Controller
+            name="tiempo"
+            control={control}
+            render={({ field }) => <div className="col-md-12">
+              <label className="ant-form-item-label">Tiempo: </label>
+              <TimePicker
+                placeholder="Tiempo de atención"
+                format="HH:mm"
+                allowClear
+                showNow
                 {...field}
               />
             </div>
@@ -115,5 +129,5 @@ const EspecialidadEditar = (props) => {
   )
 }
 
-export default withPageActions(EspecialidadEditar)(null)
+export default withPageActions(TratamientoServicioEditar)(null)
 
