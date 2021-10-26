@@ -22,7 +22,7 @@ const usuarioEditar = async (token, usuario) => {
   try {
     const url = `${server}/${servicio}/editar`;
     const config = {
-      method: "POST",
+      method: "PUT",
       url,
       headers: {
         'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ const usuarioEliminar = async (token, id) => {
   try {
     const url = `${server}/${servicio}/eliminar/${id}`;
     const config = {
-      method: "POST",
+      method: "PUT",
       url,
       headers: {
         'Content-Type': 'application/json',

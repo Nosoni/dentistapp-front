@@ -1,8 +1,8 @@
 import { peticion } from ".";
 import { server } from "../constantes/index";
-const servicio = "roles";
+const servicio = "tratamientos_servicios";
 
-const rolCrear = async (token, rol) => {
+const tratamientoServicioCrear = async (token, tratamiento_servicio) => {
   try {
     const url = `${server}/${servicio}/crear`;
     const config = {
@@ -12,13 +12,15 @@ const rolCrear = async (token, rol) => {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
-      data: JSON.stringify(rol)
+      data: JSON.stringify(tratamiento_servicio)
     }
     return peticion(config)
   } catch (error) { }
 }
 
-const rolEditar = async (token, rol) => {
+const tratamientoServicioEditar = async (token, tratamiento_servicio) => {
+  console.log(token)
+  console.log(tratamiento_servicio)
   try {
     const url = `${server}/${servicio}/editar`;
     const config = {
@@ -28,13 +30,13 @@ const rolEditar = async (token, rol) => {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
-      data: JSON.stringify(rol)
+      data: JSON.stringify(tratamiento_servicio)
     }
     return await peticion(config)
   } catch (error) { }
 }
 
-const rolEliminar = async (token, id) => {
+const tratamientoServicioEliminar = async (token, id) => {
   try {
     const url = `${server}/${servicio}/eliminar/${id}`;
     const config = {
@@ -49,9 +51,9 @@ const rolEliminar = async (token, id) => {
   } catch (error) { }
 }
 
-const rolFiltrar = async (token, rol) => {
+const tratamientoServicioFiltrar = async (token, filtro) => {
   try {
-    const url = `${server}/${servicio}/filtrar/${rol}`;
+    const url = `${server}/${servicio}/filtrar/${filtro}`;
     const config = {
       method: "GET",
       url,
@@ -64,7 +66,7 @@ const rolFiltrar = async (token, rol) => {
   } catch (error) { }
 };
 
-const rolListar = async (token) => {
+const tratamientoServicioListar = async (token) => {
   try {
     const url = `${server}/${servicio}/listar`;
     const config = {
@@ -80,6 +82,6 @@ const rolListar = async (token) => {
 };
 
 export {
-  rolCrear, rolEditar, rolEliminar,
-  rolFiltrar, rolListar
+  tratamientoServicioCrear, tratamientoServicioEditar,
+  tratamientoServicioEliminar, tratamientoServicioFiltrar, tratamientoServicioListar
 }

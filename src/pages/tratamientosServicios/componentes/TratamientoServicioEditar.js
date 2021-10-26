@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Input, notification, Card, TimePicker } from 'antd';
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
-import { especialidadCrear, especialidadEditar, especialidadListar } from '../../../services/especialidades';
+import { tratamientoServicioCrear, tratamientoServicioEditar } from '../../../services/tratamientos_servicios';
 import withPageActions from '../../HOC/withPageActions';
 import BotoneraFooterActions from '../../components/BotoneraFooterActions';
 
 const TratamientoServicioEditar = (props) => {
   const { onClickCancelar, validarPeticion,
     usuarioData: { token }, pageData: { selected } } = props
-  const [especialidad, setEspecialidad] = useState([])
   const existe = !!selected?.id
   let titulo = "Editar tratamientos y servicios"
   const shape = {
     nombre: yup.string().required("Favor indicar el nombre"),
+    precio: yup.number().required("Favor indicar el precio"),
   }
   if (!existe) {
     titulo = "Crear tratamientos y servicios"
@@ -24,10 +24,6 @@ const TratamientoServicioEditar = (props) => {
     defaultValues: selected,
     resolver: yupResolver(schema)
   });
-
-  useEffect(() => {
-    listarEspecialidades()
-  }, [])
 
   useEffect(() => {
     if (errors) {
@@ -43,25 +39,11 @@ const TratamientoServicioEditar = (props) => {
     });
   };
 
-  const listarEspecialidades = async () => {
-    validarPeticion(especialidadListar(token), actualizarListEspecialidad)
-  }
-
-  const actualizarListEspecialidad = (respuesta) => {
-    const list = respuesta.datos.map(especialidad => {
-      return {
-        value: especialidad.id,
-        label: especialidad.nombre
-      }
-    })
-    setEspecialidad(list)
-  }
-
-  const onSubmit = async especialidad => {
+  const onSubmit = async tratamiento_servicio => {
     if (existe)
-      validarPeticion(especialidadEditar(token, especialidad), () => { }, true)
+      validarPeticion(tratamientoServicioEditar(token, tratamiento_servicio), () => { }, true)
     else
-      validarPeticion(especialidadCrear(token, especialidad), () => { }, true)
+      validarPeticion(tratamientoServicioCrear(token, tratamiento_servicio), () => { }, true)
   }
 
   return (
@@ -79,12 +61,10 @@ const TratamientoServicioEditar = (props) => {
             </div>
             }
           />
-        </div>
-        <div className='row mb-2'>
           <Controller
             name="descripcion"
             control={control}
-            render={({ field }) => <div className="col-md-12">
+            render={({ field }) => <div className="col-md-6">
               <label className="ant-form-item-label">Descripción: </label>
               <Input
                 {...field}
@@ -92,10 +72,12 @@ const TratamientoServicioEditar = (props) => {
             </div>
             }
           />
+        </div>
+        <div className='row mb-2'>
           <Controller
             name="precio"
             control={control}
-            render={({ field }) => <div className="col-md-12">
+            render={({ field }) => <div className="col-md-6">
               <label className="ant-form-item-label">Precio: </label>
               <Input
                 type='number'
@@ -107,13 +89,11 @@ const TratamientoServicioEditar = (props) => {
           <Controller
             name="tiempo"
             control={control}
-            render={({ field }) => <div className="col-md-12">
+            render={({ field }) => <div className="col-md-6">
               <label className="ant-form-item-label">Tiempo: </label>
-              <TimePicker
+              <Input
+                type="time"
                 placeholder="Tiempo de atención"
-                format="HH:mm"
-                allowClear
-                showNow
                 {...field}
               />
             </div>
