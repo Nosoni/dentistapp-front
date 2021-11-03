@@ -57,7 +57,7 @@ const menues = [
     sub: [{
       title: "Insumos",
       routing: "insumos",
-      permiso: ""
+      permiso:  permisos.VER_MENU_INSUMO
     }]
   }
   //#endregion insumos

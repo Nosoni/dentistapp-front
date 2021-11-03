@@ -9,4 +9,5 @@ export const permisos = {
     VER_MENU_DOCTOR: "menu_ver_doctor",
     VER_MENU_ESPECIALIDAD: "menu_ver_especialidad",
     VER_MENU_TRATAMIENTO_SERVICIO: "menu_ver_tratamientos_servicios",
+    VER_MENU_INSUMO: "menu_ver_insumo",
 }

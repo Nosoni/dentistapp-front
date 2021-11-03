@@ -2,6 +2,7 @@ import DashboardPage from "../pages/dashboards/dashboardDA/DashboardDA";
 import Doctores from "../pages/doctores/Doctores";
 import Especialidades from "../pages/especialidades/Especialidades";
 import Funcionarios from "../pages/funcionarios/Funcionarios";
+import Insumos from "../pages/insumos/Insumos";
 import Pacientes from "../pages/pacientes/Pacientes";
 import Roles from "../pages/roles/Roles";
 import NotFound from "../pages/sessions/404";
@@ -66,7 +67,7 @@ const rutasPrivadas = [
   {
     layout: "stock",
     path: 'insumos',
-    component: () => <div>insumos</div>
+    component: Insumos
   },
   {
     layout: "facturacion",

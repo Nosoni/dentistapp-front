@@ -3,21 +3,21 @@ import { Input, notification, Card } from 'antd';
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
-import { tratamientoServicioCrear, tratamientoServicioEditar } from '../../../services/tratamientos_servicios';
+import { insumoCrear, insumoEditar } from '../../../services/insumos';
 import withPageActions from '../../HOC/withPageActions';
 import BotoneraFooterActions from '../../components/BotoneraFooterActions';
 
-const TratamientoServicioEditar = (props) => {
+const InsumoEditar = (props) => {
   const { onClickCancelar, validarPeticion,
     usuarioData: { token }, pageData: { selected } } = props
   const existe = !!selected?.id
-  let titulo = "Editar tratamientos y servicios"
+  let titulo = "Editar insumos"
   const shape = {
     nombre: yup.string().required("Favor indicar el nombre"),
-    precio: yup.number().required("Favor indicar el precio"),
+    codigo: yup.string().required("Favor indicar el código"),
   }
   if (!existe) {
-    titulo = "Crear tratamientos y servicios"
+    titulo = "Crear insumos"
   }
   const schema = yup.object(shape)
   const { control, handleSubmit, formState: { errors } } = useForm({
@@ -39,11 +39,11 @@ const TratamientoServicioEditar = (props) => {
     });
   };
 
-  const onSubmit = async tratamiento_servicio => {
+  const onSubmit = async insumo => {
     if (existe)
-      validarPeticion(tratamientoServicioEditar(token, tratamiento_servicio), () => { }, true)
+      validarPeticion(insumoEditar(token, insumo), () => { }, true)
     else
-      validarPeticion(tratamientoServicioCrear(token, tratamiento_servicio), () => { }, true)
+      validarPeticion(insumoCrear(token, insumo), () => { }, true)
   }
 
   return (
@@ -75,25 +75,23 @@ const TratamientoServicioEditar = (props) => {
         </div>
         <div className='row mb-2'>
           <Controller
-            name="precio"
+            name="codigo"
             control={control}
             render={({ field }) => <div className="col-md-6">
-              <label className="ant-form-item-label">Precio: </label>
+              <label className="ant-form-item-label">Código: </label>
               <Input
-                type='number'
                 {...field}
               />
             </div>
             }
           />
           <Controller
-            name="tiempo"
+            name="cantidad_minima"
             control={control}
             render={({ field }) => <div className="col-md-6">
-              <label className="ant-form-item-label">Tiempo: </label>
+              <label className="ant-form-item-label">Cantidad mínima: </label>
               <Input
-                type="time"
-                placeholder="Tiempo de atención"
+                type='number'
                 {...field}
               />
             </div>
@@ -109,5 +107,5 @@ const TratamientoServicioEditar = (props) => {
   )
 }
 
-export default withPageActions(TratamientoServicioEditar)(null)
+export default withPageActions(InsumoEditar)(null)
 
