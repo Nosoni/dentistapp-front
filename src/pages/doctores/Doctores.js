@@ -90,7 +90,7 @@ function Doctores(props) {
                     dataIndex: 'funcionario',
                     title: 'Funcionario',
                     render: (funcionario) => {
-                      return <strong>{funcionario.nombres + " " + funcionario.apellidos }</strong>
+                      return <strong>{funcionario?.nombres + " " + funcionario?.apellidos }</strong>
                     }
                   }, {
                     key: 'registro_profesional',

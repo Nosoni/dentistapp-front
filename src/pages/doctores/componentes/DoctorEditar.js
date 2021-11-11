@@ -82,7 +82,6 @@ const DoctorEditar = (props) => {
   }
 
   const especialidadesTiene = (respuesta) => {
-    console.log(respuesta)
     const format = respuesta.datos.map(row => {
       return row.especialidad_id
     })

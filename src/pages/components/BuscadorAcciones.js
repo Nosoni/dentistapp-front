@@ -8,13 +8,15 @@ import {
 
 const BuscadorAcciones = (props) => {
   return (
-    <div className='elem-list'>
+    <div className='row'>
       <Input placeholder={props.placeholder ? props.placeholder : "Introduzca un valor de búsqueda"}
         {...props.registro}
-        style={{ borderRadius: '10px' }} />
+        style={{ borderRadius: '10px' }} 
+        className="mr-2"/>
+      {props.children}
       <ButtonsTooltips
         onClick={props.buscar}
-        className="bg-color-info"
+        className="bg-color-info mr-2"
         tooltipsTitle="Buscar"
         shape='circle'
         icon={<SearchOutlined />} />

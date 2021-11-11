@@ -11,7 +11,7 @@ const NotFound = () => {
 
   return (<BaseErrorPage
     subTitle={
-      <h6 className='text-md text-center'>Sorry! The page you were looking for doesn't exist.</h6>
+      <h6 className='text-md text-center'>¡Lo sentimos! La página a la cuál quiere ingresar no existe.</h6>
     }
     bg={`${window.origin}/content/404-page.jpg`}
     action={
@@ -21,7 +21,7 @@ const NotFound = () => {
         style={{ width: 'auto' }}
         icon={<HomeFilled className='ml-0 mr-2' style={{ fontSize: '1em' }} />}
       >
-        Back to home
+        Volver al inicio
       </Button>
     }
     title={

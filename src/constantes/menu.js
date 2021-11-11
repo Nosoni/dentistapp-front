@@ -13,6 +13,10 @@ const menues = [
       title: "Pacientes",
       routing: "pacientes",
       permiso: permisos.VER_MENU_PACIENTE
+    }, {
+      title: "Citas médicas",
+      routing: "citas-medica",
+      permiso: permisos.VER_MENU_CITA_MEDICA
     }]
   }
   //#endregion administracion

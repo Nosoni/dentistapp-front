@@ -4,12 +4,22 @@ import { IPageData } from '../../../interfaces/page';
 import { setPageData } from '../../../redux/page-data/actions';
 import { useDispatch } from 'react-redux';
 
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+
 const pageData: IPageData = {
   title: "Dashboard",
   list: [],
   selected: {},
   deleted: {}
 };
+
+const headerOptions = {
+  left: 'prev,next today',
+  center: 'title',
+  right: 'dayGridMonth,dayGridWeek,dayGridDay'
+};
+
 
 const DashboardPage = () => {
   const dispatch = useDispatch();
@@ -99,6 +109,24 @@ const DashboardPage = () => {
             </div>
           </Card>
         </div>
+      </div>
+      <div>
+        <Card className='col-md-12 col-sm-12 with-shadow'>
+          <FullCalendar
+            headerToolbar={headerOptions}
+            initialView='dayGridMonth'
+            plugins={[dayGridPlugin]}
+            dayMaxEvents={true}
+            locale='es'
+            weekends
+            buttonText={{
+              today: 'Hoy',
+              month: 'Mes',
+              week: 'Semana',
+              day: 'Día',
+            }}
+          />
+        </Card>
       </div>
     </>
   );

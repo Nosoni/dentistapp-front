@@ -98,8 +98,7 @@ function Usuarios(props) {
                   dataIndex: 'funcionario',
                   title: 'Funcionario',
                   render: (funcionario) => {
-                    let nombre = (funcionario?.nombres ? funcionario?.nombres : "") + " " + (funcionario?.apellidos ? funcionario?.apellidos : "");
-                    return nombre
+                    return `${funcionario?.nombres} ${funcionario?.apellidos}`;
                   }
                 }, {
                   key: 'actiones',

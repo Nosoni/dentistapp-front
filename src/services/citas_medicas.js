@@ -1,6 +1,6 @@
 import { peticion } from ".";
 import { server } from "../constantes/index";
-const servicio = "tratamientos_servicios";
+const servicio = "citas_medicas";
 
 const tratamientoServicioCrear = async (token, tratamiento_servicio) => {
   try {
@@ -34,7 +34,7 @@ const tratamientoServicioEditar = async (token, tratamiento_servicio) => {
   } catch (error) { }
 }
 
-const tratamientoServicioEliminar = async (token, id) => {
+const citaMedicaEliminar = async (token, id) => {
   try {
     const url = `${server}/${servicio}/eliminar/${id}`;
     const config = {
@@ -49,22 +49,24 @@ const tratamientoServicioEliminar = async (token, id) => {
   } catch (error) { }
 }
 
-const tratamientoServicioFiltrar = async (token, filtro) => {
+const citaMedicaFiltrar = async (token, filtro) => {
   try {
-    const url = `${server}/${servicio}/filtrar/${filtro}`;
+    console.log("filtrar", filtro)
+    const url = `${server}/${servicio}/filtrar`;
     const config = {
-      method: "GET",
+      method: "POST",
       url,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
+      data: JSON.stringify(filtro)
     }
     return await peticion(config)
   } catch (error) { }
 };
 
-const tratamientoServicioListar = async (token) => {
+const citaMedicaListar = async (token) => {
   try {
     const url = `${server}/${servicio}/listar`;
     const config = {
@@ -81,5 +83,5 @@ const tratamientoServicioListar = async (token) => {
 
 export {
   tratamientoServicioCrear, tratamientoServicioEditar,
-  tratamientoServicioEliminar, tratamientoServicioFiltrar, tratamientoServicioListar
+  citaMedicaEliminar, citaMedicaFiltrar, citaMedicaListar
 }

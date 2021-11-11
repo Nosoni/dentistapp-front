@@ -1,3 +1,4 @@
+import CitasMedica from "../pages/citasMedica/CitasMedica";
 import DashboardPage from "../pages/dashboards/dashboardDA/DashboardDA";
 import Doctores from "../pages/doctores/Doctores";
 import Especialidades from "../pages/especialidades/Especialidades";
@@ -38,6 +39,11 @@ const rutasPrivadas = [
     layout: "administracion",
     path: 'pacientes',
     component: Pacientes
+  },
+  {
+    layout: "administracion",
+    path: 'citas-medica',
+    component: CitasMedica
   },
   {
     layout: "rrhh",

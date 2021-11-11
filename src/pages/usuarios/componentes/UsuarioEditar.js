@@ -60,7 +60,7 @@ const UsuarioEditar = (props) => {
     const list = respuesta.datos.map(funcionario => {
       return {
         value: funcionario.id,
-        label: (funcionario.nombres + " " + funcionario.apellidos)
+        label: `${funcionario.nombres} ${funcionario.apellidos}`
       }
     })
     setFuncionarios(list)

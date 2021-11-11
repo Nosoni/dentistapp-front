@@ -3,7 +3,6 @@ import { server } from "../constantes/index";
 const servicio = "doctores_especialidades";
 
 const obtenerEspecialidadesDoctor = async (token, doctor_id) => {
-  console.log(doctor_id)
   try {
     const url = `${server}/${servicio}/obtenerEspecialidadesDoctor/${doctor_id}`;
     const config = {
