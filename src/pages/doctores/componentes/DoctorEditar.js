@@ -12,7 +12,7 @@ import BotoneraFooterActions from '../../components/BotoneraFooterActions';
 import ListaTransferir from '../../components/ListaTransferir';
 
 const DoctorEditar = (props) => {
-  const { onClickCancelar, validarPeticion,
+  const { onClickCancelar, validarPeticion, openNotification,
     usuarioData: { token }, pageData: { selected } } = props
   const [funcionarios, setFuncionarios] = useState([])
   const [dataSource, setDataSource] = useState([])
@@ -43,12 +43,6 @@ const DoctorEditar = (props) => {
       });
     }
   }, [errors])
-
-  const openNotification = (type, descripcion) => {
-    notification[type]({
-      description: descripcion
-    });
-  };
 
   const listarFuncionarios = async () => {
     validarPeticion(funcionarioListar(token), actualizarListFuncionario)

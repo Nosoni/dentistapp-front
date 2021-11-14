@@ -4,4 +4,8 @@ const validarFecha = (fecha) => {
   return fecha ? moment.utc(fecha) : fecha
 }
 
-export { validarFecha };
+const objectHasValue = (obj) => {
+  return Object.values(obj).some(prop => prop !== undefined)
+}
+
+export { validarFecha, objectHasValue };

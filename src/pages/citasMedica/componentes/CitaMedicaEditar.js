@@ -1,29 +1,31 @@
 import React, { useEffect, useState } from 'react'
-import { Input, notification, Card, Select, DatePicker } from 'antd';
+import { Input, Card, Select, DatePicker } from 'antd';
 import { useForm, Controller } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { tratamientoServicioCrear, tratamientoServicioEditar } from '../../../services/tratamientos_servicios';
+import { citaMedicaCrear, citaMedicaEditar } from '../../../services/citas_medicas';
 import withPageActions from '../../HOC/withPageActions';
 import BotoneraFooterActions from '../../components/BotoneraFooterActions';
 import { pacienteListar } from '../../../services/pacientes';
+import moment from 'moment';
 
 const CitaMedica = (props) => {
-  const { onClickCancelar, validarPeticion,
+  const { onClickCancelar, validarPeticion, openNotification,
     usuarioData: { token }, pageData: { selected } } = props
   const [pacientes, setPacientes] = useState([])
-  const existe = !!selected?.cita_medica_id
+  const existe = !!selected?.extendedProps.cita_medica_id
   let titulo = 'Editar cita médica'
   const shape = {
     paciente_id: yup.string().required('Favor seleccionar un paciente'),
-    fecha_inicio: yup.number().required('Favor seleccionar la fecha y hora'),
+    fecha_inicio: yup.date().required('Favor seleccionar la fecha y hora'),
   }
   if (!existe) {
     titulo = 'Crear cita médica'
   }
+
   const schema = yup.object(shape)
   const { control, handleSubmit, formState: { errors } } = useForm({
-    defaultValues: selected,
+    defaultValues: { ...selected.extendedProps, fecha_inicio: moment(selected.extendedProps.fecha_inicio) },
     resolver: yupResolver(schema)
   });
 
@@ -38,12 +40,6 @@ const CitaMedica = (props) => {
       });
     }
   }, [errors])
-
-  const openNotification = (type, descripcion) => {
-    notification[type]({
-      description: descripcion
-    });
-  };
 
   const listarPacientes = async () => {
     validarPeticion(pacienteListar(token), actualizarListPaciente)
@@ -60,15 +56,16 @@ const CitaMedica = (props) => {
   }
 
   const onSubmit = async cita_medica => {
+    console.log("cita_medica", cita_medica)
     if (existe)
-      validarPeticion(tratamientoServicioEditar(token, { id: cita_medica.cita_medica_id, ...cita_medica }), () => { }, true)
+      validarPeticion(citaMedicaEditar(token, { id: cita_medica.cita_medica_id, ...cita_medica }), () => { }, true)
     else
-      validarPeticion(tratamientoServicioCrear(token, cita_medica), () => { }, true)
+      validarPeticion(citaMedicaCrear(token, cita_medica), () => { }, true)
   }
 
   return (
     <div className='row justify-content-center'>
-      <Card title={titulo} className='col-md-6 col-sm-9 with-shadow'>
+      <Card title={titulo}>
         <div className='row'>
           <Controller
             name='paciente_id'
@@ -90,7 +87,8 @@ const CitaMedica = (props) => {
               <label className='ant-form-item-label'>Fecha y hora: </label>
               <DatePicker
                 placeholder='Seleccione la fecha'
-                format='DD/MM/YYYY'
+                format='DD/MM/YYYY HH:mm'
+                showTime
                 {...field}
               />
             </div>

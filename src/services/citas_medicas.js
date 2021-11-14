@@ -2,7 +2,7 @@ import { peticion } from ".";
 import { server } from "../constantes/index";
 const servicio = "citas_medicas";
 
-const tratamientoServicioCrear = async (token, tratamiento_servicio) => {
+const citaMedicaCrear = async (token, tratamiento_servicio) => {
   try {
     const url = `${server}/${servicio}/crear`;
     const config = {
@@ -18,7 +18,7 @@ const tratamientoServicioCrear = async (token, tratamiento_servicio) => {
   } catch (error) { }
 }
 
-const tratamientoServicioEditar = async (token, tratamiento_servicio) => {
+const citaMedicaEditar = async (token, tratamiento_servicio) => {
   try {
     const url = `${server}/${servicio}/editar`;
     const config = {
@@ -51,7 +51,6 @@ const citaMedicaEliminar = async (token, id) => {
 
 const citaMedicaFiltrar = async (token, filtro) => {
   try {
-    console.log("filtrar", filtro)
     const url = `${server}/${servicio}/filtrar`;
     const config = {
       method: "POST",
@@ -82,6 +81,6 @@ const citaMedicaListar = async (token) => {
 };
 
 export {
-  tratamientoServicioCrear, tratamientoServicioEditar,
+  citaMedicaCrear, citaMedicaEditar,
   citaMedicaEliminar, citaMedicaFiltrar, citaMedicaListar
 }

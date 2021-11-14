@@ -12,9 +12,8 @@ import { validarFecha } from '../../../utils/helpers';
 import '../../components/css/datetimepicker.css';
 
 const PacienteEditar = (props) => {
-  const { onClickCancelar, validarPeticion } = props
-  const { token } = props.usuarioData;
-  const { selected } = props.pageData;
+  const { onClickCancelar, validarPeticion, openNotification,
+    usuarioData: { token }, pageData: { selected } } = props
   selected.fecha_nacimiento = validarFecha(selected.fecha_nacimiento)
   const { TabPane } = Tabs;
   const [tiposDocumentos, setTiposDocumentos] = useState([])
@@ -47,12 +46,6 @@ const PacienteEditar = (props) => {
   useEffect(() => {
     listarTiposDocumentos()
   }, [])
-
-  const openNotification = (type, descripcion) => {
-    notification[type]({
-      description: descripcion
-    });
-  };
 
   const listarTiposDocumentos = async () => {
     validarPeticion(tiposDocumentosListar(token), (respuesta) => formatListTiposDocumentos(respuesta.datos))

@@ -11,9 +11,8 @@ import { permisoListar } from '../../../services/permisos';
 import { obtenerPermisosDelRol } from '../../../services/roles_permisos';
 
 const RolEditar = (props) => {
-  const { onClickCancelar, validarPeticion } = props
-  const { token } = props.usuarioData;
-  const { selected } = props.pageData;
+  const { onClickCancelar, validarPeticion, openNotification,
+    usuarioData: { token }, pageData: { selected } } = props
   const [dataSource, setDataSource] = useState([])
   const [listado, setlistado] = useState([])
   const existe = !!selected?.id
@@ -41,12 +40,6 @@ const RolEditar = (props) => {
       });
     }
   }, [errors])
-
-  const openNotification = (type, descripcion) => {
-    notification[type]({
-      description: descripcion
-    });
-  };
 
   const transferListDatasource = async () => {
     validarPeticion(permisoListar(token), permisosTodos)

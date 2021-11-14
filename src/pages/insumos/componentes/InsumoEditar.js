@@ -8,7 +8,7 @@ import withPageActions from '../../HOC/withPageActions';
 import BotoneraFooterActions from '../../components/BotoneraFooterActions';
 
 const InsumoEditar = (props) => {
-  const { onClickCancelar, validarPeticion,
+  const { onClickCancelar, validarPeticion, openNotification,
     usuarioData: { token }, pageData: { selected } } = props
   const existe = !!selected?.id
   let titulo = "Editar insumos"
@@ -32,12 +32,6 @@ const InsumoEditar = (props) => {
       });
     }
   }, [errors])
-
-  const openNotification = (type, descripcion) => {
-    notification[type]({
-      description: descripcion
-    });
-  };
 
   const onSubmit = async insumo => {
     if (existe)

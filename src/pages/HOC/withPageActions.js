@@ -59,6 +59,7 @@ const withPageActions = (Component) => {
             pageData={this.props.pageData}
             validarPeticion={this.validarPeticion}
             actualizarEstadoPagina={this.handleUpdatePageData}
+            openNotification={this.openNotification}
             {...this.props} />
         )
       }

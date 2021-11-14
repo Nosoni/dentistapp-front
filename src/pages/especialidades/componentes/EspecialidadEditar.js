@@ -8,7 +8,7 @@ import withPageActions from '../../HOC/withPageActions';
 import BotoneraFooterActions from '../../components/BotoneraFooterActions';
 
 const EspecialidadEditar = (props) => {
-  const { onClickCancelar, validarPeticion,
+  const { onClickCancelar, validarPeticion, openNotification,
     usuarioData: { token }, pageData: { selected } } = props
   const [especialidad, setEspecialidad] = useState([])
   const existe = !!selected?.id
@@ -36,12 +36,6 @@ const EspecialidadEditar = (props) => {
       });
     }
   }, [errors])
-
-  const openNotification = (type, descripcion) => {
-    notification[type]({
-      description: descripcion
-    });
-  };
 
   const listarEspecialidades = async () => {
     validarPeticion(especialidadListar(token), actualizarListEspecialidad)
