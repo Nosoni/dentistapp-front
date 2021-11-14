@@ -1,14 +1,16 @@
 import React from 'react'
 import { Modal } from 'antd';
 
-const ModalDA = ({ title, children, visible, footer, onClickCancelar }) => {
+const ModalDA = ({ title, children, visible, footer, onClickCancelar, closable = true, width }) => {
   return (
     <Modal
       visible={visible}
-      destroyOnClose
-      title={<h3 className='m-0'>{title}</h3>}
+      title={title && <h3 className='m-0'>{title}</h3>}
+      footer={footer && footer}
       onCancel={onClickCancelar}
-      footer={footer}>
+      closable={closable}
+      width={width && width}
+      destroyOnClose>
       {children}
     </Modal>
   )

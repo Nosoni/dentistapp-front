@@ -87,6 +87,9 @@ const CitasMedicaView = (props) => {
         }}
         locale='es'
         allDaySlot={false}
+        slotMinTime='09:00'
+        slotMaxTime='21:00'
+        expandRows={true}
         hiddenDays={[0]}
         dateClick={() => alert("ok")}
         eventClick={handleEventClick}
@@ -95,8 +98,11 @@ const CitasMedicaView = (props) => {
         <div className='row justify-content-center'>
           <Modal
             visible={showModal}
-            onClickCancelar={() => modalCancel()}
+            title={null}
             footer={null}
+            closable={false}
+            width='45%'
+            onClickCancelar={() => modalCancel()}
           >
             <CitaMedicaEditar onClickCancelar={() => modalCancel()} />
           </Modal>

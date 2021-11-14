@@ -65,7 +65,7 @@ const CitaMedica = (props) => {
 
   return (
     <div className='row justify-content-center'>
-      <Card title={titulo}>
+      <Card title={titulo} style={{ marginBottom: '0px' }}>
         <div className='row'>
           <Controller
             name='paciente_id'
