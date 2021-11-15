@@ -8,12 +8,15 @@ import withPageActions from '../../HOC/withPageActions';
 import BotoneraFooterActions from '../../components/BotoneraFooterActions';
 import { pacienteListar } from '../../../services/pacientes';
 import moment from 'moment';
+import { estadoMovimientoFiltrar } from '../../../services/estados_movimientos';
 
 const CitaMedica = (props) => {
   const { onClickCancelar, validarPeticion, openNotification,
     usuarioData: { token }, pageData: { selected } } = props
   const [pacientes, setPacientes] = useState([])
+  const [estados, setEstados] = useState([])
   const existe = !!selected?.extendedProps.cita_medica_id
+  const puede_avanzar = !selected.extendedProps.puede_avanzar
   let titulo = 'Editar cita médica'
   const shape = {
     paciente_id: yup.string().required('Favor seleccionar un paciente'),
@@ -22,7 +25,6 @@ const CitaMedica = (props) => {
   if (!existe) {
     titulo = 'Crear cita médica'
   }
-
   const schema = yup.object(shape)
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: { ...selected.extendedProps, fecha_inicio: moment(selected.extendedProps.fecha_inicio) },
@@ -34,12 +36,31 @@ const CitaMedica = (props) => {
   }, [])
 
   useEffect(() => {
+    getEstados(selected.extendedProps.estado_cita_id)
+  }, [selected])
+
+  useEffect(() => {
     if (errors) {
       Object.entries(errors).forEach(([key, value]) => {
         openNotification('error', value.message)
       });
     }
   }, [errors])
+
+  const getEstados = async (estado_cita_id) => {
+    if (estado_cita_id) {
+      validarPeticion(estadoMovimientoFiltrar(token, { tabla_id: 'citas_medicas', estado_anterior_id: estado_cita_id }),
+        (respuesta) => {
+          const list = respuesta.datos.map(estado_movimiento => {
+            return {
+              value: estado_movimiento.estado_actual,
+              label: estado_movimiento.estado_actual
+            }
+          })
+          setEstados(list)
+        })
+    }
+  }
 
   const listarPacientes = async () => {
     validarPeticion(pacienteListar(token), actualizarListPaciente)
@@ -65,8 +86,8 @@ const CitaMedica = (props) => {
 
   return (
     <div className='row justify-content-center'>
-      <Card title={titulo} style={{ marginBottom: '0px' }}>
-        <div className='row'>
+      <Card title={titulo} className='col-md-12' style={{ marginBottom: '0px' }}>
+        <div className='row mb-2'>
           <Controller
             name='paciente_id'
             control={control}
@@ -76,6 +97,7 @@ const CitaMedica = (props) => {
                 {...field}
                 options={pacientes}
                 allowClear
+                notFoundContent="No se encontró pacientes"
               />
             </div>
             }
@@ -94,6 +116,8 @@ const CitaMedica = (props) => {
             </div>
             }
           />
+        </div>
+        <div className='row'>
           <Controller
             name='observacion'
             control={control}
@@ -105,9 +129,23 @@ const CitaMedica = (props) => {
             </div>
             }
           />
+          <Controller
+            name="estado_nuevo_id"
+            control={control}
+            render={({ field }) => <div className="col-md-6">
+              <label className="ant-form-item-label">Actualizar estado: </label>
+              <Select
+                {...field}
+                options={estados}
+                notFoundContent="No hay estados"
+              />
+            </div>
+            }
+          />
         </div>
         <BotoneraFooterActions
           onClickCancelar={onClickCancelar}
+          aceptarEnable={puede_avanzar}
           onClickAceptar={handleSubmit(onSubmit)}
         />
       </Card>
