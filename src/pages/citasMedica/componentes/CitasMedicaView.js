@@ -55,11 +55,17 @@ const CitasMedicaView = (props) => {
     actualizarEstadoPagina({ selected: {} })
   }
 
+  //recibe el día y hora del click desde dateClick
+  const nuevaCita = () => {
+    actualizarEstadoPagina({ selected: {} })
+    setShowModal(true)
+  }
+
   return (
     <div>
       <FullCalendar
         headerToolbar={{
-          left: 'nuevo prev,next today',
+          left: 'prev,next today',
           center: 'title',
           right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
         }}
@@ -78,11 +84,12 @@ const CitasMedicaView = (props) => {
           month: 'short',
           day: 'numeric'
         }}
+        //se oculta de momento
         customButtons={{
           nuevo: {
             text: 'Agregar nueva cita',
             click() {
-              alert('click')
+              nuevaCita()
             }
           }
         }}
@@ -92,7 +99,7 @@ const CitasMedicaView = (props) => {
         slotMaxTime='21:00'
         expandRows={true}
         hiddenDays={[0]}
-        dateClick={() => alert("ok")}
+        dateClick={nuevaCita}
         eventClick={handleEventClick}
       />
       {showModal &&

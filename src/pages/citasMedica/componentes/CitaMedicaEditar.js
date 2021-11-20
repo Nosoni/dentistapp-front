@@ -12,11 +12,11 @@ import { estadoMovimientoFiltrar } from '../../../services/estados_movimientos';
 
 const CitaMedica = (props) => {
   const { onClickCancelar, validarPeticion, openNotification,
-    usuarioData: { token }, pageData: { selected } } = props
+    usuarioData: { token, usuario }, pageData: { selected } } = props
   const [pacientes, setPacientes] = useState([])
   const [estados, setEstados] = useState([])
-  const existe = !!selected?.extendedProps.cita_medica_id
-  const puede_avanzar = !selected.extendedProps.puede_avanzar
+  const existe = !!selected.extendedProps?.cita_medica_id
+  const puede_avanzar = !!selected.extendedProps?.puede_avanzar
   let titulo = 'Editar cita médica'
   const shape = {
     paciente_id: yup.string().required('Favor seleccionar un paciente'),
@@ -27,7 +27,10 @@ const CitaMedica = (props) => {
   }
   const schema = yup.object(shape)
   const { control, handleSubmit, formState: { errors } } = useForm({
-    defaultValues: { ...selected.extendedProps, fecha_inicio: moment(selected.extendedProps.fecha_inicio) },
+    defaultValues: {
+      ...selected.extendedProps,
+      fecha_inicio: existe ? moment(selected.extendedProps.fecha_inicio) : moment()
+    },
     resolver: yupResolver(schema)
   });
 
@@ -36,7 +39,9 @@ const CitaMedica = (props) => {
   }, [])
 
   useEffect(() => {
-    getEstados(selected.extendedProps.estado_cita_id)
+    if (existe) {
+      getEstados(selected.extendedProps?.estado_cita_id)
+    }
   }, [selected])
 
   useEffect(() => {
@@ -48,18 +53,17 @@ const CitaMedica = (props) => {
   }, [errors])
 
   const getEstados = async (estado_cita_id) => {
-    if (estado_cita_id) {
-      validarPeticion(estadoMovimientoFiltrar(token, { tabla_id: 'citas_medicas', estado_anterior_id: estado_cita_id }),
-        (respuesta) => {
-          const list = respuesta.datos.map(estado_movimiento => {
-            return {
-              value: estado_movimiento.estado_actual,
-              label: estado_movimiento.estado_actual
-            }
-          })
-          setEstados(list)
+    validarPeticion(estadoMovimientoFiltrar(token, { tabla_id: 'citas_medicas', estado_anterior_id: estado_cita_id }),
+      (respuesta) => {
+        console.log(respuesta.datos)
+        const list = respuesta.datos.map(estado_movimiento => {
+          return {
+            value: estado_movimiento.id,
+            label: estado_movimiento.estado_actual
+          }
         })
-    }
+        setEstados(list)
+      })
   }
 
   const listarPacientes = async () => {
@@ -77,11 +81,15 @@ const CitaMedica = (props) => {
   }
 
   const onSubmit = async cita_medica => {
-    console.log("cita_medica", cita_medica)
     if (existe)
-      validarPeticion(citaMedicaEditar(token, { id: cita_medica.cita_medica_id, ...cita_medica }), () => { }, true)
+      validarPeticion(citaMedicaEditar(token, {
+        id: cita_medica.cita_medica_id,
+        ...cita_medica,
+      }), () => { }, true)
     else
       validarPeticion(citaMedicaCrear(token, cita_medica), () => { }, true)
+
+    onClickCancelar()
   }
 
   return (
@@ -129,23 +137,25 @@ const CitaMedica = (props) => {
             </div>
             }
           />
-          <Controller
-            name="estado_nuevo_id"
-            control={control}
-            render={({ field }) => <div className="col-md-6">
-              <label className="ant-form-item-label">Actualizar estado: </label>
-              <Select
-                {...field}
-                options={estados}
-                notFoundContent="No hay estados"
-              />
-            </div>
-            }
-          />
+          {existe &&
+            <Controller
+              name="estado_nuevo_id"
+              control={control}
+              render={({ field }) => <div className="col-md-6">
+                <label className="ant-form-item-label">Actualizar estado: </label>
+                <Select
+                  {...field}
+                  options={estados}
+                  notFoundContent="No hay estados"
+                />
+              </div>
+              }
+            />
+          }
         </div>
         <BotoneraFooterActions
           onClickCancelar={onClickCancelar}
-          aceptarEnable={puede_avanzar}
+          aceptarEnable={existe ? !puede_avanzar : false}
           onClickAceptar={handleSubmit(onSubmit)}
         />
       </Card>
