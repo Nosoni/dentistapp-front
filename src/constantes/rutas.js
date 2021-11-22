@@ -2,6 +2,7 @@ import CitasMedica from "../pages/citasMedica/CitasMedica";
 import DashboardPage from "../pages/dashboards/dashboardDA/DashboardDA";
 import Doctores from "../pages/doctores/Doctores";
 import Especialidades from "../pages/especialidades/Especialidades";
+import Facturas from "../pages/facturas/Facturas";
 import Funcionarios from "../pages/funcionarios/Funcionarios";
 import Insumos from "../pages/insumos/Insumos";
 import Pacientes from "../pages/pacientes/Pacientes";
@@ -80,6 +81,11 @@ const rutasPrivadas = [
     path: 'presupuestos',
     component: () => <div>presupuestos</div>
   },
+  {
+    layout: "facturacion",
+    path: 'facturas',
+    component: Facturas
+  }
 ]
 
 export { rutasPublicas, rutasPrivadas }

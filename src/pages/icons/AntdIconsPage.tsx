@@ -43,26 +43,7 @@ const allIcons: {
   [key: string]: any;
 } = AntdIcons;
 
-const pageData: IPageData = {
-  title: 'Ant icons',
-  fulFilled: true,
-  breadcrumbs: [
-    {
-      title: 'Home',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'UI Kit ',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Ant icons'
-    }
-  ]
-};
-
 const AntdIconsPage = () => {
-  setPageData(pageData);
   const theme = ThemeType.Outlined;
 
   return (

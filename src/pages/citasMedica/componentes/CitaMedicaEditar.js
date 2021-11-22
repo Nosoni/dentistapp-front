@@ -12,7 +12,7 @@ import { estadoMovimientoFiltrar } from '../../../services/estados_movimientos';
 
 const CitaMedica = (props) => {
   const { onClickCancelar, validarPeticion, openNotification,
-    usuarioData: { token, usuario }, pageData: { selected } } = props
+    usuarioData: { token }, pageData: { selected } } = props
   const [pacientes, setPacientes] = useState([])
   const [estados, setEstados] = useState([])
   const existe = !!selected.extendedProps?.cita_medica_id
@@ -55,7 +55,6 @@ const CitaMedica = (props) => {
   const getEstados = async (estado_cita_id) => {
     validarPeticion(estadoMovimientoFiltrar(token, { tabla_id: 'citas_medicas', estado_anterior_id: estado_cita_id }),
       (respuesta) => {
-        console.log(respuesta.datos)
         const list = respuesta.datos.map(estado_movimiento => {
           return {
             value: estado_movimiento.id,

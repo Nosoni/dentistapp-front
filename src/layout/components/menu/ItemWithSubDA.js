@@ -25,7 +25,7 @@ const ItemWithSub = ({ location, title, layout, sub, opened, onClick, urlBase })
 
   const itemSub = sub.map((item, i) => {
     const tienePermiso = permisosUsuario.find((permiso) => permiso.nombre === item.permiso)
-    if (!!tienePermiso) {
+    if (!!tienePermiso || process.env.NODE_ENV === 'development') {
       return (
         <li className={subItemClass(item.routing)} key={i}>
           <NavLink

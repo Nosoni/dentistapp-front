@@ -47,7 +47,7 @@ const menues = [
       title: "Roles",
       routing: "roles",
       permiso: permisos.VER_MENU_ROL
-    },{
+    }, {
       title: "Tratamientos y Servicios",
       routing: "tratamientos-servicios",
       permiso: permisos.VER_MENU_TRATAMIENTO_SERVICIO
@@ -61,7 +61,7 @@ const menues = [
     sub: [{
       title: "Insumos",
       routing: "insumos",
-      permiso:  permisos.VER_MENU_INSUMO
+      permiso: permisos.VER_MENU_INSUMO
     }]
   }
   //#endregion insumos
@@ -72,6 +72,10 @@ const menues = [
     sub: [{
       title: "Presupuestos",
       routing: "presupuestos",
+      permiso: ""
+    }, {
+      title: "Facturas",
+      routing: "facturas",
       permiso: ""
     }]
   }

@@ -17,12 +17,13 @@ const IcofontIconsPage = () => {
 
   useEffect(() => {
     getDatasource()
-  }, [icons])
+  }, [])
 
   const getDatasource = async () => {
     const respuesta = await axios.get(iconsUrl);
-    setIcons(respuesta)
+    setIcons(respuesta.data)
   }
+
   return (
     <>
       <div className='elem-list'>

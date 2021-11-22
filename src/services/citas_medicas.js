@@ -2,7 +2,7 @@ import { peticion } from ".";
 import { server } from "../constantes/index";
 const servicio = "citas_medicas";
 
-const citaMedicaCrear = async (token, tratamiento_servicio) => {
+const citaMedicaCrear = async (token, cita_medica) => {
   try {
     const url = `${server}/${servicio}/crear`;
     const config = {
@@ -12,13 +12,13 @@ const citaMedicaCrear = async (token, tratamiento_servicio) => {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
-      data: JSON.stringify(tratamiento_servicio)
+      data: JSON.stringify(cita_medica)
     }
     return peticion(config)
   } catch (error) { }
 }
 
-const citaMedicaEditar = async (token, tratamiento_servicio) => {
+const citaMedicaEditar = async (token, cita_medica) => {
   try {
     const url = `${server}/${servicio}/editar`;
     const config = {
@@ -28,7 +28,7 @@ const citaMedicaEditar = async (token, tratamiento_servicio) => {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
-      data: JSON.stringify(tratamiento_servicio)
+      data: JSON.stringify(cita_medica)
     }
     return await peticion(config)
   } catch (error) { }

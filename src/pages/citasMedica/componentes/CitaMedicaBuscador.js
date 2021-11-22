@@ -4,7 +4,7 @@ import { DatePicker, Select, Button } from 'antd';
 import withPageActions from '../../HOC/withPageActions';
 import { citaMedicaFiltrar } from '../../../services/citas_medicas';
 import { estadoMovimientoListarTabla } from '../../../services/estados_movimientos';
-import { objectHasValue, validarFecha } from '../../../utils/helpers';
+import { objectHasValue } from '../../../utils/helpers';
 import { pacienteFiltrar } from '../../../services/pacientes';
 import '../../components/css/datetimepicker.css';
 
@@ -41,8 +41,8 @@ const CitaMedicaBuscador = (props) => {
 
   const onSubmit = async (filtro) => {
     if (objectHasValue(filtro)) {
-      let paciente_seleccionado = []
       if (filtro.pacientes) {
+        let paciente_seleccionado = []
         filtro.pacientes.map(paciente => paciente_seleccionado.push(paciente.value))
         filtro.paciente_id = paciente_seleccionado
       }
@@ -58,7 +58,8 @@ const CitaMedicaBuscador = (props) => {
         (respuesta) => {
           const pacientes = respuesta.datos.map(paciente => {
             return {
-              value: paciente.id, label: `${paciente.apellidos}, ${paciente.nombres}`
+              value: paciente.id,
+              label: `${paciente.apellidos}, ${paciente.nombres}`
             }
           })
           setPacientes(pacientes)
@@ -93,7 +94,7 @@ const CitaMedicaBuscador = (props) => {
           showArrow={true}
           labelInValue
           onInputKeyDown={handleSearch}
-          notFoundContent={null}
+          notFoundContent="No hay pacientes para mostrar"
           {...field}
         >
           {pacientes.map(paciente => <Option value={paciente.value}>{paciente.label}</Option>)}
@@ -147,7 +148,7 @@ const CitaMedicaBuscador = (props) => {
       </div>
       }
     />
-    <Button className='bg-color-success mt-2 float-right'
+    <Button className='bg-color-info mt-2 float-right'
       onClick={handleSubmit(onSubmit)}
     >
       Buscar
