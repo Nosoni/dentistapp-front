@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import withPageActions from '../../HOC/withPageActions'
-import { Card, DatePicker, Input, Select, Button, Divider } from 'antd';
+import { Card, DatePicker, Input, Select, Button, Divider, Table } from 'antd';
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -194,6 +194,7 @@ const FacturaEditar = (props) => {
         </div>
         <Divider type="horizontal" style={{ height: "1px", border: '#b4afaf 1px solid' }} />
         <div className='row mb-2'>
+          <Table pagination={false} columns={[]} dataSource={[]} size='middle' />
         </div>
       </Card>
     </div>

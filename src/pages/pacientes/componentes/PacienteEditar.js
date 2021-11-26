@@ -10,6 +10,8 @@ import BotoneraFooterActions from '../../components/BotoneraFooterActions';
 import FichaMedica from './FichaMedica';
 import { validarFecha } from '../../../utils/helpers';
 import '../../components/css/datetimepicker.css';
+import Diente from './Diente';
+import Odontograma from './Odontograma';
 
 const PacienteEditar = (props) => {
   const { onClickCancelar, validarPeticion, openNotification,
@@ -182,6 +184,7 @@ const PacienteEditar = (props) => {
                 }
               />
             </div>
+            <Odontograma></Odontograma>
             <BotoneraFooterActions
               onClickCancelar={onClickCancelar}
               onClickAceptar={handleSubmit(onSubmit)}
