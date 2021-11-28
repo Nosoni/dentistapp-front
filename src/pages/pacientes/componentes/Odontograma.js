@@ -1,19 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
+import BotoneraFooterActions from '../../components/BotoneraFooterActions'
 import Diente from './Diente'
 import DienteLeche from './DienteLeche'
 
-const Odontograma = ({ paciente_dientes }) => {
+const Odontograma = ({ onSubmit, ...props }) => {
+  const { onClickCancelar, pageData: { selected } } = props
+  const [dientes, setDientes] = useState(selected.dientes)
+
   return <div>
     <div className='row'>
       <div id="tr" className="col-6">
-        <Diente codigo={18} />
+        <Diente codigo={18} detalle={dientes.find(diente => diente.diente.codigo === 18)} />
         <Diente codigo={17} />
         <Diente codigo={16} />
         <Diente codigo={15} />
         <Diente codigo={14} />
         <Diente codigo={13} />
         <Diente codigo={12} />
-        <Diente codigo={11} />
+        <Diente codigo={11} detalle={dientes.find(diente => diente.diente.codigo === 11)?.pacientes_dientes_detalles} />
       </div>
       <div id="tl" className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <Diente codigo={21} />
@@ -76,6 +80,13 @@ const Odontograma = ({ paciente_dientes }) => {
         <Diente codigo={38} />
       </div>
     </div>
+    <BotoneraFooterActions
+      onClickCancelar={onClickCancelar}
+      onClickAceptar={() => {
+        console.log(dientes)
+        onSubmit({ ...selected, dientes: dientes })
+      }}
+    />
   </div>
 }
 
