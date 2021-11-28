@@ -72,7 +72,7 @@ const PacienteEditar = (props) => {
 
   return (
     <div className='row justify-content-center'>
-      <Card title={titulo} className='with-shadow col-md-9'>
+      <Card title={titulo} className='with-shadow col-md-12'>
         <Tabs defaultActiveKey={1}>
           <TabPane tab="Datos básicos" key={1}>
             <div className='row mb-2'>
@@ -184,7 +184,6 @@ const PacienteEditar = (props) => {
                 }
               />
             </div>
-            <Odontograma></Odontograma>
             <BotoneraFooterActions
               onClickCancelar={onClickCancelar}
               onClickAceptar={handleSubmit(onSubmit)}
@@ -192,9 +191,19 @@ const PacienteEditar = (props) => {
           </TabPane>
           {
             existe &&
-            <TabPane tab="Ficha médica" key={2}>
-              <FichaMedica ficha={selected.ficha_medica} {...props} />
-            </TabPane>
+            <>
+              <TabPane tab="Ficha médica" key={2}>
+                <FichaMedica ficha={selected.ficha_medica} {...props} />
+              </TabPane>
+              <TabPane tab="Odontograma" key={3}>
+                <Odontograma />
+              </TabPane>
+              <TabPane tab="Historial" key={4}>
+                <>
+                  Historial
+                </>
+              </TabPane>
+            </>
           }
         </Tabs>
       </Card>

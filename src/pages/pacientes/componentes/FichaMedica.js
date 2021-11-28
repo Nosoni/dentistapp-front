@@ -8,8 +8,8 @@ const FichaMedica = ({ ficha, ...props }) => {
   const { control, handleSubmit } = useForm({
     defaultValues: ficha,
   });
-  const { token } = props.usuarioData;
-  const { onClickCancelar, validarPeticion, pageData: { selected } } = props
+  const { onClickCancelar, validarPeticion,
+    pageData: { selected }, usuarioData: { token } } = props
   const onSubmit = async ficha_medica => {
     if (!!ficha_medica.id)
       validarPeticion(fichaMedicaEditar(token, { ficha_medica, paciente_id: selected.id }), () => { }, true)
