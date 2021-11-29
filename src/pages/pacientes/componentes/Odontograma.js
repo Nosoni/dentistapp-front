@@ -7,27 +7,60 @@ const Odontograma = ({ onSubmit, ...props }) => {
   const { onClickCancelar, pageData: { selected } } = props
   const [dientes, setDientes] = useState(selected.dientes)
 
+  console.log("dientes", dientes)
+
+  const actualizarDetalle = (index, nuevo_detalles) => {
+    console.log("actualizarDetalle", nuevo_detalles)
+    console.log(index)
+    let cambio = dientes[index]
+    cambio.pacientes_dientes_detalles = nuevo_detalles
+    setDientes([...dientes.slice(0, index), cambio, ...dientes.slice(index + 1)])
+  }
+
+  const obtenerValores = (codigo) => {
+    let index = dientes.findIndex(diente => diente.diente.codigo === codigo)
+    let detalle = dientes[index].pacientes_dientes_detalles
+    let caras = dientes[index].diente.cantidad_caras
+    return { index, codigo, detalle, caras }
+  }
+
   return <div>
     <div className='row'>
       <div id="tr" className="col-6">
-        <Diente codigo={18} detalle={dientes.find(diente => diente.diente.codigo === 18)} />
-        <Diente codigo={17} />
-        <Diente codigo={16} />
-        <Diente codigo={15} />
-        <Diente codigo={14} />
-        <Diente codigo={13} />
-        <Diente codigo={12} />
-        <Diente codigo={11} detalle={dientes.find(diente => diente.diente.codigo === 11)?.pacientes_dientes_detalles} />
+        <Diente valores_iniciales={obtenerValores(18)}
+          actualizarDetalle={actualizarDetalle} />
+        <Diente valores_iniciales={obtenerValores(17)}
+          actualizarDetalle={actualizarDetalle} />
+        <Diente valores_iniciales={obtenerValores(16)}
+          actualizarDetalle={actualizarDetalle} />
+        <Diente valores_iniciales={obtenerValores(15)}
+          actualizarDetalle={actualizarDetalle} />
+        <Diente valores_iniciales={obtenerValores(14)}
+          actualizarDetalle={actualizarDetalle} />
+        <Diente valores_iniciales={obtenerValores(13)}
+          actualizarDetalle={actualizarDetalle} />
+        <Diente valores_iniciales={obtenerValores(12)}
+          actualizarDetalle={actualizarDetalle} />
+        <Diente valores_iniciales={obtenerValores(11)}
+          actualizarDetalle={actualizarDetalle} />
       </div>
       <div id="tl" className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-        <Diente codigo={21} />
-        <Diente codigo={22} />
-        <Diente codigo={23} />
-        <Diente codigo={24} />
-        <Diente codigo={25} />
-        <Diente codigo={26} />
-        <Diente codigo={27} />
-        <Diente codigo={28} />
+        <Diente valores_iniciales={obtenerValores(21)}
+          actualizarDetalle={actualizarDetalle} />
+        <Diente valores_iniciales={obtenerValores(22)}
+          actualizarDetalle={actualizarDetalle} />
+        <Diente valores_iniciales={obtenerValores(23)}
+          actualizarDetalle={actualizarDetalle} />
+        <Diente valores_iniciales={obtenerValores(24)}
+          actualizarDetalle={actualizarDetalle} />
+        <Diente valores_iniciales={obtenerValores(25)}
+          actualizarDetalle={actualizarDetalle} />
+        <Diente valores_iniciales={obtenerValores(26)}
+          actualizarDetalle={actualizarDetalle} />
+        <Diente valores_iniciales={obtenerValores(27)}
+          actualizarDetalle={actualizarDetalle} />
+        <Diente valores_iniciales={obtenerValores(28)}
+          actualizarDetalle={actualizarDetalle} />
       </div>
       <div id="tlr" className="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-right">
         <DienteLeche codigo={55} style={{ left: "-25%" }} />
@@ -60,24 +93,40 @@ const Odontograma = ({ onSubmit, ...props }) => {
         <DienteLeche codigo={75} style={{ marginTop: '25px' }} />
       </div>
       <div id="br" className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-        <Diente codigo={48} />
-        <Diente codigo={47} />
-        <Diente codigo={46} />
-        <Diente codigo={45} />
-        <Diente codigo={44} />
-        <Diente codigo={43} />
-        <Diente codigo={42} />
-        <Diente codigo={41} />
+        <Diente valores_iniciales={obtenerValores(48)}
+          actualizarDetalle={actualizarDetalle} />
+        <Diente valores_iniciales={obtenerValores(47)}
+          actualizarDetalle={actualizarDetalle} />
+        <Diente valores_iniciales={obtenerValores(46)}
+          actualizarDetalle={actualizarDetalle} />
+        <Diente valores_iniciales={obtenerValores(45)}
+          actualizarDetalle={actualizarDetalle} />
+        <Diente valores_iniciales={obtenerValores(44)}
+          actualizarDetalle={actualizarDetalle} />
+        <Diente valores_iniciales={obtenerValores(43)}
+          actualizarDetalle={actualizarDetalle} />
+        <Diente valores_iniciales={obtenerValores(42)}
+          actualizarDetalle={actualizarDetalle} />
+        <Diente valores_iniciales={obtenerValores(41)}
+          actualizarDetalle={actualizarDetalle} />
       </div>
       <div id="bl" className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-        <Diente codigo={31} />
-        <Diente codigo={32} />
-        <Diente codigo={33} />
-        <Diente codigo={34} />
-        <Diente codigo={35} />
-        <Diente codigo={36} />
-        <Diente codigo={37} />
-        <Diente codigo={38} />
+        <Diente valores_iniciales={obtenerValores(31)}
+          actualizarDetalle={actualizarDetalle} />
+        <Diente valores_iniciales={obtenerValores(32)}
+          actualizarDetalle={actualizarDetalle} />
+        <Diente valores_iniciales={obtenerValores(33)}
+          actualizarDetalle={actualizarDetalle} />
+        <Diente valores_iniciales={obtenerValores(34)}
+          actualizarDetalle={actualizarDetalle} />
+        <Diente valores_iniciales={obtenerValores(35)}
+          actualizarDetalle={actualizarDetalle} />
+        <Diente valores_iniciales={obtenerValores(36)}
+          actualizarDetalle={actualizarDetalle} />
+        <Diente valores_iniciales={obtenerValores(37)}
+          actualizarDetalle={actualizarDetalle} />
+        <Diente valores_iniciales={obtenerValores(38)}
+          actualizarDetalle={actualizarDetalle} />
       </div>
     </div>
     <BotoneraFooterActions
