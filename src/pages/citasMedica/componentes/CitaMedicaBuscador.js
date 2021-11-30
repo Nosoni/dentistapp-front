@@ -3,7 +3,7 @@ import { Controller, useForm } from "react-hook-form";
 import { DatePicker, Select, Button } from 'antd';
 import withPageActions from '../../HOC/withPageActions';
 import { citaMedicaFiltrar } from '../../../services/citas_medicas';
-import { estadoMovimientoListarTabla } from '../../../services/estados_movimientos';
+import { estadoMovimientoListarTablaGrouping } from '../../../services/estados_movimientos';
 import { objectHasValue } from '../../../utils/helpers';
 import { pacienteFiltrar } from '../../../services/pacientes';
 import '../../components/css/datetimepicker.css';
@@ -21,7 +21,7 @@ const CitaMedicaBuscador = (props) => {
   }, [])
 
   const getEstados = async () => {
-    validarPeticion(estadoMovimientoListarTabla(token, 'citas_medicas'),
+    validarPeticion(estadoMovimientoListarTablaGrouping(token, 'citas_medicas'),
       (respuesta) => {
         const list = respuesta.datos.map(estado_movimiento => {
           return {

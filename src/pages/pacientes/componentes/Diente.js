@@ -3,7 +3,7 @@ import { Tag } from 'antd'
 import './css/odonto-diente.css'
 
 const Diente = (props) => {
-  const { valores_iniciales, actualizarDetalle, estado_nuevo = { estado_detalle_id: 11, estado_actual: 'Fracturas' } } = props
+  const { valores_iniciales, actualizarDetalle, estado_nuevo } = props
   const detalle = valores_iniciales.detalle
   const mayor = valores_iniciales.caras === 5
   let init = [
@@ -17,7 +17,7 @@ const Diente = (props) => {
   }
 
   const [caras, setCaras] = useState(init)
-  
+
   const actualizarEstadoCara = (index, estado) => {
     let cambio = caras[index]
     cambio.estado_detalle_id = estado.estado_detalle_id

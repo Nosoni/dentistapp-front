@@ -102,11 +102,11 @@
 }
 
 .Caries {
-  background-color: red !important;
+  background-color: black !important;
 }
 
 .Fracturas {
-  background-color: blue !important;
+  background-color: red !important;
 }
 
 .click-delete {

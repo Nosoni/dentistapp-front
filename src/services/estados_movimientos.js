@@ -18,6 +18,21 @@ const estadoMovimientoFiltrar = async (token, filtro) => {
   } catch (error) { }
 };
 
+const estadoMovimientoListarTablaGrouping = async (token, tabla_id) => {
+  try {
+    const url = `${server}/${servicio}/listarTablaGrouping/${tabla_id}`;
+    const config = {
+      method: "GET",
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    }
+    return await peticion(config)
+  } catch (error) { }
+};
+
 const estadoMovimientoListarTabla = async (token, tabla_id) => {
   try {
     const url = `${server}/${servicio}/listarTabla/${tabla_id}`;
@@ -33,4 +48,4 @@ const estadoMovimientoListarTabla = async (token, tabla_id) => {
   } catch (error) { }
 };
 
-export { estadoMovimientoFiltrar, estadoMovimientoListarTabla }
+export { estadoMovimientoFiltrar, estadoMovimientoListarTablaGrouping, estadoMovimientoListarTabla }
