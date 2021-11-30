@@ -15,14 +15,11 @@ const PacienteEditar = (props) => {
     titulo = "Crear paciente"
   }
 
-  //validar que actualice ficha
   const onSubmit = async (paciente) => {
-    console.log(paciente)
-    return
-    // if (existe)
-    //   validarPeticion(pacienteEditar(token, paciente), () => { }, true)
-    // else
-    //   validarPeticion(pacienteCrear(token, paciente), () => { }, true)
+    if (existe)
+      validarPeticion(pacienteEditar(token, paciente), () => { }, true)
+    else
+      validarPeticion(pacienteCrear(token, paciente), () => { }, true)
   }
 
   return (
