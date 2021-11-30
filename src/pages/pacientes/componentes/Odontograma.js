@@ -63,34 +63,69 @@ const Odontograma = ({ onSubmit, ...props }) => {
           actualizarDetalle={actualizarDetalle} />
       </div>
       <div id="tlr" className="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-right">
-        <DienteLeche codigo={55} style={{ left: "-25%" }} />
-        <DienteLeche codigo={54} style={{ left: "-25%" }} />
-        <DienteLeche codigo={53} style={{ left: "-25%" }} />
-        <DienteLeche codigo={52} style={{ left: "-25%" }} />
-        <DienteLeche codigo={51} style={{ left: "-25%" }} />
+        <DienteLeche valores_iniciales={obtenerValores(55)}
+          actualizarDetalle={actualizarDetalle}
+          style={{ left: "-25%" }} />
+        <DienteLeche valores_iniciales={obtenerValores(54)}
+          actualizarDetalle={actualizarDetalle}
+          style={{ left: "-25%" }} />
+        <DienteLeche valores_iniciales={obtenerValores(53)}
+          actualizarDetalle={actualizarDetalle}
+          style={{ left: "-25%" }} />
+        <DienteLeche valores_iniciales={obtenerValores(52)}
+          actualizarDetalle={actualizarDetalle}
+          style={{ left: "-25%" }} />
+        <DienteLeche valores_iniciales={obtenerValores(51)}
+          actualizarDetalle={actualizarDetalle}
+          style={{ left: "-25%" }} />
       </div>
       <div id="tll" className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-        <DienteLeche codigo={61} />
-        <DienteLeche codigo={62} />
-        <DienteLeche codigo={63} />
-        <DienteLeche codigo={64} />
-        <DienteLeche codigo={65} />
+        <DienteLeche valores_iniciales={obtenerValores(61)}
+          actualizarDetalle={actualizarDetalle} />
+        <DienteLeche valores_iniciales={obtenerValores(62)}
+          actualizarDetalle={actualizarDetalle} />
+        <DienteLeche valores_iniciales={obtenerValores(63)}
+          actualizarDetalle={actualizarDetalle} />
+        <DienteLeche valores_iniciales={obtenerValores(64)}
+          actualizarDetalle={actualizarDetalle} />
+        <DienteLeche valores_iniciales={obtenerValores(65)}
+          actualizarDetalle={actualizarDetalle} />
       </div>
     </div>
     <div className='row'>
       <div id="blr" className="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-right">
-        <DienteLeche codigo={85} style={{ left: "-25%", marginTop: '25px' }} />
-        <DienteLeche codigo={84} style={{ left: "-25%", marginTop: '25px' }} />
-        <DienteLeche codigo={83} style={{ left: "-25%", marginTop: '25px' }} />
-        <DienteLeche codigo={82} style={{ left: "-25%", marginTop: '25px' }} />
-        <DienteLeche codigo={81} style={{ left: "-25%", marginTop: '25px' }} />
+        <DienteLeche valores_iniciales={obtenerValores(85)}
+          actualizarDetalle={actualizarDetalle}
+          style={{ left: "-25%", marginTop: '25px' }} />
+        <DienteLeche valores_iniciales={obtenerValores(84)}
+          actualizarDetalle={actualizarDetalle}
+          style={{ left: "-25%", marginTop: '25px' }} />
+        <DienteLeche valores_iniciales={obtenerValores(83)}
+          actualizarDetalle={actualizarDetalle}
+          style={{ left: "-25%", marginTop: '25px' }} />
+        <DienteLeche valores_iniciales={obtenerValores(82)}
+          actualizarDetalle={actualizarDetalle}
+          style={{ left: "-25%", marginTop: '25px' }} />
+        <DienteLeche valores_iniciales={obtenerValores(81)}
+          actualizarDetalle={actualizarDetalle}
+          style={{ left: "-25%", marginTop: '25px' }} />
       </div>
       <div id="bll" className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-        <DienteLeche codigo={71} style={{ marginTop: '25px' }} />
-        <DienteLeche codigo={72} style={{ marginTop: '25px' }} />
-        <DienteLeche codigo={73} style={{ marginTop: '25px' }} />
-        <DienteLeche codigo={74} style={{ marginTop: '25px' }} />
-        <DienteLeche codigo={75} style={{ marginTop: '25px' }} />
+        <DienteLeche valores_iniciales={obtenerValores(71)}
+          actualizarDetalle={actualizarDetalle}
+          style={{ marginTop: '25px' }} />
+        <DienteLeche valores_iniciales={obtenerValores(72)}
+          actualizarDetalle={actualizarDetalle}
+          style={{ marginTop: '25px' }} />
+        <DienteLeche valores_iniciales={obtenerValores(73)}
+          actualizarDetalle={actualizarDetalle}
+          style={{ marginTop: '25px' }} />
+        <DienteLeche valores_iniciales={obtenerValores(74)}
+          actualizarDetalle={actualizarDetalle}
+          style={{ marginTop: '25px' }} />
+        <DienteLeche valores_iniciales={obtenerValores(75)}
+          actualizarDetalle={actualizarDetalle}
+          style={{ marginTop: '25px' }} />
       </div>
       <div id="br" className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <Diente valores_iniciales={obtenerValores(48)}

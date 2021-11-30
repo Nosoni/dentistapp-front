@@ -106,7 +106,7 @@
 }
 
 .Fracturas {
-  background-color: blue;
+  background-color: blue !important;
 }
 
 .click-delete {
@@ -198,69 +198,3 @@
   clip: rect(0px, 201px, 201px, 100px);
   left: 301px;
 }
-
-.Pizza {
-  position: absolute;
-  width: 201px;
-  height: 201px;
-  clip: rect(0px, 100px, 201px, 0px);
-  border-radius: 100px;
-}
-
-.PizzaContainer {
-  height: 100px;
-  width: 100px;
-  float: right;
-  margin: 0 0 21px 21px;
-}
-
-#PizzaSliceYellow .Pizza {
-  background-color: yellow;
-  transform: rotate(90deg);
-}
-
-#PizzaSliceBlue .Pizza {
-  background-color: blue;
-  transform: rotate(90deg);
-}
-
-#PizzaSliceRed .Pizza {
-  background-color: red;
-  transform: rotate(90deg);
-}
-
-#PizzaSliceOlive .Pizza {
-  background-color: olive;
-  transform: rotate(90deg);
-}
-
-#PizzaSliceYellow {
-  transform: rotate(45deg);
-}
-
-#PizzaSliceBlue {
-  transform: rotate(135deg);
-}
-
-#PizzaSliceRed {
-  transform: rotate(225deg);
-}
-
-#PizzaSliceOlive {
-  transform: rotate(315deg);
-}
-
-/* <div className="PizzaContainer">
-    <div id="PizzaSliceYellow" className="hold">
-      <div className="Pizza"></div>
-    </div>
-    <div id="PizzaSliceBlue" className="hold">
-      <div className="Pizza"></div>
-    </div>
-    <div id="PizzaSliceRed" className="hold">
-      <div className="Pizza"></div>
-    </div>
-    <div id="PizzaSliceOlive" className="hold">
-      <div className="Pizza"></div>
-    </div>
-  </div> */

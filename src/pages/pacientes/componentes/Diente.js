@@ -17,6 +17,7 @@ const Diente = (props) => {
   }
 
   const [caras, setCaras] = useState(init)
+  
   const actualizarEstadoCara = (index, estado) => {
     let cambio = caras[index]
     cambio.estado_detalle_id = estado.estado_detalle_id
@@ -24,7 +25,6 @@ const Diente = (props) => {
     setCaras([...caras.slice(0, index), cambio, ...caras.slice(index + 1)]);
     actualizarDetalle(valores_iniciales.index, caras)
   }
-
 
   return (
     <div className="diente">
