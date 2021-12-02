@@ -5,6 +5,7 @@ import { pacienteCrear, pacienteEditar } from '../../../services/pacientes';
 import FichaMedica from './FichaMedica';
 import Odontograma from './Odontograma';
 import DatosBasicos from './DatosBasicos';
+import Tratamientos from './Tratamientos';
 
 const PacienteEditar = (props) => {
   const { validarPeticion, usuarioData: { token }, pageData: { selected } } = props
@@ -38,10 +39,8 @@ const PacienteEditar = (props) => {
               <TabPane tab="Odontograma" key={3}>
                 <Odontograma onSubmit={onSubmit} {...props} />
               </TabPane>
-              <TabPane tab="Historial" key={4}>
-                <>
-                  Historial
-                </>
+              <TabPane tab="Tratamientos" key={4}>
+                <Tratamientos onSubmit={onSubmit} {...props} />
               </TabPane>
             </>
           }

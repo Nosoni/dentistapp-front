@@ -17,16 +17,10 @@ const Odontograma = ({ onSubmit, ...props }) => {
     getEstados()
   }, [])
 
-  useEffect(() => {
-    console.log(seleccionado)
-  }, [seleccionado])
-
   const getEstados = async () => {
     validarPeticion(estadoMovimientoListarTabla(token, 'pacientes_dientes_detalle'),
       (respuesta) => {
-        console.log(respuesta)
         const list = respuesta.datos.map(estado_movimiento => {
-          console.log(estado_movimiento)
           return {
             value: estado_movimiento.id,
             label: estado_movimiento.estado_actual
@@ -37,8 +31,6 @@ const Odontograma = ({ onSubmit, ...props }) => {
   }
 
   const actualizarDetalle = (index, nuevo_detalles) => {
-    console.log("actualizarDetalle", nuevo_detalles)
-    console.log(index)
     let cambio = dientes[index]
     cambio.pacientes_dientes_detalles = nuevo_detalles
     setDientes([...dientes.slice(0, index), cambio, ...dientes.slice(index + 1)])
@@ -258,7 +250,6 @@ const Odontograma = ({ onSubmit, ...props }) => {
     <BotoneraFooterActions
       onClickCancelar={onClickCancelar}
       onClickAceptar={() => {
-        console.log(dientes)
         onSubmit({ ...selected, dientes: dientes })
       }}
     />

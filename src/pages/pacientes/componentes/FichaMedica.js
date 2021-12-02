@@ -1,7 +1,6 @@
 import React from 'react'
 import { Input, Checkbox } from 'antd';
 import { useForm, Controller } from "react-hook-form";
-import { fichaMedicaCrear, fichaMedicaEditar } from '../../../services/fichas_medicas';
 import BotoneraFooterActions from '../../components/BotoneraFooterActions';
 
 const FichaMedica = ({ onSubmit, ...props }) => {
@@ -11,12 +10,6 @@ const FichaMedica = ({ onSubmit, ...props }) => {
   const { control, handleSubmit } = useForm({
     defaultValues: selected.ficha_medica,
   });
-  // const onSubmit = async ficha_medica => {
-  //   if (!!ficha_medica.id)
-  //     validarPeticion(fichaMedicaEditar(token, { ficha_medica, paciente_id: selected.id }), () => { }, true)
-  //   else
-  //     validarPeticion(fichaMedicaCrear(token, { ficha_medica, paciente_id: selected.id }), () => { }, true)
-  // }
 
   return <>
     <div className='row'>

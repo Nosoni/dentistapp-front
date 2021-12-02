@@ -9,20 +9,27 @@ import { validarFecha } from '../../../utils/helpers';
 import '../../components/css/datetimepicker.css';
 import { estadoMovimientoFiltrar } from '../../../services/estados_movimientos';
 import ButtonsTooltips from '../../components/ButtonsTooltips';
+import { condicionesPagoListar } from '../../../services/condiciones_pago';
+import FacturaDetalle from './FacturaDetalle';
+import { number, string } from 'yup/lib/locale';
 
 const FacturaEditar = (props) => {
   const { onClickCancelar, validarPeticion, openNotification,
     usuarioData: { token }, pageData: { selected } } = props
-  selected.fecha_nacimiento = validarFecha(selected.fecha_nacimiento)
+  selected.fecha = validarFecha(selected.fecha)
   const [estados, setEstados] = useState([])
   const [pacientes, setPacientes] = useState([])
+  const [condicionesPago, setCondicionesPago] = useState([])
+  const [detValues, setDetValues] = useState([])
+  const [mostrarDetalle, setMostrarDetalle] = useState([])
+  const [pacienteSeleccionado, setPacienteSeleccionado] = useState()
   const existe = !!selected?.id
   let titulo = "Editar factura"
   const shape = {
-    documento: yup.string().required("Favor introduzca el documento"),
-    tipo_documento_id: yup.string().required("Favor seleccione el tipo documento"),
-    nombres: yup.string().required("Favor introduzca el nombre"),
-    apellidos: yup.string().required("Favor introduzca el apellido"),
+    paciente_id: yup.object().required("Favor seleccionar al paciente"),
+    fecha: yup.date().required("Favor una fecha"),
+    comprobante: yup.string().required("Indica el número de comprobante"),
+    condicion_pago_id: yup.number().required("Favor seleccione la condición de pago"),
   }
   if (!existe) {
     titulo = "Crear factura"
@@ -33,6 +40,10 @@ const FacturaEditar = (props) => {
     resolver: yupResolver(schema),
   });
   const { Option } = Select;
+
+  useEffect(() => {
+    getCondicionesPago()
+  }, [])
 
   useEffect(() => {
     if (existe) {
@@ -61,11 +72,27 @@ const FacturaEditar = (props) => {
       })
   }
 
-  const onSubmit = async paciente => {
-    if (existe)
-      validarPeticion(pacienteEditar(token, paciente), () => { }, true)
-    else
-      validarPeticion(pacienteCrear(token, paciente), () => { }, true)
+  const getCondicionesPago = async () => {
+    validarPeticion(condicionesPagoListar(token),
+      (respuesta) => {
+        const list = respuesta.datos.map(condiciones_pago => {
+          return {
+            value: condiciones_pago.id,
+            label: condiciones_pago.codigo
+          }
+        })
+        setCondicionesPago(list)
+      })
+  }
+
+  const onSubmit = async data => {
+    console.log("cabecera", data)
+    console.log("detalle", detValues)
+    return
+    // if (existe)
+    //   validarPeticion(pacienteEditar(token, paciente), () => { }, true)
+    // else
+    //   validarPeticion(pacienteCrear(token, paciente), () => { }, true)
   }
 
   const handleSearch = value => {
@@ -98,14 +125,14 @@ const FacturaEditar = (props) => {
         <ButtonsTooltips
           shape='round'
           className="bg-color-success"
-          tooltipsTitle="Guardar">
+          tooltipsTitle="Guardar"
+          onClick={handleSubmit(onSubmit)} >
           <span className='icofont icofont-save' />
         </ButtonsTooltips>
         {
-          !existe &&
+          existe &&
           <Select
-            className='mb-lg-0 col-4'
-            style={{ marginTop: '-10px' }}
+            className='p-0 col-4 mr-2'
             showArrow={false}
             placeholder='Cambiar estado'
             options={estados}
@@ -114,7 +141,7 @@ const FacturaEditar = (props) => {
         }
         <ButtonsTooltips
           shape='round'
-          className="bg-color-info"
+          className="bg-color-info mr-2"
           tooltipsTitle="Volver"
           onClick={onClickCancelar}>
           <span className='icofont icofont-undo' />
@@ -141,10 +168,14 @@ const FacturaEditar = (props) => {
                 labelInValue
                 onInputKeyDown={handleSearch}
                 notFoundContent="No hay pacientes para mostrar"
+                onSelect={(paciente) => {
+                  setPacienteSeleccionado(paciente.value)
+                }}
                 {...field}
               >
                 {pacientes.map(paciente =>
                   <Option
+                    key={paciente.value}
                     value={paciente.value}>
                     {paciente.label}
                   </Option>)}
@@ -186,15 +217,16 @@ const FacturaEditar = (props) => {
                 placeholder='Seleccione la condición'
                 notFoundContent="No hay condición de pago para mostrar"
                 showArrow={false}
+                options={condicionesPago}
                 {...field}
               />
             </div>
             }
           />
         </div>
-        <Divider type="horizontal" style={{ height: "1px", border: '#b4afaf 1px solid' }} />
-        <div className='row mb-2'>
-          <Table pagination={false} columns={[]} dataSource={[]} size='middle' />
+        <Divider type="horizontal" style={{ height: "1px", border: '#b4afaf 1px solid', marginBottom: '0px' }} />
+        <div className='row '>
+          <FacturaDetalle pacienteSeleccionado={pacienteSeleccionado} agregarValoresDetalle={setDetValues} {...props} />
         </div>
       </Card>
     </div>

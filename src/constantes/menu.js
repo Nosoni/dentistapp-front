@@ -72,11 +72,11 @@ const menues = [
     sub: [{
       title: "Presupuestos",
       routing: "presupuestos",
-      permiso: ""
+      permiso: permisos.VER_MENU_PRESUPUESTO
     }, {
       title: "Facturas",
       routing: "facturas",
-      permiso: ""
+      permiso: permisos.VER_MENU_FACTURACION
     }]
   }
   //#endregion facturacion
