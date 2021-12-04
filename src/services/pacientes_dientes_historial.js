@@ -2,9 +2,9 @@ import { peticion } from ".";
 import { server } from "../constantes/index";
 const servicio = "pacientes_dientes_historial";
 
-const getHistorialParaFacturar = async (token, paciente_id) => {
+const getHistorialInicial = async (token, paciente_id) => {
   try {
-    const url = `${server}/${servicio}/getHistorialParaFacturar/${paciente_id}`;
+    const url = `${server}/${servicio}/getHistorialInicial/${paciente_id}`;
     const config = {
       method: "GET",
       url,
@@ -17,4 +17,4 @@ const getHistorialParaFacturar = async (token, paciente_id) => {
   } catch (error) { }
 };
 
-export { getHistorialParaFacturar }
+export { getHistorialInicial }

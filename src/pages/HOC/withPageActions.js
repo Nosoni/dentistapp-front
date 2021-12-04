@@ -35,7 +35,7 @@ const withPageActions = (Component) => {
           this.openNotification("error", respuesta.mensaje)
           if (respuesta.autenticado === false) {
             this.handleUpdateUsuarioData({ authenticated: false });
-            this.updatePageDada({
+            this.props.updatePageDada({
               list: [],
               selected: {},
               deleted: {}

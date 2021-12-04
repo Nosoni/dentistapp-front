@@ -52,9 +52,6 @@ const PresupeustoEditar = (props) => {
   }, [errors])
 
   const onSubmit = async data => {
-    console.log(data)
-    console.log(detValues)
-    return
     validarPeticion(presupuestoCrear(token, { cabecera: { ...data, paciente_id: data.paciente.value }, detalle: detValues }),
       (respuesta) => {
         console.log("respuesta creacion", respuesta)

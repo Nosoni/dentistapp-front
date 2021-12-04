@@ -64,6 +64,10 @@ const Facturas = (props) => {
                   dataIndex: 'fecha',
                   title: 'Fecha',
                 }, {
+                  key: 'total',
+                  dataIndex: 'total',
+                  title: 'Total',
+                }, {
                   key: 'actiones',
                   title: 'Acciones',
                   render: acciones,

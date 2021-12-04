@@ -56,9 +56,9 @@ const Presupuestos = (props) => {
                   title: 'Paciente',
                   render: (paciente) => `${paciente?.nombres}, ${paciente?.apellidos}`
                 }, {
-                  key: 'comprobante',
-                  dataIndex: 'comprobante',
-                  title: 'Comprobante',
+                  key: 'total',
+                  dataIndex: 'total',
+                  title: 'Total',
                 }, {
                   key: 'fecha',
                   dataIndex: 'fecha',

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useForm, Controller } from "react-hook-form";
 import { Select, Table } from 'antd'
 import { impuestoListar } from '../../../services/impuestos';
-import { getHistorialParaFacturar } from '../../../services/pacientes_dientes_historial';
+import { getHistorialInicial } from '../../../services/pacientes_dientes_historial';
 import ButtonsTooltips from '../../components/ButtonsTooltips';
 
 const FacturaDetalle = (props) => {
@@ -79,7 +79,7 @@ const FacturaDetalle = (props) => {
   }
 
   const getDetalle = async () => {
-    validarPeticion(getHistorialParaFacturar(token, pacienteSeleccionado),
+    validarPeticion(getHistorialInicial(token, pacienteSeleccionado),
       (respuesta) => {
         const list = respuesta.datos.map(histPaciente => {
           return {
