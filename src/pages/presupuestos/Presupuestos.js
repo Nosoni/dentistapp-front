@@ -1,34 +1,34 @@
 import React, { useState } from 'react'
 import { Card, Table } from 'antd';
 import withPageActions from '../HOC/withPageActions';
-import FacturaBuscador from './componentes/FacturaBuscador';
-import FacturaEditar from './componentes/FacturaEditar';
+import PresupuestoBuscador from './componentes/PresupuestoBuscador';
+import PresupuestoEditar from './componentes/PresupuestoEditar';
 import ButtonsTooltips from '../components/ButtonsTooltips';
 
 const pageData = {
-  title: "Facturas",
+  title: "Presupuestos",
   list: [],
   selected: {},
   deleted: {}
 };
 
-const Facturas = (props) => {
+const Presupuestos = (props) => {
   const { actualizarEstadoPagina, pageData: { list } } = props
   const [esEdicion, setEsEdicion] = useState(false)
 
-  const nuevaFactura = () => {
+  const nuevoPresupuesto = () => {
     setEsEdicion(true)
     actualizarEstadoPagina({ selected: {}, deleted: {} })
   }
 
-  const editarFactura = (edicion, factura) => {
+  const editarPresupuesto = (edicion, presupuesto) => {
     setEsEdicion(edicion)
-    actualizarEstadoPagina({ selected: factura, deleted: {} })
+    actualizarEstadoPagina({ selected: presupuesto, deleted: {} })
   }
 
-  const acciones = (factura) => {
+  const acciones = (presupuesto) => {
     return <ButtonsTooltips
-      onClick={() => editarFactura(true, factura)}
+      onClick={() => editarPresupuesto(true, presupuesto)}
       shape='circle'
       className="bg-color-info"
       tooltipsTitle="Eliminar">
@@ -42,7 +42,7 @@ const Facturas = (props) => {
         <>
           <div className='row justify-content-center'>
             <Card title='Buscar' className='col-md-9 col-sm-12 with-shadow'>
-              <FacturaBuscador nuevo={nuevaFactura} />
+              <PresupuestoBuscador nuevo={nuevoPresupuesto} />
             </Card>
           </div>
           <div className='row justify-content-center'>
@@ -75,11 +75,11 @@ const Facturas = (props) => {
           </div>
         </>
         :
-        <FacturaEditar onClickCancelar={() => {
-          editarFactura(false, {})
+        <PresupuestoEditar onClickCancelar={() => {
+          editarPresupuesto(false, {})
         }} />
     }
   </>
 }
 
-export default withPageActions(Facturas)(pageData)
+export default withPageActions(Presupuestos)(pageData)

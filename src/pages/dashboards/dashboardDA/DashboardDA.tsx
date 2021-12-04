@@ -1,11 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card } from 'antd';
 import { IPageData } from '../../../interfaces/page';
-import { setPageData } from '../../../redux/page-data/actions';
-import { useDispatch } from 'react-redux';
 
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from "@fullcalendar/interaction"
+import timeGridPlugin from "@fullcalendar/timegrid"
+import listGridPlugin from "@fullcalendar/list"
+import withPageActions from '../../HOC/withPageActions';
+import { citaMedicaFiltrar } from '../../../services/citas_medicas';
+import moment from 'moment';
+import { pacienteListarPacientes } from '../../../services/pacientes';
 
 const pageData: IPageData = {
   title: "Dashboard",
@@ -14,23 +19,72 @@ const pageData: IPageData = {
   deleted: {}
 };
 
-const headerOptions = {
-  left: 'prev,next today',
-  center: 'title',
-  right: 'dayGridMonth,dayGridWeek,dayGridDay'
-};
+const DashboardPage = (props) => {
+  const { validarPeticion, actualizarEstadoPagina, openNotification,
+    usuarioData: { token }, pageData: { list, deleted } } = props;
+  const [eventos, setEventos] = useState([])
+  const [cantidadPacientes, setCantidadPacientes] = useState(0)
 
+  const colores = {
+    Pendiente: { bg: 'event-orange', color: '#e2504c' },
+    Confirmado: { bg: 'event-green', color: '#149414' },
+    Cancelado: { bg: 'event-error', color: '#ffffff' }
+  }
 
-const DashboardPage = () => {
-  const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(setPageData(pageData));
+    cargarEventos()
+  }, [list])
+
+  useEffect(() => {
+    filtrarCitaMedica()
+    obtenerPacientes()
   }, [])
+
+  const cargarEventos = () => {
+    const eventos_objecto = list?.map(evento => {
+      return {
+        title: evento.paciente,
+        start: evento.fecha_inicio,
+        end: evento.fecha_fin,
+        fecha_inicio: evento.fecha_inicio,
+        fecha_fin: evento.fecha_fin,
+        cita_medica_id: evento.cita_medica_id,
+        paciente_id: evento.paciente_id,
+        usuario_id: evento.usuario_id,
+        estado_actual: evento.estado_actual,
+        estado_cita_id: evento.estado_cita_id,
+        puede_avanzar: evento.puede_avanzar,
+        observacion: evento.observacion,
+        classNames: colores[evento.estado_actual].bg,
+        color: colores[evento.estado_actual].color,
+      }
+    })
+
+    setEventos(eventos_objecto)
+  }
+
+  const filtrarCitaMedica = async () => {
+    const now = moment()
+    const filtro = {
+      fecha_inicio: now.clone().weekday(1),
+      fecha_fin: now.clone().weekday(6)
+    }
+    validarPeticion(citaMedicaFiltrar(token, filtro), (respuesta) => {
+      actualizarEstadoPagina({ list: respuesta.datos })
+    })
+  }
+
+  const obtenerPacientes = async () => {
+    setCantidadPacientes(await pacienteListarPacientes(token)
+      .then((respuesta) => {
+        return respuesta.datos.length
+      }))
+  }
 
   return (
     <>
       <div className='row'>
-        <div className='col-12 col-md-6 col-xl-3'>
+        <div className='col-12 col-md-12 col-xl-3'>
           <Card style={{ background: 'rgba(251, 251, 251)' }} className='animated with-shadow'>
             <div className='row'>
               <div className='col-5'>
@@ -39,17 +93,15 @@ const DashboardPage = () => {
                   style={{ fontSize: 48, color: 'rgba(51, 108, 251, 0.5)' }}
                 />
               </div>
-
               <div className='col-7'>
-                <h6 className='mt-0 mb-1'>Citas</h6>
+                <h6 className='mt-0 mb-1' style={{ fontSize: '12px' }}>Citas de la semana</h6>
                 <div className='count' style={{ fontSize: 20, color: '#336cfb', lineHeight: 1.4 }}>
-                  213
+                  {list.length}
                 </div>
               </div>
             </div>
           </Card>
         </div>
-
         <div className='col-12 col-md-6 col-xl-3'>
           <Card style={{ background: 'rgba(251, 251, 251)' }} className='animated with-shadow'>
             <div className='row'>
@@ -61,75 +113,58 @@ const DashboardPage = () => {
               </div>
 
               <div className='col-7'>
-                <h6 className='mt-0 mb-1'>Nuevos pacientes</h6>
+                <h6 className='mt-0 mb-1'>Total pacientes</h6>
                 <div className='count' style={{ fontSize: 20, color: '#336cfb', lineHeight: 1.4 }}>
-                  213
-                </div>
-              </div>
-            </div>
-          </Card>
-        </div>
-
-        <div className='col-12 col-md-6 col-xl-3'>
-          <Card style={{ background: 'rgba(251, 251, 251)' }} className='animated with-shadow'>
-            <div className='row'>
-              <div className='col-5'>
-                <span
-                  className='icofont icofont-blood'
-                  style={{ fontSize: 48, color: 'rgba(51, 108, 251, 0.5)' }}
-                />
-              </div>
-
-              <div className='col-7'>
-                <h6 className='mt-0 mb-1'>Tratamientos</h6>
-                <div className='count' style={{ fontSize: 20, color: '#336cfb', lineHeight: 1.4 }}>
-                  23
-                </div>
-              </div>
-            </div>
-          </Card>
-        </div>
-
-        <div className='col-12 col-md-6 col-xl-3'>
-          <Card style={{ background: 'rgba(251, 251, 251)' }} className='animated with-shadow'>
-            <div className='row'>
-              <div className='col-5'>
-                <span
-                  className='icofont icofont-dollar-true'
-                  style={{ fontSize: 48, color: 'rgba(51, 108, 251, 0.5)' }}
-                />
-              </div>
-
-              <div className='col-7'>
-                <h6 className='mt-0 mb-1'>Ingresos</h6>
-                <div className='count' style={{ fontSize: 20, color: '#336cfb', lineHeight: 1.4 }}>
-                  500.000 Gs.
+                  {cantidadPacientes}
                 </div>
               </div>
             </div>
           </Card>
         </div>
       </div>
-      <div>
-        <Card className='col-md-12 col-sm-12 with-shadow'>
-          <FullCalendar
-            headerToolbar={headerOptions}
-            initialView='dayGridMonth'
-            plugins={[dayGridPlugin]}
-            dayMaxEvents={true}
-            locale='es'
-            weekends
-            buttonText={{
-              today: 'Hoy',
-              month: 'Mes',
-              week: 'Semana',
-              day: 'Día',
-            }}
-          />
-        </Card>
-      </div>
+      <div className='row'>
+        <div className='col-8'>
+          <Card title="Citas"
+            className='col-md-12 col-sm-6 with-shadow'
+            style={{ height: '500px' }}
+            bodyStyle={{ maxHeight: '450px', overflow: 'auto' }}>
+            <FullCalendar
+              headerToolbar={{
+                left: '',
+                center: 'title',
+                right: 'timeGridWeek,timeGridDay'
+              }}
+              plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin, listGridPlugin]}
+              initialView="timeGridWeek"
+              events={eventos}
+              buttonText={{
+                week: 'Semana',
+                day: 'Día',
+              }}
+              titleFormat={{
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+              }}
+              locale='es'
+              allDaySlot={false}
+              slotMinTime='09:00'
+              slotMaxTime='21:00'
+              expandRows={true}
+              hiddenDays={[0]}
+            />
+          </Card>
+        </div>
+        <div className='col-4'>
+          <Card title="Insumos con bajo stock"
+            className='col-md-12 col-sm-6 with-shadow'
+            style={{ height: '500px' }}
+            bodyStyle={{ maxHeight: '450px', overflow: 'auto' }}>
+          </Card>
+        </div>
+      </div >
     </>
   );
 };
 
-export default DashboardPage;
+export default withPageActions(DashboardPage)(pageData);

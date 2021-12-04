@@ -8,31 +8,27 @@ import { pacienteFiltrar } from '../../../services/pacientes';
 import { validarFecha } from '../../../utils/helpers';
 import '../../components/css/datetimepicker.css';
 import ButtonsTooltips from '../../components/ButtonsTooltips';
-import { condicionesPagoListar } from '../../../services/condiciones_pago';
-import FacturaDetalle from './FacturaDetalle';
-import { facturaCrear } from '../../../services/facturas';
+import PresupuestoDetalle from './PresupuestoDetalle';
+import { presupuestoCrear } from '../../../services/presupuestos';
 
-const FacturaEditar = (props) => {
+const PresupeustoEditar = (props) => {
   const { onClickCancelar, validarPeticion, openNotification,
     usuarioData: { token }, pageData: { selected } } = props
-  let factura_seleccionada = selected
+  let presupuesto_seleccionado = selected
   const [paciente, setPaciente] = useState([])
-  const [condicionesPago, setCondicionesPago] = useState([])
   const [detValues, setDetValues] = useState([])
   const [pacienteSeleccionado, setPacienteSeleccionado] = useState()
   const existe = !!selected?.id
-  let titulo = "Editar factura"
+  let titulo = "Editar presupuesto"
   const shape = {
     paciente: yup.object().required("Favor seleccionar al paciente"),
     fecha: yup.date().required("Favor una fecha"),
-    comprobante: yup.string().required("Indica el número de comprobante"),
-    condicion_pago_id: yup.number().required("Favor seleccione la condición de pago"),
   }
   if (!existe) {
-    titulo = "Crear factura"
+    titulo = "Crear presupuesto"
   } else {
-    factura_seleccionada = {
-      ...factura_seleccionada,
+    presupuesto_seleccionado = {
+      ...presupuesto_seleccionado,
       paciente: {
         value: selected.paciente.id,
         label: `${selected.paciente.apellidos}, ${selected.paciente.nombres}`
@@ -42,14 +38,10 @@ const FacturaEditar = (props) => {
   }
   const schema = yup.object(shape)
   const { control, handleSubmit, formState: { errors } } = useForm({
-    defaultValues: factura_seleccionada,
+    defaultValues: presupuesto_seleccionado,
     resolver: yupResolver(schema),
   });
   const { Option } = Select;
-
-  useEffect(() => {
-    getCondicionesPago()
-  }, [])
 
   useEffect(() => {
     if (errors) {
@@ -59,22 +51,14 @@ const FacturaEditar = (props) => {
     }
   }, [errors])
 
-  const getCondicionesPago = async () => {
-    validarPeticion(condicionesPagoListar(token),
-      (respuesta) => {
-        const list = respuesta.datos.map(condiciones_pago => {
-          return {
-            value: condiciones_pago.id,
-            label: condiciones_pago.codigo
-          }
-        })
-        setCondicionesPago(list)
-      })
-  }
-
   const onSubmit = async data => {
-    validarPeticion(facturaCrear(token, { cabecera: { ...data, paciente_id: data.paciente.value }, detalle: detValues }),
-      () => { }, true)
+    console.log(data)
+    console.log(detValues)
+    return
+    validarPeticion(presupuestoCrear(token, { cabecera: { ...data, paciente_id: data.paciente.value }, detalle: detValues }),
+      (respuesta) => {
+        console.log("respuesta creacion", respuesta)
+      }, true)
   }
 
   const handleSearch = value => {
@@ -159,38 +143,12 @@ const FacturaEditar = (props) => {
           <Controller
             name='fecha'
             control={control}
-            render={({ field }) => <div className='col-2'>
+            render={({ field }) => <div className='col-3'>
               <label className='ant-form-item-label'>Fecha: </label>
               <DatePicker
-                placeholder='Fecha factura'
+                placeholder='Fecha presupuesto'
                 format='DD/MM/YYYY'
                 suffixIcon={false}
-                {...field}
-              />
-            </div>
-            }
-          />
-          <Controller
-            name="comprobante"
-            control={control}
-            render={({ field }) => <div className="col-3">
-              <label className="ant-form-item-label">Comprobante: </label>
-              <Input
-                {...field}
-              />
-            </div>
-            }
-          />
-          <Controller
-            name="condicion_pago_id"
-            control={control}
-            render={({ field }) => <div className="col-3">
-              <label className="ant-form-item-label">Condición de pago: </label>
-              <Select
-                placeholder='Seleccione la condición'
-                notFoundContent="No hay condición de pago para mostrar"
-                showArrow={false}
-                options={condicionesPago}
                 {...field}
               />
             </div>
@@ -199,7 +157,7 @@ const FacturaEditar = (props) => {
         </div>
         <Divider type="horizontal" style={{ height: "1px", border: '#b4afaf 1px solid', marginBottom: '0px' }} />
         <div className='row '>
-          <FacturaDetalle detalle={selected.factura_detalle}
+          <PresupuestoDetalle detalle={selected.presupuesto_detalle}
             disabled={existe}
             pacienteSeleccionado={pacienteSeleccionado}
             agregarValoresDetalle={setDetValues} {...props} />
@@ -209,4 +167,4 @@ const FacturaEditar = (props) => {
   )
 }
 
-export default withPageActions(FacturaEditar)(null)
+export default withPageActions(PresupeustoEditar)(null)

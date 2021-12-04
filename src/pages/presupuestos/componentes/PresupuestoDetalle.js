@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useForm, Controller } from "react-hook-form";
 import { Select, Table } from 'antd'
-import { impuestoListar } from '../../../services/impuestos';
 import { getHistorialParaFacturar } from '../../../services/pacientes_dientes_historial';
 import ButtonsTooltips from '../../components/ButtonsTooltips';
 
@@ -9,13 +8,11 @@ const FacturaDetalle = (props) => {
   const { detalle, disabled, pacienteSeleccionado, agregarValoresDetalle, validarPeticion, usuarioData: { token } } = props
   const { control, handleSubmit } = useForm({});
   const [historialPaciente, setHistorialPaciente] = useState([])
-  const [impuestos, setImpuestos] = useState([])
   const [list, setList] = useState([])
   const [valores, setValores] = useState([])
   const { Option } = Select
 
   useEffect(() => {
-    listarImpuestos()
     if (detalle) {
       setList(detalle)
     }
@@ -28,9 +25,9 @@ const FacturaDetalle = (props) => {
   }, [pacienteSeleccionado])
 
 
-  const acciones = (factura) => {
+  const acciones = (presupuesto) => {
     return <ButtonsTooltips
-      onClick={() => removerLista(factura)}
+      onClick={() => removerLista(presupuesto)}
       shape='circle'
       className="bg-color-error"
       tooltipsTitle="Eliminar"
@@ -43,10 +40,6 @@ const FacturaDetalle = (props) => {
     key: 'historial',
     dataIndex: 'historial',
     title: 'Historial',
-  }, {
-    key: 'impuesto',
-    dataIndex: 'impuesto',
-    title: 'Impuesto',
   }, {
     key: 'precio',
     dataIndex: 'precio',
@@ -63,19 +56,6 @@ const FacturaDetalle = (props) => {
     const new_value = valores.filter(e => e.paciente_diente_historial_id != elemento.paciente_diente_historial_id)
     setList(new_list)
     agregarValoresDetalle(new_value)
-  }
-
-  const listarImpuestos = async () => {
-    validarPeticion(impuestoListar(token),
-      (respuesta) => {
-        const list = respuesta.datos.map(impuesto => {
-          return {
-            value: impuesto.id,
-            label: impuesto.codigo,
-          }
-        })
-        setImpuestos(list)
-      })
   }
 
   const getDetalle = async () => {
@@ -97,14 +77,12 @@ const FacturaDetalle = (props) => {
     const new_value = {
       paciente_diente_historial_id: data.paciente_diente_historial.value[0],
       precio: data.paciente_diente_historial.value[1],
-      impuesto_id: data.impuesto.value
     }
 
     const new_list = {
       paciente_diente_historial_id: data.paciente_diente_historial.value[0],
       historial: data.paciente_diente_historial.label,
       precio: data.paciente_diente_historial.value[1],
-      impuesto: data.impuesto.label
     }
 
     setValores([...valores, new_value])
@@ -135,34 +113,6 @@ const FacturaDetalle = (props) => {
                   key={histPaciente.value}
                   value={[histPaciente.value, histPaciente.precio]}>
                   {histPaciente.label}
-                </Option>
-              })
-            }
-          </Select>
-        </div>
-        }
-      />
-      <Controller
-        name='impuesto'
-        control={control}
-        render={({ field }) => <div className='col-4'>
-          <label className='ant-form-item-label'>Impuesto: </label>
-          <Select
-            placeholder='Seleccione el impuesto'
-            notFoundContent="No hay impuestos"
-            optionFilterProp='children'
-            allowClear
-            showSearch
-            showArrow
-            labelInValue
-            {...field} >
-
-            {
-              impuestos.map(impuesto => {
-                return <Option
-                  key={impuesto.value}
-                  value={impuesto.value}>
-                  {impuesto.label}
                 </Option>
               })
             }

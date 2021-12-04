@@ -6,6 +6,7 @@ import Facturas from "../pages/facturas/Facturas";
 import Funcionarios from "../pages/funcionarios/Funcionarios";
 import Insumos from "../pages/insumos/Insumos";
 import Pacientes from "../pages/pacientes/Pacientes";
+import Presupuestos from "../pages/presupuestos/Presupuestos";
 import Roles from "../pages/roles/Roles";
 import NotFound from "../pages/sessions/404";
 import Login from "../pages/sessions/Login";
@@ -79,7 +80,7 @@ const rutasPrivadas = [
   {
     layout: "facturacion",
     path: 'presupuestos',
-    component: () => <div>presupuestos</div>
+    component: Presupuestos
   },
   {
     layout: "facturacion",

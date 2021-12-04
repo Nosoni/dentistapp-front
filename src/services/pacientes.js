@@ -64,6 +64,7 @@ const pacienteFiltrar = async (token, filtro) => {
   } catch (error) { }
 };
 
+//trae la lista de pacientes con otras propiedades
 const pacienteListar = async (token) => {
   try {
     const url = `${server}/${servicio}/listar`;
@@ -79,7 +80,24 @@ const pacienteListar = async (token) => {
   } catch (error) { }
 };
 
+//trae sólo la lista de pacientes
+const pacienteListarPacientes = async (token) => {
+  try {
+    const url = `${server}/${servicio}/listarPacientes`;
+    const config = {
+      method: "GET",
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    }
+    return await peticion(config)
+  } catch (error) { }
+};
+
+
 export {
   pacienteCrear, pacienteEditar, pacienteEliminar,
-  pacienteFiltrar, pacienteListar
+  pacienteFiltrar, pacienteListar, pacienteListarPacientes 
 }

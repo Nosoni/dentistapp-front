@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Controller, useForm } from "react-hook-form";
 import { DatePicker, Select, Button } from 'antd';
 import withPageActions from '../../HOC/withPageActions';
 import { objectHasValue } from '../../../utils/helpers';
 import { pacienteFiltrar } from '../../../services/pacientes';
 import '../../components/css/datetimepicker.css';
-import { facturaFiltrar } from '../../../services/facturas';
+import { presupuestoFiltrar } from '../../../services/presupuestos';
 
-const FacturaBuscador = (props) => {
+const PresupuestoBuscador = (props) => {
   const { validarPeticion, actualizarEstadoPagina, openNotification,
     usuarioData: { token }, pageData: { list, deleted }, nuevo } = props;
   const { handleSubmit, reset, control } = useForm();
   const [pacientes, setPacientes] = useState([])
   const { Option } = Select;
 
-  const filtrarFactura = async (filtro) => {
-    validarPeticion(facturaFiltrar(token, filtro), (respuesta) => {
+  const filtrarPresupuesto = async (filtro) => {
+    validarPeticion(presupuestoFiltrar(token, filtro), (respuesta) => {
       actualizarEstadoPagina({ list: respuesta.datos })
     })
   }
@@ -27,7 +27,7 @@ const FacturaBuscador = (props) => {
         filtro.pacientes.map(paciente => paciente_seleccionado.push(paciente.value))
         filtro.paciente_id = paciente_seleccionado
       }
-      filtrarFactura(filtro)
+      filtrarPresupuesto(filtro)
     } else {
       openNotification('error', 'Favor seleccionar un filtro de búsqueda.')
     }
@@ -120,4 +120,4 @@ const FacturaBuscador = (props) => {
   </>
 }
 
-export default withPageActions(FacturaBuscador)(null)
+export default withPageActions(PresupuestoBuscador)(null)
