@@ -6,6 +6,8 @@ import { objectHasValue } from '../../../utils/helpers';
 import { pacienteFiltrar } from '../../../services/pacientes';
 import '../../components/css/datetimepicker.css';
 import { facturaFiltrar } from '../../../services/facturas';
+import ButtonsTooltips from '../../components/ButtonsTooltips';
+import { reporte } from '../../../services/reportes';
 
 const FacturaBuscador = (props) => {
   const { validarPeticion, actualizarEstadoPagina, openNotification,
@@ -21,6 +23,7 @@ const FacturaBuscador = (props) => {
   }
 
   const onSubmit = async (filtro) => {
+    console.log("onsubmit")
     if (objectHasValue(filtro)) {
       if (filtro.pacientes) {
         let paciente_seleccionado = []
@@ -49,6 +52,20 @@ const FacturaBuscador = (props) => {
       setPacientes([]);
     }
   };
+
+  const prueba = async (filtro) => {
+    await reporte(token, filtro).then(response => {
+      console.log(response)
+      const file = new Blob([response.data], {
+        type: "application/pdf"
+      });
+      //Build a URL from the file
+      const fileURL = URL.createObjectURL(file);
+      //Open the URL on new Window
+      window.open(fileURL);
+    })
+  }
+
 
   return <>
     <div className='row'>
@@ -106,6 +123,13 @@ const FacturaBuscador = (props) => {
       />
     </div>
     <div className='row float-right mt-2'>
+      <ButtonsTooltips
+        onClick={handleSubmit(prueba)}
+        shape='circle'
+        className="bg-color-error mr-2"
+        tooltipsTitle="Imprimir">
+        <span className='icofont icofont-printer' />
+      </ButtonsTooltips>
       <Button className='bg-color-info'
         onClick={handleSubmit(onSubmit)}
       >

@@ -3,10 +3,19 @@ import { useForm, Controller } from "react-hook-form";
 import { Select, Table } from 'antd'
 import { getHistorialInicial } from '../../../services/pacientes_dientes_historial';
 import ButtonsTooltips from '../../components/ButtonsTooltips';
+import * as yup from "yup";
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const FacturaDetalle = (props) => {
-  const { detalle, disabled, pacienteSeleccionado, agregarValoresDetalle, validarPeticion, usuarioData: { token } } = props
-  const { control, handleSubmit } = useForm({});
+  const { detalle, disabled, pacienteSeleccionado, openNotification,
+    agregarValoresDetalle, validarPeticion, usuarioData: { token } } = props
+  const shape = {
+    paciente_diente_historial: yup.object().required("Favor seleccionar el tratamiento o servicio"),
+  }
+  const schema = yup.object(shape)
+  const { control, handleSubmit, formState: { errors } } = useForm({
+    resolver: yupResolver(schema),
+  });
   const [historialPaciente, setHistorialPaciente] = useState([])
   const [list, setList] = useState([])
   const [valores, setValores] = useState([])
@@ -24,6 +33,13 @@ const FacturaDetalle = (props) => {
     }
   }, [pacienteSeleccionado])
 
+  useEffect(() => {
+    if (errors) {
+      Object.entries(errors).forEach(([key, value]) => {
+        openNotification("error", value.message)
+      });
+    }
+  }, [errors])
 
   const acciones = (presupuesto) => {
     return <ButtonsTooltips

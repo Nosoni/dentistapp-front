@@ -84,7 +84,7 @@ const DashboardPage = (props) => {
   return (
     <>
       <div className='row'>
-        <div className='col-12 col-md-12 col-xl-3'>
+        <div className='col-12 col-md-6 col-xl-3'>
           <Card style={{ background: 'rgba(251, 251, 251)' }} className='animated with-shadow'>
             <div className='row'>
               <div className='col-5'>

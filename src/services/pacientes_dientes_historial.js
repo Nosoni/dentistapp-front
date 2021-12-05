@@ -17,4 +17,19 @@ const getHistorialInicial = async (token, paciente_id) => {
   } catch (error) { }
 };
 
-export { getHistorialInicial }
+const getHistorialFacturar = async (token, paciente_id) => {
+  try {
+    const url = `${server}/${servicio}/getHistorialFacturar/${paciente_id}`;
+    const config = {
+      method: "GET",
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    }
+    return await peticion(config)
+  } catch (error) { }
+};
+
+export { getHistorialInicial, getHistorialFacturar }
