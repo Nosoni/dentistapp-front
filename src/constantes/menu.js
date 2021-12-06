@@ -62,6 +62,10 @@ const menues = [
       title: "Insumos",
       routing: "insumos",
       permiso: permisos.VER_MENU_INSUMO
+    }, {
+      title: "Actualizar stock",
+      routing: "actualizar-stock",
+      permiso: permisos.VER_MENU_ACTUALIZAR_STOCK
     }]
   }
   //#endregion insumos

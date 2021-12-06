@@ -1,47 +1,41 @@
 import React, { useEffect, useState } from 'react'
-import withPageActions from '../../HOC/withPageActions'
 import { Card, DatePicker, Input, Select, Button, Divider, Table } from 'antd';
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
-import { pacienteFiltrar } from '../../../services/pacientes';
-import { validarFecha } from '../../../utils/helpers';
 import '../../components/css/datetimepicker.css';
 import ButtonsTooltips from '../../components/ButtonsTooltips';
-import PresupuestoDetalle from './PresupuestoDetalle';
-import { presupuestoCrear } from '../../../services/presupuestos';
+import ActualizarStockDetalle from './ActualizarStockDetalle';
+import { tiposMovmimientosStockListar } from '../../../services/tipos_movimientos_stock';
+import { stockActualizarCrear } from '../../../services/stock_actualizar';
+import { validarFecha } from '../../../utils/helpers';
 
-const PresupeustoEditar = (props) => {
+const ActualizarStockEditar = (props) => {
   const { onClickCancelar, validarPeticion, openNotification,
     usuarioData: { token }, pageData: { selected } } = props
-  let presupuesto_seleccionado = selected
-  const [paciente, setPaciente] = useState([])
+  const [tiposMovimientos, setTiposMovimientos] = useState([])
   const [detValues, setDetValues] = useState([])
-  const [pacienteSeleccionado, setPacienteSeleccionado] = useState()
   const existe = !!selected?.id
-  let titulo = "Editar presupuesto"
+  let titulo = "Editar actualizar stock"
   const shape = {
-    paciente: yup.object().required("Favor seleccionar al paciente"),
+    tipo_movimiento_id: yup.number().required("Favor seleccionar el tipo de movimiento"),
     fecha: yup.date().required("Favor indicar una fecha"),
+    comprobante: yup.string().required("Indica el número de comprobante"),
   }
   if (!existe) {
-    titulo = "Crear presupuesto"
+    titulo = "Crear actuazliar stock"
   } else {
-    presupuesto_seleccionado = {
-      ...presupuesto_seleccionado,
-      paciente: {
-        value: selected.paciente.id,
-        label: `${selected.paciente.apellidos}, ${selected.paciente.nombres}`
-      },
-      fecha: validarFecha(selected.fecha)
-    }
+    selected.fecha = validarFecha(selected.fecha)
   }
   const schema = yup.object(shape)
   const { control, handleSubmit, formState: { errors } } = useForm({
-    defaultValues: presupuesto_seleccionado,
+    defaultValues: selected,
     resolver: yupResolver(schema),
   });
-  const { Option } = Select;
+
+  useEffect(() => {
+    getTiposMovmientos()
+  }, [])
 
   useEffect(() => {
     if (errors) {
@@ -51,29 +45,24 @@ const PresupeustoEditar = (props) => {
     }
   }, [errors])
 
+  const getTiposMovmientos = async () => {
+    validarPeticion(tiposMovmimientosStockListar(token), (respuesta) => {
+      const list = respuesta.datos.map(tipo_movimiento => {
+        return {
+          value: tipo_movimiento.id,
+          label: tipo_movimiento.nombre
+        }
+      })
+      setTiposMovimientos(list)
+    })
+  }
+
   const onSubmit = async data => {
-    validarPeticion(presupuestoCrear(token, { cabecera: { ...data, paciente_id: data.paciente.value }, detalle: detValues }),
+    validarPeticion(stockActualizarCrear(token, { cabecera: data, detalle: detValues }),
       (respuesta) => {
         console.log("respuesta creacion", respuesta)
       }, true)
   }
-
-  const handleSearch = value => {
-    if (value.key === 'Enter') {
-      validarPeticion(pacienteFiltrar(token, value.target.value),
-        (respuesta) => {
-          const pacientes = respuesta.datos.map(paciente => {
-            return {
-              value: paciente.id,
-              label: `${paciente.apellidos}, ${paciente.nombres}`
-            }
-          })
-          setPaciente(pacientes)
-        })
-    } else {
-      setPaciente([]);
-    }
-  };
 
   const cardTitulo = () => {
     return <div className="row justify-content-between m-0 p-0">
@@ -109,43 +98,39 @@ const PresupeustoEditar = (props) => {
       <Card title={cardTitulo()} className='with-shadow col-md-9'>
         <div className='row mb-2'>
           <Controller
-            name='paciente'
+            name="tipo_movimiento_id"
             control={control}
-            render={({ field }) => <div className='col-4'>
-              <label className='ant-form-item-label'>Seleccionar paciente: </label>
+            render={({ field }) => <div className="col-4">
+              <label className="ant-form-item-label">Tipo movimiento: </label>
               <Select
-                placeholder='Seleccione un paciente'
-                optionFilterProp='children'
-                allowClear
-                showSearch
-                showArrow
-                labelInValue
-                onInputKeyDown={handleSearch}
-                notFoundContent="No hay pacientes para mostrar"
-                onSelect={(paciente) => {
-                  setPacienteSeleccionado(paciente.value)
-                }}
+                options={tiposMovimientos}
+                placeholder='Seleccione tipo de ingreso'
+                notFoundContent='No hay tipos movimientos stock'
                 {...field}
-              >
-                {paciente.map(paciente =>
-                  <Option
-                    key={paciente.value}
-                    value={paciente.value}>
-                    {paciente.label}
-                  </Option>)}
-              </Select>
+              />
             </div>
             }
           />
           <Controller
             name='fecha'
             control={control}
-            render={({ field }) => <div className='col-3'>
+            render={({ field }) => <div className='col-4'>
               <label className='ant-form-item-label'>Fecha: </label>
               <DatePicker
-                placeholder='Fecha presupuesto'
+                placeholder='Fecha'
                 format='DD/MM/YYYY'
                 suffixIcon={false}
+                {...field}
+              />
+            </div>
+            }
+          />
+          <Controller
+            name="comprobante"
+            control={control}
+            render={({ field }) => <div className="col-4">
+              <label className="ant-form-item-label">Comprobante: </label>
+              <Input
                 {...field}
               />
             </div>
@@ -154,14 +139,15 @@ const PresupeustoEditar = (props) => {
         </div>
         <Divider type="horizontal" style={{ height: "1px", border: '#b4afaf 1px solid', marginBottom: '0px' }} />
         <div className='row '>
-          <PresupuestoDetalle detalle={selected.presupuesto_detalle}
+          <ActualizarStockDetalle
+            detalle={selected.stock_actualizar_detalle}
             disabled={existe}
-            pacienteSeleccionado={pacienteSeleccionado}
-            agregarValoresDetalle={setDetValues} {...props} />
+            agregarValoresDetalle={setDetValues}
+            {...props} />
         </div>
       </Card>
     </div>
   )
 }
 
-export default withPageActions(PresupeustoEditar)(null)
+export default ActualizarStockEditar

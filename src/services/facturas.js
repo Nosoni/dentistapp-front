@@ -18,22 +18,6 @@ const facturaCrear = async (token, factura) => {
   } catch (error) { }
 }
 
-const facturaEditar = async (token, factura) => {
-  try {
-    const url = `${server}/${servicio}/editar`;
-    const config = {
-      method: "PUT",
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-      data: JSON.stringify(factura)
-    }
-    return await peticion(config)
-  } catch (error) { }
-}
-
 const facturaFiltrar = async (token, filtro) => {
   try {
     const url = `${server}/${servicio}/filtrar`;
@@ -51,5 +35,5 @@ const facturaFiltrar = async (token, filtro) => {
 };
 
 export {
-  facturaCrear, facturaEditar, facturaFiltrar
+  facturaCrear, facturaFiltrar
 }

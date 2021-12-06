@@ -24,7 +24,7 @@ const FacturaEditar = (props) => {
   let titulo = "Editar factura"
   const shape = {
     paciente: yup.object().required("Favor seleccionar al paciente"),
-    fecha: yup.date().required("Favor una fecha"),
+    fecha: yup.date().required("Favor indicar una fecha"),
     comprobante: yup.string().required("Indica el número de comprobante"),
     condicion_pago_id: yup.number().required("Favor seleccione la condición de pago"),
   }

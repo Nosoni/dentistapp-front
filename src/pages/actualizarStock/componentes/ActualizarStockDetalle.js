@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from 'react'
 import { useForm, Controller } from "react-hook-form";
-import { Select, Table } from 'antd'
+import { Input, Select, Table } from 'antd'
 import { getHistorialInicial } from '../../../services/pacientes_dientes_historial';
 import ButtonsTooltips from '../../components/ButtonsTooltips';
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
+import { insumoListar } from '../../../services/insumos';
 
-const PresupuestoDetalle = (props) => {
-  const { detalle, disabled, pacienteSeleccionado, openNotification,
-    agregarValoresDetalle, validarPeticion, usuarioData: { token } } = props
+const ActualizarStockDetalle = (props) => {
+  const { detalle, disabled, openNotification, agregarValoresDetalle,
+    validarPeticion, usuarioData: { token } } = props
   const shape = {
-    paciente_diente_historial: yup.object().required("Favor seleccionar el tratamiento o servicio"),
+    insumo: yup.object().required("Favor seleccionar el tratamiento o servicio."),
+    cantidad: yup.number().required("Favor indicar la cantidad.")
   }
   const schema = yup.object(shape)
   const { control, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
   });
-  const [historialPaciente, setHistorialPaciente] = useState([])
+  const [insumos, setInsumos] = useState([])
   const [list, setList] = useState([])
   const [valores, setValores] = useState([])
   const { Option } = Select
@@ -25,13 +27,8 @@ const PresupuestoDetalle = (props) => {
     if (detalle) {
       setList(detalle)
     }
+    getInsumos()
   }, [])
-
-  useEffect(() => {
-    if (pacienteSeleccionado) {
-      getDetalle()
-    }
-  }, [pacienteSeleccionado])
 
   useEffect(() => {
     if (errors) {
@@ -52,14 +49,26 @@ const PresupuestoDetalle = (props) => {
     </ButtonsTooltips>
   }
 
+  const getInsumos = async () => {
+    validarPeticion(insumoListar(token), (respuesta) => {
+      const list = respuesta.datos.map(insumo => {
+        return {
+          value: insumo.id,
+          label: `${insumo.nombre} - ${insumo.descripcion}`
+        }
+      })
+      setInsumos(list)
+    })
+  }
+
   const columns = [{
-    key: 'historial',
-    dataIndex: 'historial',
-    title: 'Historial',
+    key: 'insumo',
+    dataIndex: 'insumo',
+    title: 'Insumo',
   }, {
-    key: 'precio',
-    dataIndex: 'precio',
-    title: 'Precio',
+    key: 'cantidad',
+    dataIndex: 'cantidad',
+    title: 'Cantidad',
   },
   {
     key: 'actiones',
@@ -74,31 +83,16 @@ const PresupuestoDetalle = (props) => {
     agregarValoresDetalle(new_value)
   }
 
-  const getDetalle = async () => {
-    validarPeticion(getHistorialInicial(token, pacienteSeleccionado),
-      (respuesta) => {
-        const list = respuesta.datos.map(histPaciente => {
-          return {
-            value: histPaciente.historial_id,
-            label: `${histPaciente.tratamiento_servicio_nombre} - ${histPaciente.tratamiento_servicio_descripcion}`,
-            precio: histPaciente.precio
-          }
-        })
-        setHistorialPaciente(list)
-      })
-  }
-
   const agregarValores = (data) => {
-    //validar que ya está incluido lo que se está queriendo meter al detalle
     const new_value = {
-      paciente_diente_historial_id: data.paciente_diente_historial.value[0],
-      precio: data.paciente_diente_historial.value[1],
+      insumo_id: data.insumo.value,
+      cantidad: data.cantidad,
     }
 
     const new_list = {
-      paciente_diente_historial_id: data.paciente_diente_historial.value[0],
-      historial: data.paciente_diente_historial.label,
-      precio: data.paciente_diente_historial.value[1],
+      insumo_id: data.insumo.value,
+      insumo: data.insumo.label,
+      cantidad: data.cantidad,
     }
 
     setValores([...valores, new_value])
@@ -110,13 +104,13 @@ const PresupuestoDetalle = (props) => {
     <label style={{ fontStyle: 'oblique' }}>Agregar detalle</label>
     <div className='row mb-2'>
       <Controller
-        name='paciente_diente_historial'
+        name='insumo'
         control={control}
-        render={({ field }) => <div className='col-4'>
-          <label className='ant-form-item-label'>Tratamiento o servicio: </label>
+        render={({ field }) => <div className='col-5'>
+          <label className='ant-form-item-label'>Insumo: </label>
           <Select
-            placeholder='Seleccione el tratamiento o servicio'
-            notFoundContent="No hay tratamiento o servicio para mostrar"
+            placeholder='Seleccione el insumo'
+            notFoundContent="No hay insumo para mostrar"
             optionFilterProp='children'
             allowClear
             showSearch
@@ -124,15 +118,27 @@ const PresupuestoDetalle = (props) => {
             labelInValue
             {...field}>
             {
-              historialPaciente.map(histPaciente => {
+              insumos.map(insumo => {
                 return <Option
-                  key={histPaciente.value}
-                  value={[histPaciente.value, histPaciente.precio]}>
-                  {histPaciente.label}
+                  key={insumo.value}
+                  value={insumo.value}>
+                  {insumo.label}
                 </Option>
               })
             }
           </Select>
+        </div>
+        }
+      />
+      <Controller
+        name="cantidad"
+        control={control}
+        render={({ field }) => <div className="col-md-3">
+          <label className="ant-form-item-label">Cantidad: </label>
+          <Input
+            type='number'
+            {...field}
+          />
         </div>
         }
       />
@@ -152,7 +158,7 @@ const PresupuestoDetalle = (props) => {
     </div>
     <div className='row mb-2 '>
       <Table className='col-12'
-        rowKey='paciente_diente_historial_id'
+        rowKey='insumo_id'
         pagination={false}
         columns={columns}
         dataSource={list}
@@ -163,4 +169,4 @@ const PresupuestoDetalle = (props) => {
 
 }
 
-export default PresupuestoDetalle
+export default ActualizarStockDetalle

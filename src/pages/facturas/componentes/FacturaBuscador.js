@@ -23,7 +23,6 @@ const FacturaBuscador = (props) => {
   }
 
   const onSubmit = async (filtro) => {
-    console.log("onsubmit")
     if (objectHasValue(filtro)) {
       if (filtro.pacientes) {
         let paciente_seleccionado = []
@@ -55,7 +54,6 @@ const FacturaBuscador = (props) => {
 
   const prueba = async (filtro) => {
     await reporte(token, filtro).then(response => {
-      console.log(response)
       const file = new Blob([response.data], {
         type: "application/pdf"
       });
@@ -123,13 +121,13 @@ const FacturaBuscador = (props) => {
       />
     </div>
     <div className='row float-right mt-2'>
-      <ButtonsTooltips
+      {/* <ButtonsTooltips
         onClick={handleSubmit(prueba)}
         shape='circle'
         className="bg-color-error mr-2"
         tooltipsTitle="Imprimir">
         <span className='icofont icofont-printer' />
-      </ButtonsTooltips>
+      </ButtonsTooltips> */}
       <Button className='bg-color-info'
         onClick={handleSubmit(onSubmit)}
       >

@@ -45,9 +45,9 @@ const FacturaDetalle = (props) => {
     }
   }, [errors])
 
-  const acciones = (factura) => {
+  const acciones = (detalle) => {
     return <ButtonsTooltips
-      onClick={() => removerLista(factura)}
+      onClick={() => removerLista(detalle)}
       shape='circle'
       className="bg-color-error"
       tooltipsTitle="Eliminar"

@@ -1,3 +1,4 @@
+import ActualizarStock from "../pages/actualizarStock/ActualizarStock";
 import CitasMedica from "../pages/citasMedica/CitasMedica";
 import DashboardPage from "../pages/dashboards/dashboardDA/DashboardDA";
 import Doctores from "../pages/doctores/Doctores";
@@ -76,6 +77,11 @@ const rutasPrivadas = [
     layout: "stock",
     path: 'insumos',
     component: Insumos
+  },
+  {
+    layout: "stock",
+    path: 'actualizar-stock',
+    component: ActualizarStock
   },
   {
     layout: "facturacion",

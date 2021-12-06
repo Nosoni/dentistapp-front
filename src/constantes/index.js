@@ -13,7 +13,8 @@ export const permisos = {
   VER_MENU_INSUMO: "menu_ver_insumo",
   VER_MENU_CITA_MEDICA: "menu_ver_cita_medica",
   VER_MENU_FACTURACION: "menu_ver_facturacion",
-  VER_MENU_PRESUPUESTO: "menu_ver_presupuesto"
+  VER_MENU_PRESUPUESTO: "menu_ver_presupuesto",
+  VER_MENU_ACTUALIZAR_STOCK: "menu_ver_actualizar_stock"
 }
 
 export const historialIcons = [{
