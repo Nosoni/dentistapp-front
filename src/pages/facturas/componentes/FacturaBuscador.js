@@ -64,7 +64,6 @@ const FacturaBuscador = (props) => {
     })
   }
 
-
   return <>
     <div className='row'>
       <Controller

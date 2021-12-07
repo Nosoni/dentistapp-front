@@ -88,7 +88,15 @@ const menues = [
   , {
     layout: "reportes",
     title: "Reportes",
-    permiso: ""
+    sub: [{
+      title: "Inventario",
+      routing: "inventario",
+      permiso: permisos.VER_MENU_PRESUPUESTO
+    }, {
+      title: "Estado de cuenta",
+      routing: "estado-cuenta",
+      permiso: permisos.VER_MENU_FACTURACION
+    }]
   }
   //#endregion reportes
 ]

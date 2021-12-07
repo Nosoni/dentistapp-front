@@ -6,6 +6,8 @@ import { objectHasValue } from '../../../utils/helpers';
 import { pacienteFiltrar } from '../../../services/pacientes';
 import '../../components/css/datetimepicker.css';
 import { presupuestoFiltrar } from '../../../services/presupuestos';
+import ButtonsTooltips from '../../components/ButtonsTooltips';
+import { reporte } from '../../../services/reportes';
 
 const PresupuestoBuscador = (props) => {
   const { validarPeticion, actualizarEstadoPagina, openNotification,
@@ -49,6 +51,18 @@ const PresupuestoBuscador = (props) => {
       setPacientes([]);
     }
   };
+
+  const buscar = async (filtro) => {
+    await reporte(token, filtro, 'presupuestos').then(response => {
+      const file = new Blob([response.data], {
+        type: "application/pdf"
+      });
+      //Build a URL from the file
+      const fileURL = URL.createObjectURL(file);
+      //Open the URL on new Window
+      window.open(fileURL);
+    })
+  }
 
   return <>
     <div className='row'>
@@ -106,6 +120,13 @@ const PresupuestoBuscador = (props) => {
       />
     </div>
     <div className='row float-right mt-2'>
+      <ButtonsTooltips
+        onClick={handleSubmit(buscar)}
+        shape='circle'
+        className="bg-color-error mr-2"
+        tooltipsTitle="Imprimir">
+        <span className='icofont icofont-printer' />
+      </ButtonsTooltips>
       <Button className='bg-color-info'
         onClick={handleSubmit(onSubmit)}
       >
