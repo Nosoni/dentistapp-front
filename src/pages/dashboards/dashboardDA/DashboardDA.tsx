@@ -84,45 +84,6 @@ const DashboardPage = (props) => {
   return (
     <>
       <div className='row'>
-        <div className='col-12 col-md-6 col-xl-3'>
-          <Card style={{ background: 'rgba(251, 251, 251)' }} className='animated with-shadow'>
-            <div className='row'>
-              <div className='col-5'>
-                <span
-                  className='icofont icofont-first-aid-alt'
-                  style={{ fontSize: 48, color: 'rgba(51, 108, 251, 0.5)' }}
-                />
-              </div>
-              <div className='col-7'>
-                <h6 className='mt-0 mb-1' style={{ fontSize: '12px' }}>Citas de la semana</h6>
-                <div className='count' style={{ fontSize: 20, color: '#336cfb', lineHeight: 1.4 }}>
-                  {list.length}
-                </div>
-              </div>
-            </div>
-          </Card>
-        </div>
-        <div className='col-12 col-md-6 col-xl-3'>
-          <Card style={{ background: 'rgba(251, 251, 251)' }} className='animated with-shadow'>
-            <div className='row'>
-              <div className='col-5'>
-                <span
-                  className='icofont icofont-wheelchair'
-                  style={{ fontSize: 48, color: 'rgba(51, 108, 251, 0.5)' }}
-                />
-              </div>
-
-              <div className='col-7'>
-                <h6 className='mt-0 mb-1'>Total pacientes</h6>
-                <div className='count' style={{ fontSize: 20, color: '#336cfb', lineHeight: 1.4 }}>
-                  {cantidadPacientes}
-                </div>
-              </div>
-            </div>
-          </Card>
-        </div>
-      </div>
-      <div className='row'>
         <div className='col-8'>
           <Card title="Citas"
             className='col-md-12 col-sm-6 with-shadow'
@@ -156,11 +117,52 @@ const DashboardPage = (props) => {
           </Card>
         </div>
         <div className='col-4'>
-          <Card title="Insumos con bajo stock"
-            className='col-md-12 col-sm-6 with-shadow'
-            style={{ height: '500px' }}
-            bodyStyle={{ maxHeight: '450px', overflow: 'auto' }}>
-          </Card>
+          <div className='row'>
+            <div className='col-6'>
+              <Card style={{ background: 'rgba(251, 251, 251)' }} className='animated with-shadow'>
+                <div className='row'>
+                  <div className='col-5'>
+                    <span
+                      className='icofont icofont-first-aid-alt'
+                      style={{ fontSize: 48, color: 'rgba(51, 108, 251, 0.5)' }}
+                    />
+                  </div>
+                  <div className='col-7'>
+                    <h6 className='mt-0 mb-1' style={{ fontSize: '12px' }}>Citas de la semana</h6>
+                    <div className='count' style={{ fontSize: 20, color: '#336cfb', lineHeight: 1.4 }}>
+                      {list.length}
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </div>
+            <div className='col-6'>
+              <Card style={{ background: 'rgba(251, 251, 251)' }} className='animated with-shadow'>
+                <div className='row'>
+                  <div className='col-5'>
+                    <span
+                      className='icofont icofont-wheelchair'
+                      style={{ fontSize: 48, color: 'rgba(51, 108, 251, 0.5)' }}
+                    />
+                  </div>
+
+                  <div className='col-7'>
+                    <h6 className='mt-0 mb-1'>Total pacientes</h6>
+                    <div className='count' style={{ fontSize: 20, color: '#336cfb', lineHeight: 1.4 }}>
+                      {cantidadPacientes}
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </div>
+          </div>
+          <div className='row'>
+            <Card title="Insumos con bajo stock"
+              className='col-md-12 col-sm-6 with-shadow'
+              style={{ height: '370px' }}
+              bodyStyle={{ maxHeight: '450px', overflow: 'auto' }}>
+            </Card>
+          </div>
         </div>
       </div >
     </>

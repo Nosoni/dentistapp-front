@@ -81,6 +81,10 @@ const menues = [
       title: "Facturas",
       routing: "facturas",
       permiso: permisos.VER_MENU_FACTURACION
+    }, {
+      title: "Cobranzas",
+      routing: "cobranzas",
+      permiso: permisos.VER_MENU_COBRANZA
     }]
   }
   //#endregion facturacion
@@ -91,11 +95,11 @@ const menues = [
     sub: [{
       title: "Inventario",
       routing: "inventario",
-      permiso: permisos.VER_MENU_PRESUPUESTO
+      permiso: permisos.VER_MENU_REPORTE_INVENTARIO
     }, {
       title: "Estado de cuenta",
       routing: "estado-cuenta",
-      permiso: permisos.VER_MENU_FACTURACION
+      permiso: permisos.VER_MENU_REPORTE_FACTURACION
     }]
   }
   //#endregion reportes

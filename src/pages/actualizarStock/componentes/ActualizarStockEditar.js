@@ -59,9 +59,7 @@ const ActualizarStockEditar = (props) => {
 
   const onSubmit = async data => {
     validarPeticion(stockActualizarCrear(token, { cabecera: data, detalle: detValues }),
-      (respuesta) => {
-        console.log("respuesta creacion", respuesta)
-      }, true)
+      () => { }, true)
   }
 
   const cardTitulo = () => {

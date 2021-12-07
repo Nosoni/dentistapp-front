@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import withPageActions from '../../HOC/withPageActions'
-import { Card, DatePicker, Input, Select, Button, Divider, Table } from 'antd';
+import { Card, DatePicker, Input, Select, Divider } from 'antd';
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -8,27 +7,28 @@ import { pacienteFiltrar } from '../../../services/pacientes';
 import { validarFecha } from '../../../utils/helpers';
 import '../../components/css/datetimepicker.css';
 import ButtonsTooltips from '../../components/ButtonsTooltips';
-import PresupuestoDetalle from './PresupuestoDetalle';
-import { presupuestoCrear } from '../../../services/presupuestos';
+import CobranzaDetalle from './CobranzaDetalle';
+import { cobranzaCrear } from '../../../services/cobranzas';
 
-const PresupeustoEditar = (props) => {
+const CobranzaEditar = (props) => {
   const { onClickCancelar, validarPeticion, openNotification,
     usuarioData: { token }, pageData: { selected } } = props
-  let presupuesto_seleccionado = selected
+  let cobranza_seleccionada = selected
   const [paciente, setPaciente] = useState([])
   const [detValues, setDetValues] = useState([])
   const [pacienteSeleccionado, setPacienteSeleccionado] = useState()
   const existe = !!selected?.id
-  let titulo = "Editar presupuesto"
+  let titulo = "Editar cobranza"
   const shape = {
     paciente: yup.object().required("Favor seleccionar al paciente"),
     fecha: yup.date().required("Favor indicar una fecha"),
+    comprobante: yup.string().required("Indica el número de comprobante"),
   }
   if (!existe) {
-    titulo = "Crear presupuesto"
+    titulo = "Crear cobranza"
   } else {
-    presupuesto_seleccionado = {
-      ...presupuesto_seleccionado,
+    cobranza_seleccionada = {
+      ...cobranza_seleccionada,
       paciente: {
         value: selected.paciente.id,
         label: `${selected.paciente.apellidos}, ${selected.paciente.nombres}`
@@ -38,7 +38,7 @@ const PresupeustoEditar = (props) => {
   }
   const schema = yup.object(shape)
   const { control, handleSubmit, formState: { errors } } = useForm({
-    defaultValues: presupuesto_seleccionado,
+    defaultValues: cobranza_seleccionada,
     resolver: yupResolver(schema),
   });
   const { Option } = Select;
@@ -52,7 +52,13 @@ const PresupeustoEditar = (props) => {
   }, [errors])
 
   const onSubmit = async data => {
-    validarPeticion(presupuestoCrear(token, { cabecera: { ...data, paciente_id: data.paciente.value }, detalle: detValues }),
+    validarPeticion(cobranzaCrear(token, {
+      cabecera: {
+        ...data,
+        paciente_id: data.paciente.value
+      },
+      detalle: detValues
+    }),
       () => { }, true)
   }
 
@@ -141,9 +147,20 @@ const PresupeustoEditar = (props) => {
             render={({ field }) => <div className='col-3'>
               <label className='ant-form-item-label'>Fecha: </label>
               <DatePicker
-                placeholder='Fecha presupuesto'
+                placeholder='Fecha cobranza'
                 format='DD/MM/YYYY'
                 suffixIcon={false}
+                {...field}
+              />
+            </div>
+            }
+          />
+          <Controller
+            name="comprobante"
+            control={control}
+            render={({ field }) => <div className="col-3">
+              <label className="ant-form-item-label">Comprobante: </label>
+              <Input
                 {...field}
               />
             </div>
@@ -152,14 +169,15 @@ const PresupeustoEditar = (props) => {
         </div>
         <Divider type="horizontal" style={{ height: "1px", border: '#b4afaf 1px solid', marginBottom: '0px' }} />
         <div className='row '>
-          <PresupuestoDetalle detalle={selected.presupuesto_detalle}
+          <CobranzaDetalle detalle={selected.cobranza_detalle}
             disabled={existe}
             pacienteSeleccionado={pacienteSeleccionado}
-            agregarValoresDetalle={setDetValues} {...props} />
+            agregarValoresDetalle={setDetValues}
+            {...props} />
         </div>
       </Card>
     </div>
   )
 }
 
-export default withPageActions(PresupeustoEditar)(null)
+export default CobranzaEditar

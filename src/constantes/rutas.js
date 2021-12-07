@@ -1,5 +1,6 @@
 import ActualizarStock from "../pages/actualizarStock/ActualizarStock";
 import CitasMedica from "../pages/citasMedica/CitasMedica";
+import Cobranzas from "../pages/cobranzas/Cobranzas";
 import DashboardPage from "../pages/dashboards/dashboardDA/DashboardDA";
 import Doctores from "../pages/doctores/Doctores";
 import Especialidades from "../pages/especialidades/Especialidades";
@@ -93,6 +94,11 @@ const rutasPrivadas = [
     layout: "facturacion",
     path: 'facturas',
     component: Facturas
+  },
+  {
+    layout: "facturacion",
+    path: 'cobranzas',
+    component: Cobranzas
   },
   {
     layout: "reportes",

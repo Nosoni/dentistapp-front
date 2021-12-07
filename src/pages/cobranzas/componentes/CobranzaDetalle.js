@@ -1,24 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { useForm, Controller } from "react-hook-form";
-import { Input, Select, Table } from 'antd'
-import { getHistorialInicial } from '../../../services/pacientes_dientes_historial';
+import { Select, Table } from 'antd'
 import ButtonsTooltips from '../../components/ButtonsTooltips';
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
-import { insumoListar } from '../../../services/insumos';
+import { deudaFiltrar } from '../../../services/deudas';
 
-const ActualizarStockDetalle = (props) => {
-  const { detalle, disabled, openNotification, agregarValoresDetalle,
-    validarPeticion, usuarioData: { token } } = props
+const CobranzaDetalle = (props) => {
+  const { detalle, disabled, pacienteSeleccionado, openNotification,
+    agregarValoresDetalle, validarPeticion, usuarioData: { token } } = props
   const shape = {
-    insumo: yup.object().required("Favor seleccionar el tratamiento o servicio."),
-    cantidad: yup.number().required("Favor indicar la cantidad.")
+    deuda: yup.object().required("Favor seleccionar la deuda"),
   }
   const schema = yup.object(shape)
   const { control, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
   });
-  const [insumos, setInsumos] = useState([])
+  const [deudas, setDeudas] = useState([])
   const [list, setList] = useState([])
   const [valores, setValores] = useState([])
   const { Option } = Select
@@ -27,8 +25,13 @@ const ActualizarStockDetalle = (props) => {
     if (detalle) {
       setList(detalle)
     }
-    getInsumos()
   }, [])
+
+  useEffect(() => {
+    if (pacienteSeleccionado) {
+      getDetalle()
+    }
+  }, [pacienteSeleccionado])
 
   useEffect(() => {
     if (errors) {
@@ -49,26 +52,14 @@ const ActualizarStockDetalle = (props) => {
     </ButtonsTooltips>
   }
 
-  const getInsumos = async () => {
-    validarPeticion(insumoListar(token), (respuesta) => {
-      const list = respuesta.datos.map(insumo => {
-        return {
-          value: insumo.id,
-          label: `${insumo.nombre} - ${insumo.descripcion}`
-        }
-      })
-      setInsumos(list)
-    })
-  }
-
   const columns = [{
-    key: 'insumo',
-    dataIndex: 'insumo',
-    title: 'Insumo',
+    key: 'deuda',
+    dataIndex: 'deuda',
+    title: 'Deuda',
   }, {
-    key: 'cantidad',
-    dataIndex: 'cantidad',
-    title: 'Cantidad',
+    key: 'monto',
+    dataIndex: 'monto',
+    title: 'monto',
   },
   {
     key: 'actiones',
@@ -78,21 +69,36 @@ const ActualizarStockDetalle = (props) => {
 
   const removerLista = (elemento) => {
     const new_list = list.filter(e => e != elemento)
-    const new_value = valores.filter(e => e.insumo_id != elemento.insumo_id)
+    const new_value = valores.filter(e => e.deuda_id != elemento.deuda_id)
     setList(new_list)
     agregarValoresDetalle(new_value)
   }
 
+  const getDetalle = async () => {
+    validarPeticion(deudaFiltrar(token, pacienteSeleccionado),
+      (respuesta) => {
+        const list = respuesta.datos.map(deuda => {
+          return {
+            value: deuda.deuda_id,
+            label: deuda.factura_comprobante,
+            monto: deuda.monto
+          }
+        })
+        setDeudas(list)
+      })
+  }
+
   const agregarValores = (data) => {
+    //validar que ya está incluido lo que se está queriendo meter al detalle
     const new_value = {
-      insumo_id: data.insumo.value,
-      cantidad: data.cantidad,
+      deuda_id: data.deuda.value[0],
+      monto: data.deuda.value[1]
     }
 
     const new_list = {
-      insumo_id: data.insumo.value,
-      insumo: data.insumo.label,
-      cantidad: data.cantidad,
+      deuda_id: data.deuda.value[0],
+      deuda: data.deuda.label,
+      monto: data.deuda.value[1],
     }
 
     setValores([...valores, new_value])
@@ -104,13 +110,13 @@ const ActualizarStockDetalle = (props) => {
     <label style={{ fontStyle: 'oblique' }}>Agregar detalle</label>
     <div className='row mb-2'>
       <Controller
-        name='insumo'
+        name='deuda'
         control={control}
-        render={({ field }) => <div className='col-5'>
-          <label className='ant-form-item-label'>Insumo: </label>
+        render={({ field }) => <div className='col-4'>
+          <label className='ant-form-item-label'>Factura nro.: </label>
           <Select
-            placeholder='Seleccione el insumo'
-            notFoundContent="No hay insumo para mostrar"
+            placeholder='Seleccione la factura'
+            notFoundContent="No hay deuda para mostrar"
             optionFilterProp='children'
             allowClear
             showSearch
@@ -118,27 +124,15 @@ const ActualizarStockDetalle = (props) => {
             labelInValue
             {...field}>
             {
-              insumos.map(insumo => {
+              deudas.map(deuda => {
                 return <Option
-                  key={insumo.value}
-                  value={insumo.value}>
-                  {insumo.label}
+                  key={deuda.value}
+                  value={[deuda.value, deuda.monto]}>
+                  {deuda.label}
                 </Option>
               })
             }
           </Select>
-        </div>
-        }
-      />
-      <Controller
-        name="cantidad"
-        control={control}
-        render={({ field }) => <div className="col-md-3">
-          <label className="ant-form-item-label">Cantidad: </label>
-          <Input
-            type='number'
-            {...field}
-          />
         </div>
         }
       />
@@ -158,7 +152,7 @@ const ActualizarStockDetalle = (props) => {
     </div>
     <div className='row mb-2 '>
       <Table className='col-12'
-        rowKey='insumo_id'
+        rowKey='deuda_id'
         pagination={false}
         columns={columns}
         dataSource={list}
@@ -169,4 +163,4 @@ const ActualizarStockDetalle = (props) => {
 
 }
 
-export default ActualizarStockDetalle
+export default CobranzaDetalle
