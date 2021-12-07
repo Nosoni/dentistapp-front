@@ -55,8 +55,8 @@ const DashboardPage = (props) => {
         estado_cita_id: evento.estado_cita_id,
         puede_avanzar: evento.puede_avanzar,
         observacion: evento.observacion,
-        classNames: colores[evento.estado_actual].bg,
-        color: colores[evento.estado_actual].color,
+        classNames: colores[evento.estado_actual]?.bg,
+        color: colores[evento.estado_actual]?.color,
       }
     })
 

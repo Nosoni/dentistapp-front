@@ -1,9 +1,10 @@
 import axios from "axios";
 import { server } from "../constantes/index";
+const servicio = 'reportes'
 
-const reporte = async (token, filtro) => {
+const reporte = async (token, filtro, tipo) => {
   try {
-    const url = `${server}/reportes/facturacion/filtrar`;
+    const url = `${server}/${servicio}/${tipo}/filtrar`;
     const config = {
       method: "POST",
       url,

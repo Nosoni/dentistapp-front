@@ -52,8 +52,8 @@ const FacturaBuscador = (props) => {
     }
   };
 
-  const prueba = async (filtro) => {
-    await reporte(token, filtro).then(response => {
+  const buscar = async (filtro) => {
+    await reporte(token, filtro, 'facturacion').then(response => {
       const file = new Blob([response.data], {
         type: "application/pdf"
       });
@@ -121,13 +121,13 @@ const FacturaBuscador = (props) => {
       />
     </div>
     <div className='row float-right mt-2'>
-      {/* <ButtonsTooltips
-        onClick={handleSubmit(prueba)}
+      <ButtonsTooltips
+        onClick={handleSubmit(buscar)}
         shape='circle'
         className="bg-color-error mr-2"
         tooltipsTitle="Imprimir">
         <span className='icofont icofont-printer' />
-      </ButtonsTooltips> */}
+      </ButtonsTooltips>
       <Button className='bg-color-info'
         onClick={handleSubmit(onSubmit)}
       >

@@ -9,6 +9,8 @@ import ModalDA from '../components/Modal';
 import BotoneraTableAcciones from '../components/BotoneraTableAcciones';
 import BotoneraModalFooterActions from '../components/BotoneraFooterActions';
 import BuscadorAcciones from '../components/BuscadorAcciones';
+import { reporte } from '../../services/reportes';
+import ButtonsTooltips from '../components/ButtonsTooltips';
 
 const pageData = {
   title: "Usuarios",
@@ -69,6 +71,18 @@ function Usuarios(props) {
     }
   };
 
+  const buscar = async (filtro) => {
+    await reporte(token, filtro, 'usuarios').then(response => {
+      const file = new Blob([response.data], {
+        type: "application/pdf"
+      });
+      //Build a URL from the file
+      const fileURL = URL.createObjectURL(file);
+      //Open the URL on new Window
+      window.open(fileURL);
+    })
+  }
+
   return <>
     {
       !esEdicion ?
@@ -80,7 +94,15 @@ function Usuarios(props) {
                 registro={register("usuario")}
                 buscar={handleSubmit(onSubmit)}
                 nuevo={() => nuevoUsuario()}
-              />
+              >
+                <ButtonsTooltips
+                  onClick={handleSubmit(buscar)}
+                  shape='circle'
+                  className="bg-color-error mr-2"
+                  tooltipsTitle="Imprimir">
+                  <span className='icofont icofont-printer' />
+                </ButtonsTooltips>
+              </BuscadorAcciones>
             </Card>
           </div>
           <div className='row justify-content-center'>
