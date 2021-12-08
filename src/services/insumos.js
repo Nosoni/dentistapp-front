@@ -79,7 +79,22 @@ const insumoListar = async (token) => {
   } catch (error) { }
 };
 
+const insumoGetStockBajo = async (token) => {
+  try {
+    const url = `${server}/${servicio}/stockBajo`;
+    const config = {
+      method: "GET",
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    }
+    return await peticion(config)
+  } catch (error) { }
+};
+
 export {
-  insumoCrear, insumoEditar,
-  insumoEliminar, insumoFiltrar, insumoListar
+  insumoCrear, insumoEditar, insumoEliminar,
+  insumoFiltrar, insumoListar, insumoGetStockBajo
 }

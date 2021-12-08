@@ -9,6 +9,7 @@ import Funcionarios from "../pages/funcionarios/Funcionarios";
 import Insumos from "../pages/insumos/Insumos";
 import Pacientes from "../pages/pacientes/Pacientes";
 import Presupuestos from "../pages/presupuestos/Presupuestos";
+import EstadoCuentas from "../pages/reportes/EstadoCuentas";
 import Inventario from "../pages/reportes/Inventario";
 import Roles from "../pages/roles/Roles";
 import NotFound from "../pages/sessions/404";
@@ -108,7 +109,7 @@ const rutasPrivadas = [
   {
     layout: "reportes",
     path: 'estado-cuenta',
-    component: () => <div>estadocuenta</div>
+    component: EstadoCuentas
   }
 ]
 

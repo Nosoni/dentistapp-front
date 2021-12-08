@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card } from 'antd';
+import { Card, Table } from 'antd';
 import { IPageData } from '../../../interfaces/page';
 
 import FullCalendar from '@fullcalendar/react';
@@ -11,8 +11,9 @@ import withPageActions from '../../HOC/withPageActions';
 import { citaMedicaFiltrar } from '../../../services/citas_medicas';
 import moment from 'moment';
 import { pacienteListarPacientes } from '../../../services/pacientes';
+import { insumoGetStockBajo } from '../../../services/insumos';
 
-const pageData: IPageData = {
+const pageData = {
   title: "Dashboard",
   list: [],
   selected: {},
@@ -24,6 +25,7 @@ const DashboardPage = (props) => {
     usuarioData: { token }, pageData: { list, deleted } } = props;
   const [eventos, setEventos] = useState([])
   const [cantidadPacientes, setCantidadPacientes] = useState(0)
+  const [stockBajo, setStockBajo] = useState(0)
 
   const colores = {
     Pendiente: { bg: 'event-orange', color: '#e2504c' },
@@ -38,6 +40,7 @@ const DashboardPage = (props) => {
   useEffect(() => {
     filtrarCitaMedica()
     obtenerPacientes()
+    obtenerStockBajo()
   }, [])
 
   const cargarEventos = () => {
@@ -78,6 +81,13 @@ const DashboardPage = (props) => {
     setCantidadPacientes(await pacienteListarPacientes(token)
       .then((respuesta) => {
         return respuesta.datos.length
+      }))
+  }
+
+  const obtenerStockBajo = async () => {
+    setStockBajo(await insumoGetStockBajo(token)
+      .then((respuesta) => {
+        return respuesta.datos
       }))
   }
 
@@ -161,6 +171,25 @@ const DashboardPage = (props) => {
               className='col-md-12 col-sm-6 with-shadow'
               style={{ height: '370px' }}
               bodyStyle={{ maxHeight: '450px', overflow: 'auto' }}>
+              <Table
+                rowKey='insumo_id'
+                dataSource={stockBajo}
+                columns={[{
+                  key: 'insumo',
+                  dataIndex: 'insumo',
+                  title: 'Insimo'
+                }, {
+                  key: 'cantidad_minima',
+                  dataIndex: 'cantidad_minima',
+                  title: 'Cantidad mínima'
+                }, {
+                  key: 'stock_actual',
+                  dataIndex: 'stock_actual',
+                  title: 'Stock actual',
+                }]}
+                pagination={{ pageSize: 5 }}
+                locale={{ emptyText: 'Sin registros' }}
+              />
             </Card>
           </div>
         </div>
