@@ -16,14 +16,14 @@ const ActualizarStockEditar = (props) => {
   const [tiposMovimientos, setTiposMovimientos] = useState([])
   const [detValues, setDetValues] = useState([])
   const existe = !!selected?.id
-  let titulo = "Editar actualizar stock"
+  let titulo = "Editar actualización de stock"
   const shape = {
     tipo_movimiento_id: yup.number().required("Favor seleccionar el tipo de movimiento"),
     fecha: yup.date().required("Favor indicar una fecha"),
     comprobante: yup.string().required("Indica el número de comprobante"),
   }
   if (!existe) {
-    titulo = "Crear actuazliar stock"
+    titulo = "Crear actualización de stock"
   } else {
     selected.fecha = validarFecha(selected.fecha)
   }
