@@ -51,7 +51,7 @@ const FichaMedica = ({ onSubmit, ...props }) => {
       <Controller
         name="medicamento_json"
         control={control}
-        render={({ field }) => <label className="col-md-6"><strong>aca debe ir listado</strong></label>
+        render={({ field }) => <label className="col-md-6"><strong></strong></label>
         }
       />
     </div>
