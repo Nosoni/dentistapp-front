@@ -120,7 +120,9 @@ function Usuarios(props) {
                   dataIndex: 'funcionario',
                   title: 'Funcionario',
                   render: (funcionario) => {
-                    return `${funcionario?.nombres} ${funcionario?.apellidos}`;
+                    if (funcionario) {
+                      return `${funcionario?.nombres} ${funcionario?.apellidos}`;
+                    }
                   }
                 }, {
                   key: 'actiones',
