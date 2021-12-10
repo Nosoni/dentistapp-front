@@ -2,10 +2,9 @@ import React, { useState } from 'react'
 import { Row, Col, Card, Select, Table, Timeline } from 'antd';
 import BotoneraFooterActions from '../../components/BotoneraFooterActions';
 import { useForm, Controller } from "react-hook-form";
-import { OurTimeline } from '../../services/events-timeline/Timeline';
 import { tratamientoServicioFiltrar } from '../../../services/tratamientos_servicios';
 import ButtonsTooltips from '../../components/ButtonsTooltips';
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, QuestionOutlined } from '@ant-design/icons';
 import { historialIcons } from '../../../constantes/index'
 
 const columns = [{
@@ -20,13 +19,7 @@ const columns = [{
   key: 'precio',
   dataIndex: 'precio',
   title: 'Precio',
-},
-  //  {
-  //   key: 'actiones',
-  //   title: 'Acciones',
-  //   render: acciones,
-  // },
-]
+},]
 
 const Tratamientos = ({ onSubmit, ...props }) => {
   const { onClickCancelar, validarPeticion,
@@ -65,6 +58,7 @@ const Tratamientos = ({ onSubmit, ...props }) => {
     }
 
     const new_list = {
+      tratamiento_servicio_id: data.tratamiento_servicio.value[0],
       tratamiento: data.tratamiento_servicio.label,
       diente: data.paciente_diente?.label,
       precio: data.tratamiento_servicio.value[1]
@@ -75,6 +69,17 @@ const Tratamientos = ({ onSubmit, ...props }) => {
     setList([...list, new_list])
   }
 
+  const retornarIcono = (hist) => {
+    const icono = historialIcons.find(icons => hist.tratamiento_servicio_id === icons.id)
+    if (icono) {
+      return icono.icons
+    } else {
+      return <div className='timeline-head bg-color-yellow'>
+        <QuestionOutlined className='text-contrast-500' />
+      </div>
+    }
+  }
+
   const renderHistorial = () => {
     return <Timeline className='ml-4'>
       {
@@ -82,7 +87,7 @@ const Tratamientos = ({ onSubmit, ...props }) => {
           historial.map(hist => {
             return <Timeline.Item key={hist.id}
               dot={
-                historialIcons.find(icons => hist.tratamiento_servicio_id === icons.id).icons
+                retornarIcono(hist)
               }
             >
               <div className='d-flex flex-column'>
@@ -177,6 +182,7 @@ const Tratamientos = ({ onSubmit, ...props }) => {
           </div>
           <div className='row mt-4 '>
             <Table className='col-12'
+              rowKey='tratamiento_servicio_id'
               pagination={false}
               columns={columns}
               dataSource={list}

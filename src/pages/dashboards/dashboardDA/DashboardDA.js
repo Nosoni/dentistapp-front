@@ -78,17 +78,15 @@ const DashboardPage = (props) => {
   }
 
   const obtenerPacientes = async () => {
-    setCantidadPacientes(await pacienteListarPacientes(token)
-      .then((respuesta) => {
-        return respuesta.datos.length
-      }))
+    validarPeticion(pacienteListarPacientes(token), (respuesta) => {
+      setCantidadPacientes(respuesta.datos.length)
+    })
   }
 
   const obtenerStockBajo = async () => {
-    setStockBajo(await insumoGetStockBajo(token)
-      .then((respuesta) => {
-        return respuesta.datos
-      }))
+    validarPeticion(insumoGetStockBajo(token), (respuesta) => {
+      setStockBajo(respuesta.datos)
+    })
   }
 
   return (
