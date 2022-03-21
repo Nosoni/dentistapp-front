@@ -80,6 +80,9 @@
     "printWidth": 100,
     "trailingComma": "none"
   },
+  "engines": {
+    "node": "14.19.1"
+  },
   "devDependencies": {
     "customize-cra": "1.0.0",
     "@types/history": "4.7.8",
