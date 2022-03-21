@@ -37,7 +37,7 @@
         min-height: calc(100% - #{$module-rem * 4});
         margin: 0 auto;
         opacity: 0;
-        padding: ($module-rem * 3) ($module-rem * 2) ($module-rem * 4);
+        padding: ($module-rem) ($module-rem * 2) ($module-rem * 2);
         transition: 0.2s opacity 0s $animation;
 
         .page-header {
@@ -46,9 +46,11 @@
 
           .page-title {
             color: rgba(main-palette(500), 0.5);
-            margin: 0 0 ($module-rem * 2);
-            font-size: 2rem;
+            margin: 0 0;
+            font-size: 25px;
             width: 100%;
+            font-style: italic;
+            margin-bottom: 10px;
           }
 
           .page-breadcrumbs {

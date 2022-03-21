@@ -1,24 +1,12 @@
 import React from 'react';
 import { IPageData } from '../../interfaces/page';
-import { usePageData } from '../../hooks/usePage';
+
 import { Avatar, Button, Card, Rate, Tag, Timeline } from 'antd';
+import { setPageData } from '../../redux/page-data/actions';
+import { useEffect } from 'react';
 
 const pageData: IPageData = {
   title: 'User profile',
-  fulFilled: true,
-  breadcrumbs: [
-    {
-      title: 'Apps',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Service pages',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'User profile'
-    }
-  ]
 };
 
 const UserPreview = () => {
@@ -289,7 +277,9 @@ const Skills = () => {
   );
 };
 const UserProfilePage = () => {
-  usePageData(pageData);
+  useEffect(() => {
+    setPageData(pageData);
+  }, [])
 
   return (
     <div className='row'>

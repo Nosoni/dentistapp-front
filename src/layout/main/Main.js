@@ -1,24 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import BaseLayout from '../base/Base';
 import Logo from '../components/logo/Logo';
 import Menu from '../components/menu/MenuDA';
 import Navbar from '../components/navbar/Navbar';
-import LogoSvg from './../../assets/img/logo.svg';
+import LogoSvg from './../../assets/img/dentistapp-logo.svg';
 import Actions from '../components/actions/Actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleSidebar } from '../../redux/settings/actions';
-import './Main.scss';
 import { menues } from '../../constantes/menu';
+import { useHistory } from 'react-router-dom'
+import { usePromiseTracker } from "react-promise-tracker";
+import { Spin } from 'antd';
+import './Main.scss';
 
 const MainLayout = ({ children }) => {
+  const { promiseInProgress } = usePromiseTracker();
   const dispatch = useDispatch();
+  const history = useHistory();
   const menuData = menues;
-  const handleCloseMenu = () => dispatch(toggleSidebar());
   const settings = useSelector((state) => state.settings);
+  const datosUsuario = useSelector((state) => state.usuarioData);
+
+  useEffect(() => { !datosUsuario?.authenticated && history.push("/public/login") }, [datosUsuario])
+
+  const handleCloseMenu = () => dispatch(toggleSidebar());
 
   const nav = (
     <Navbar
-      orientation='horizontal'
+      orientation={settings.layout}
       color={settings.topbarColor}
       background={settings.topbarBg}
       boxed={settings.boxed}
@@ -29,6 +38,13 @@ const MainLayout = ({ children }) => {
         <span />
       </button>
       <Logo src={LogoSvg} />
+      <div style={{
+        textAlign: 'center',
+        fontStyle: 'oblique',
+        color: 'rgba(31, 32, 34, 0.5)',
+        fontSize: '15px',
+      }}>Usuario conectado: <label style={{ fontWeight: 'bold' }}>{datosUsuario?.usuario?.usuario}</label>
+      </div>
       <Actions />
     </Navbar>
   );
@@ -53,7 +69,7 @@ const MainLayout = ({ children }) => {
       <Menu
         onCloseSidebar={handleCloseMenu}
         opened={settings.sidebarOpened}
-        orientation='horizontal'
+        orientation={settings.layout}
         data={menuData}
       />
     </Navbar>
@@ -61,8 +77,10 @@ const MainLayout = ({ children }) => {
 
   return (
     <>
-      <BaseLayout orientation='horizontal' nav={nav} topNav={additionalNav}>
-        {children}
+      <BaseLayout orientation={settings.layout} nav={nav} topNav={additionalNav}>
+        <Spin spinning={promiseInProgress}>
+          {children}
+        </Spin>
       </BaseLayout>
     </>
   );

@@ -8,29 +8,16 @@ import {
   UserOutlined
 } from '@ant-design/icons/lib';
 
-import { usePageData } from '../../hooks/usePage';
 import { IPageData } from '../../interfaces/page';
+import { setPageData } from '../../redux/page-data/actions';
 
 const pageData: IPageData = {
   title: 'Vertical timeline',
-  fulFilled: true,
-  breadcrumbs: [
-    {
-      title: 'UI Kit',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Components',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Vertical timeline'
-    }
-  ]
+
 };
 
 const TimelinePage = () => {
-  usePageData(pageData);
+  setPageData(pageData);
 
   return (
     <>

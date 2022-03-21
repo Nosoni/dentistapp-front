@@ -3,30 +3,16 @@ import React from 'react';
 import { Card, Form, Input } from 'antd';
 
 import { IPageData } from '../../interfaces/page';
-import { usePageData } from '../../hooks/usePage';
+import { setPageData } from '../../redux/page-data/actions';
 
 const TextArea = Input.TextArea;
 
 const pageData: IPageData = {
-  fulFilled: true,
   title: 'Text Area',
-  breadcrumbs: [
-    {
-      title: 'UI Kit',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Components',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Textareas'
-    }
-  ]
 };
 
 const TextareasPage = () => {
-  usePageData(pageData);
+  setPageData(pageData);
 
   return (
     <div className='row'>

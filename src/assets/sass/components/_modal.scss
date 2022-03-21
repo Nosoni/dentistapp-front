@@ -1,4 +1,4 @@
-@import '../variables';
+@import "../variables";
 
 .ant-modal {
   .ant-modal-header,
@@ -19,15 +19,10 @@
     padding: ($module-rem * 2);
   }
 
-  .ant-modal-footer {
-    padding: $module-rem * 2;
-  }
-
   .modal-footer {
     border-radius: 0 0 $shape $shape;
     margin: -$module-rem * 2;
     padding: $module-rem * 2;
-    background-color: rgba(#000, 0.05);
   }
 }
 

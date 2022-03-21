@@ -1,25 +1,18 @@
 import React from 'react';
 import { Card } from 'antd';
 
-import { usePageData } from '../../hooks/usePage';
+
 import { IPageData } from '../../interfaces/page';
+import { setPageData } from '../../redux/page-data/actions';
+import { useDispatch } from 'react-redux';
 
 const pageData: IPageData = {
   title: 'Typography',
-  fulFilled: true,
-  breadcrumbs: [
-    {
-      title: 'Home',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Typography'
-    }
-  ]
 };
 
 const TypographyPage = () => {
-  usePageData(pageData);
+  const dispatch = useDispatch();
+  dispatch(setPageData(pageData));
 
   return (
     <Card className='mb-0'>

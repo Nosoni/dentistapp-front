@@ -7,7 +7,7 @@ import SettingsDropdown from './SettingsDropdown';
 
 const Actions = () => (
   <div className='actions'>
-    <Notifications />
+    {/* <Notifications /> */}
 
     <SettingsDropdown />
   </div>

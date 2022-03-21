@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { Avatar, Card, Skeleton, Switch } from 'antd';
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 
-import { usePageData } from '../../hooks/usePage';
 import { IPageData } from '../../interfaces/page';
+import { setPageData } from '../../redux/page-data/actions';
 
 const { Meta } = Card;
 
@@ -47,25 +47,10 @@ const contentListNoTitle = {
 
 const pageData: IPageData = {
   title: 'Cards',
-  fulFilled: true,
-  breadcrumbs: [
-    {
-      title: 'UI Kit',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Components',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Cards'
-    }
-  ]
 };
 
 const CardsPage = () => {
-  usePageData(pageData);
-
+  setPageData(pageData);
   const [loading, setLoading] = useState<boolean>(true);
   const [noTitleKey, setNoTitleKey] = useState('app');
   const [key, setKey] = useState('tab1');

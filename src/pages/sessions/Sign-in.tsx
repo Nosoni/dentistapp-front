@@ -7,16 +7,22 @@ import PublicLayout from '../../layout/public/Public';
 import { Link } from 'react-router-dom';
 import { useForm } from 'antd/es/form/Form';
 import { navigateHome } from '../../utils/naviagate-home';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUsuarioData } from '../../redux/usuario-data/actions';
 
 const { Item } = Form;
 
 const SignIn = () => {
+  const dispatch = useDispatch();
   const [form] = useForm();
 
   const login = () => {
     form
       .validateFields()
-      .then(() => navigateHome())
+      .then((e) => {
+        dispatch(setUsuarioData(e))
+        navigateHome()
+      })
       .catch(() => null);
   };
 

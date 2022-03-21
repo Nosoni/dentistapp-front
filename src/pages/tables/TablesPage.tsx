@@ -11,28 +11,15 @@ import CustomOptions from './CustomOptions';
 import FilterAndSorting from './FilterAndSorting';
 
 import { IPageData } from '../../interfaces/page';
-import { usePageData } from '../../hooks/usePage';
+import { setPageData } from '../../redux/page-data/actions';
+
 
 const pageData: IPageData = {
   title: 'Tables',
-  fulFilled: true,
-  breadcrumbs: [
-    {
-      title: 'Home',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'UI Kit ',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Tables'
-    }
-  ]
 };
 
 const TablesPage = () => {
-  usePageData(pageData);
+  setPageData(pageData);
 
   return (
     <>

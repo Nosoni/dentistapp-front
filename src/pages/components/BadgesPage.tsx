@@ -10,28 +10,14 @@ import {
 } from '@ant-design/icons';
 
 import { IPageData } from '../../interfaces/page';
-import { usePageData } from '../../hooks/usePage';
+import { setPageData } from '../../redux/page-data/actions';
 
 const pageData: IPageData = {
-  fulFilled: true,
   title: 'Badges',
-  breadcrumbs: [
-    {
-      title: 'UI Kit',
-      route: 'default-dashboard',
-    },
-    {
-      title: 'Components',
-      route: 'default-dashboard',
-    },
-    {
-      title: 'Badges',
-    },
-  ],
 };
 
 const BadgesPage = () => {
-  usePageData(pageData);
+  setPageData(pageData);
 
   return (
     <div className='row'>

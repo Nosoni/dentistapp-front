@@ -3,7 +3,7 @@ import React from 'react';
 import { Button, Card, Form, Input } from 'antd';
 import { Rule } from 'antd/es/form';
 
-import { usePageData } from '../../hooks/usePage';
+
 import { IPageData } from '../../interfaces/page';
 import {
   IdcardOutlined,
@@ -144,24 +144,10 @@ const FormWithMessages = () => {
 
 const pageData: IPageData = {
   title: 'Form validation',
-  fulFilled: true,
-  breadcrumbs: [
-    {
-      title: 'Home',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'UI Kit ',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Form validation'
-    }
-  ]
 };
 
 const FormValidationPage = () => {
-  usePageData(pageData);
+  //setPageData(pageData);
   return (
     <>
       <div className='row'>

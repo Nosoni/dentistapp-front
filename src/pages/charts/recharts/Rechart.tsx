@@ -14,29 +14,15 @@ import WithCustomShape from './charts/CustomShapeBarChart';
 import WithCustomActiveShape from './charts/CustomActiveShapeChart';
 import TwoLevelPieChart from './charts/TwoLevelPieChart';
 
-import { usePageData } from '../../../hooks/usePage';
 import { IPageData } from '../../../interfaces/page';
+import { setPageData } from '../../../redux/page-data/actions';
 
 const pageData: IPageData = {
   title: 'Recharts',
-  fulFilled: true,
-  breadcrumbs: [
-    {
-      title: 'Home',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'UI Kit ',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Recharts'
-    }
-  ]
 };
 
 const RechartsPage = () => {
-  usePageData(pageData);
+  setPageData(pageData);
 
   return (
     <>

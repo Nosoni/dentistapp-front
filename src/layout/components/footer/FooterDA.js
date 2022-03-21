@@ -2,7 +2,6 @@ import React from 'react';
 
 import Breadcrumbs from './Breadcrumbs';
 import classNames from '../../../utils/class-names';
-import { IBreadcrumb } from '../../../interfaces/page';
 import FooterLoader from './FooterLoader';
 
 import './Footer.scss';

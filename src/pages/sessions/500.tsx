@@ -9,7 +9,7 @@ import { navigateHome } from '../../utils/naviagate-home';
 const InternalError = () => (
   <BaseErrorPage
     subTitle={
-      <h6 className='text-md text-center'>Oopps. There was an error, please try again later.</h6>
+      <h6 className='text-md text-center'>Ocurrión un error, intente más tarde.</h6>
     }
     msg='The server encountered an internal server error and was unable to complete your request.'
     bg={`${window.origin}/content/500-page.jpg`}
@@ -20,7 +20,7 @@ const InternalError = () => (
         style={{ width: 'auto' }}
         icon={<HomeFilled className='ml-0 mr-2' style={{ fontSize: '1em' }} />}
       >
-        Back to home
+        Volver al inicio
       </Button>
     }
     title={

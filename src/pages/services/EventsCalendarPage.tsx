@@ -5,7 +5,8 @@ import { IPageData } from '../../interfaces/page';
 
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { usePageData } from '../../hooks/usePage';
+import { setPageData } from '../../redux/page-data/actions';
+
 
 const headerOptions = {
   left: 'prev,next today',
@@ -15,24 +16,10 @@ const headerOptions = {
 
 const pageData: IPageData = {
   title: 'Events calendar',
-  fulFilled: true,
-  breadcrumbs: [
-    {
-      title: 'Apps',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Service pages',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Events calendar'
-    }
-  ]
 };
 
 const EventsCalendarPage = () => {
-  usePageData(pageData);
+  setPageData(pageData);
   const [event, setEvent] = useState(null);
   const [modalVisibility, setModalVisibility] = useState(false);
 

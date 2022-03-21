@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 
 import { IPageData } from '../../interfaces/page';
 
-import { usePageData } from '../../hooks/usePage';
+
 import { useGetPatient } from '../../hooks/useGetPatient';
 import { useGetBillings } from '../../hooks/useGetBillings';
 
@@ -166,7 +166,7 @@ const PatientProfilePage = () => {
   const { patient } = useGetPatient('Liam');
   const billings = useGetBillings();
 
-  usePageData(pageData);
+  setPageData(pageData);
 
   return (
     patient && (

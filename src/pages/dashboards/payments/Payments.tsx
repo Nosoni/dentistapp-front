@@ -9,22 +9,12 @@ import PageAction from '../../../layout/components/page-action/PageAction';
 
 import { hasErrorFactory } from '../../../utils/hasError';
 import { useGetPayments } from '../../../hooks/useGetBillings';
-import { usePageData } from '../../../hooks/usePage';
 
 import { IPageData } from '../../../interfaces/page';
+import { setPageData } from '../../../redux/page-data/actions';
 
 const pageData: IPageData = {
   title: 'Payments',
-  fulFilled: true,
-  breadcrumbs: [
-    {
-      title: 'Medicine',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Payments'
-    }
-  ]
 };
 
 const Item = Form.Item;
@@ -158,7 +148,7 @@ const PaymentForm = ({ onSubmit, onClose }) => {
 const Payments = () => {
   const [visible, setVisibility] = useState<boolean>(false);
   const [billings, setBillings] = useGetPayments();
-  usePageData(pageData);
+  setPageData(pageData);
 
   const handleSubmit = (payment) => {
     setBillings([payment, ...billings]);

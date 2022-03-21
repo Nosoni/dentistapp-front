@@ -57,14 +57,12 @@ const App = () => {
         </HorizontalLayout>
       </Route>
       <Route path='/'>
-        <Switch>
-          <Main>
-            <NewRoutes routes={rutasPrivadas} />
-            <Route path='/' exact>
-              <Redirect to='/inicio/dashboard' />
-            </Route>
-          </Main>
-        </Switch>
+        <Main>
+          <NewRoutes routes={rutasPrivadas} />
+          <Route path='/' exact>
+            <Redirect to='/inicio/dashboard' />
+          </Route>
+        </Main>
       </Route>
       <Route path='*'>
         <Redirect to='/public/page-404' />

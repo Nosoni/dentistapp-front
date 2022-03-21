@@ -2,25 +2,11 @@ import React from 'react';
 import { IPageData } from '../../interfaces/page';
 import { Button, Card } from 'antd';
 import { IPricing } from '../../interfaces/pricing';
-import { usePageData } from '../../hooks/usePage';
+
 import { useGetPricing } from '../../hooks/useGetPricing';
 
 const pageData: IPageData = {
   title: 'Pricing',
-  fulFilled: true,
-  breadcrumbs: [
-    {
-      title: 'Apps',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Service pages',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Pricing'
-    }
-  ]
 };
 
 const PricingItem = ({ children, check = false }) => (
@@ -101,7 +87,6 @@ const Pricing = ({
 };
 
 const PricingPage = () => {
-  usePageData(pageData);
   const [personal, developers, premium] = useGetPricing();
 
   return (

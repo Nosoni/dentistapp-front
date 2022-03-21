@@ -2,7 +2,7 @@ import React from 'react';
 
 import GoogleMapReact from 'google-map-react';
 
-import { usePageData } from '../../hooks/usePage';
+
 import { IPageData } from '../../interfaces/page';
 import { apiKey } from './apiKey';
 
@@ -29,7 +29,7 @@ const pageData: IPageData = {
 };
 
 const GoogleMapsPage = () => {
-  usePageData(pageData);
+  setPageData(pageData);
 
   return (
     <div className='full-height-page'>

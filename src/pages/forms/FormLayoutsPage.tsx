@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Button, Card, Form, Input } from 'antd';
 import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons/lib';
 
-import { usePageData } from '../../hooks/usePage';
+
 import { IPageData } from '../../interfaces/page';
+import { setPageData } from '../../redux/page-data/actions';
 
 const formItemLayout = {
   labelCol: {
@@ -19,24 +20,13 @@ const formItemLayout = {
 
 const pageData: IPageData = {
   title: 'Form layouts',
-  fulFilled: true,
-  breadcrumbs: [
-    {
-      title: 'Home',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'UI Kit ',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Form layouts'
-    }
-  ]
 };
 
 const FormLayoutsPage = () => {
-  usePageData(pageData);
+  useEffect(() => {
+    setPageData(pageData);
+  }, [])
+
   return (
     <>
       <div className='row'>

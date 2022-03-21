@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-
+import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { IMenuItem, IMenuItemSub } from '../../../interfaces/main-menu';
 
 import classNames from '../../../utils/class-names';
 
@@ -11,22 +10,7 @@ import SimpleItem from './SimpleItem';
 
 import './Menu.scss';
 
-type MenuProps = {
-  orientation?: 'vertical' | 'horizontal';
-  data?: IMenuItem[];
-  children?: any;
-  opened?: boolean;
-  onCloseSidebar?: () => void;
-  className?: string;
-};
-
-type RouterProps = {
-  location: Location;
-};
-
-type Props = RouterProps & MenuProps | any;
-
-const haveActive = (sub: IMenuItemSub[], route: string) =>
+const haveActive = (sub, route) =>
   !!sub.find(item => item.routing === route);
 
 const Menu = ({
@@ -37,8 +21,8 @@ const Menu = ({
   className,
   onCloseSidebar,
   opened
-}: Props) => {
-  const [menu, setMenu] = useState<IMenuItem[]>([]);
+}) => {
+  const [menu, setMenu] = useState([]);
 
   useEffect(() => {
     setMenu(data);
@@ -64,7 +48,7 @@ const Menu = ({
     onCloseSidebar && opened && onCloseSidebar();
   }, [location]);
 
-  const handleItemClick = (itemTitle: string) => {
+  const handleItemClick = (itemTitle) => {
     const updateMenu = [...menu];
 
     for (let item of updateMenu) {
@@ -84,7 +68,7 @@ const Menu = ({
     horizontal: orientation === 'horizontal'
   });
 
-  const menuItems = menu.map((item: IMenuItem, i: number) => {
+  const menuItems = menu.map((item, i) => {
     if (item.groupTitle) {
       return <MenuGroupTitle key={i} title={item.title} />;
     }

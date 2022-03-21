@@ -1,34 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Button, Card, Table } from 'antd';
 import { PrinterOutlined } from '@ant-design/icons/lib';
 
-import { useFetchPageData, usePageData } from '../../hooks/usePage';
+
 import { useGetInvoice } from '../../hooks/useGetInvoices';
 
-import { IPageData } from '../../interfaces/page';
 import { IInvoice, IInvoiceRecord } from '../../interfaces/invoice';
-
-const pageData: IPageData = {
-  fulFilled: false,
-  breadcrumbs: [
-    {
-      title: 'Apps',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Service pages',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Invoices',
-      route: 'invoices'
-    },
-    {
-      title: 'Invoice'
-    }
-  ]
-};
+import axios from 'axios';
 
 const InvoiceInfo = ({
   customerAddress,
@@ -141,10 +120,19 @@ const InvoiceTable = ({ records = [] }) => {
 };
 
 const InvoicePage = () => {
-  const [records] = useFetchPageData<IInvoiceRecord[]>('./data/invoice.json', []);
   const invoice = useGetInvoice();
 
-  usePageData(pageData);
+  const [records, setRecords] = useState<any>([])
+
+  useEffect(() => {
+    getDatasource()
+  }, [records])
+
+  const getDatasource = async () => {
+    const respuesta = await (await axios.get("./data/invoice.json")).data;
+    setRecords(respuesta)
+  }
+
 
   return (
     <Card title='Invoice #INV-17'>

@@ -3,30 +3,16 @@ import React from 'react';
 import { Card, Rate } from 'antd';
 import { BulbOutlined, CheckOutlined, LikeOutlined } from '@ant-design/icons';
 
-import { usePageData } from '../../hooks/usePage';
 
 import { IPageData } from '../../interfaces/page';
+import { setPageData } from '../../redux/page-data/actions';
 
 const pageData: IPageData = {
-  fulFilled: true,
   title: 'Ratings',
-  breadcrumbs: [
-    {
-      title: 'UI Kit',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Components',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Ratings'
-    }
-  ]
 };
 
 const RatingPage = () => {
-  usePageData(pageData);
+  setPageData(pageData);
 
   return (
     <div className='row'>

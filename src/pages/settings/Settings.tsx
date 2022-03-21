@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import SettingsForm from '../../layout/components/settings/SettingsForm';
 
 import { resetSettings, updateSettings } from '../../redux/settings/actions';
-import { usePageData } from '../../hooks/usePage';
+
 
 import { IAppState } from '../../interfaces/app-state';
 import { IPageData } from '../../interfaces/page';
@@ -28,7 +28,7 @@ const SettingsPage = () => {
   const settings = useSelector((state: IAppState) => state.settings);
   const dispatch = useDispatch();
 
-  usePageData(pageData);
+  setPageData(pageData);
 
   const onResetSettings = () => {
     dispatch(resetSettings());

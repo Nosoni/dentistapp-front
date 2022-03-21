@@ -1,32 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { VectorMap } from '@south-paw/react-vector-maps';
 
-import { usePageData, useFetchPageData } from '../../hooks/usePage';
 import { IPageData } from '../../interfaces/page';
+import { setPageData } from '../../redux/page-data/actions';
+import axios from 'axios';
 
 const pageData: IPageData = {
-  fulFilled: true,
-  breadcrumbs: [
-    {
-      title: 'Home',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'UI Kit ',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Vector maps'
-    }
-  ]
 };
 
 const mapUrl = './data/world-vector.json';
 
 const PageVectorMaps = () => {
-  usePageData(pageData);
-  const [world] = useFetchPageData(mapUrl);
+  setPageData(pageData);
+
+  const [world, setWorld] = useState<any>([])
+
+  useEffect(() => {
+    getDatasource()
+  }, [world])
+
+  const getDatasource = async () => {
+    const respuesta = await axios.get(mapUrl);
+    setWorld(respuesta)
+  }
 
   if (!world) return <></>;
 

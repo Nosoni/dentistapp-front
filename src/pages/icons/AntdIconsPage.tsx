@@ -3,7 +3,7 @@ import * as React from 'react';
 import * as AntdIcons from '@ant-design/icons';
 
 import { IconWrap } from './IconWrap';
-import { usePageData } from '../../hooks/usePage';
+
 
 import { IPageData } from '../../interfaces/page';
 
@@ -43,26 +43,7 @@ const allIcons: {
   [key: string]: any;
 } = AntdIcons;
 
-const pageData: IPageData = {
-  title: 'Ant icons',
-  fulFilled: true,
-  breadcrumbs: [
-    {
-      title: 'Home',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'UI Kit ',
-      route: 'default-dashboard'
-    },
-    {
-      title: 'Ant icons'
-    }
-  ]
-};
-
 const AntdIconsPage = () => {
-  usePageData(pageData);
   const theme = ThemeType.Outlined;
 
   return (
