@@ -2,67 +2,67 @@ import React, { useState } from 'react'
 import { Card, Table } from 'antd';
 import Modal from '../components/Modal'
 import { useForm } from "react-hook-form";
-import { tratamientoServicioListar, tratamientoServicioFiltrar, tratamientoServicioEliminar } from '../../services/tratamientos_servicios';
-import TratamientoServicioEditar from './componentes/TratamientoServicioEditar';
+import { productoServicioListar, productoServicioFiltrar, productoServicioEliminar } from '../../services/productos_servicios';
+import ProductoServicioEditar from './componentes/ProductoServicioEditar';
 import BotoneraTableAcciones from '../components/BotoneraTableAcciones';
 import BuscadorAcciones from '../components/BuscadorAcciones';
 import BotoneraModalFooterActions from '../components/BotoneraFooterActions';
 import withPageActions from '../HOC/withPageActions';
 
 const pageData = {
-  title: "Tratamientos y Servicios",
+  title: "Productos y Servicios",
   list: [],
   selected: {},
   deleted: {}
 };
 
-function TratamientosServicios(props) {
+function ProductosServicios(props) {
   const { register, handleSubmit, reset } = useForm();
   const { validarPeticion, actualizarEstadoPagina,
     usuarioData: { token }, pageData: { list, deleted } } = props;
   const [esEdicion, setEsEdicion] = useState(false)
   const [showModal, setShowModal] = useState(false)
 
-  const acciones = (tratamiento_servicio) => {
+  const acciones = (producto_servicio) => {
     return <BotoneraTableAcciones
-      onClickEditar={() => editarTratamientoServicio(true, tratamiento_servicio)}
-      onClickEliminar={() => modalTratamientoServicioEliminar(true, tratamiento_servicio)}
+      onClickEditar={() => editarProductosServicio(true, producto_servicio)}
+      onClickEliminar={() => modalproductoServicioEliminar(true, producto_servicio)}
     />
   }
 
-  const listarTratamientoServicio = async () => {
-    validarPeticion(tratamientoServicioListar(token), (respuesta) => actualizarEstadoPagina({ list: respuesta.datos }))
+  const listarProductosServicio = async () => {
+    validarPeticion(productoServicioListar(token), (respuesta) => actualizarEstadoPagina({ list: respuesta.datos }))
   }
 
-  const filtrarTratamientoServicio = async (filtro) => {
-    validarPeticion(tratamientoServicioFiltrar(token, filtro.filtro), (respuesta) => actualizarEstadoPagina({ list: respuesta.datos }))
+  const filtrarProductosServicio = async (filtro) => {
+    validarPeticion(productoServicioFiltrar(token, filtro.filtro), (respuesta) => actualizarEstadoPagina({ list: respuesta.datos }))
   }
 
-  const nuevoTratamientoServicio = () => {
+  const nuevoProductosServicio = () => {
     setEsEdicion(true)
     actualizarEstadoPagina({ selected: {}, deleted: {} })
   }
 
-  const editarTratamientoServicio = (edicion, tratamiento_servicio) => {
+  const editarProductosServicio = (edicion, producto_servicio) => {
     setEsEdicion(edicion)
-    actualizarEstadoPagina({ selected: tratamiento_servicio, deleted: {} })
+    actualizarEstadoPagina({ selected: producto_servicio, deleted: {} })
   }
 
-  const modalTratamientoServicioEliminar = (mostrar, tratamiento_servicio) => {
+  const modalproductoServicioEliminar = (mostrar, producto_servicio) => {
     setShowModal(mostrar)
-    actualizarEstadoPagina({ selected: {}, deleted: tratamiento_servicio });
+    actualizarEstadoPagina({ selected: {}, deleted: producto_servicio });
   };
 
-  const eliminarTratamientoServicio = async (tratamiento_servicio) => {
-    await validarPeticion(tratamientoServicioEliminar(token, tratamiento_servicio.id), () => modalTratamientoServicioEliminar(false, {}), true)
+  const eliminarProductosServicio = async (producto_servicio) => {
+    await validarPeticion(productoServicioEliminar(token, producto_servicio.id), () => modalproductoServicioEliminar(false, {}), true)
     handleSubmit(onSubmit)()
   }
 
   const onSubmit = (filtro) => {
     if (!filtro.filtro) {
-      listarTratamientoServicio()
+      listarProductosServicio()
     } else {
-      filtrarTratamientoServicio(filtro)
+      filtrarProductosServicio(filtro)
     }
   };
 
@@ -76,7 +76,7 @@ function TratamientosServicios(props) {
                 <BuscadorAcciones
                   registro={register("filtro")}
                   buscar={handleSubmit(onSubmit)}
-                  nuevo={() => nuevoTratamientoServicio()}
+                  nuevo={() => nuevoProductosServicio()}
                 />
               </Card>
             </div>
@@ -108,24 +108,24 @@ function TratamientosServicios(props) {
               <Modal
                 visible={showModal}
                 title='ATENCIÓN'
-                onClickCancelar={() => modalTratamientoServicioEliminar(false, {})}
+                onClickCancelar={() => modalproductoServicioEliminar(false, {})}
                 footer={
                   <BotoneraModalFooterActions
-                    onClickCancelar={() => modalTratamientoServicioEliminar(false, {})}
-                    onClickAceptar={() => eliminarTratamientoServicio(deleted)}
+                    onClickCancelar={() => modalproductoServicioEliminar(false, {})}
+                    onClickAceptar={() => eliminarProductosServicio(deleted)}
                     esEliminar
                   />
                 }
               >
                 <p>
-                  ¿Desea eliminar el tratamiento o servicio?
+                  ¿Desea eliminar el producto o servicio?
                 </p>
               </Modal>
             </div>
           </div>
           :
-          <TratamientoServicioEditar onClickCancelar={() => {
-            editarTratamientoServicio(false, {})
+          <ProductoServicioEditar onClickCancelar={() => {
+            editarProductosServicio(false, {})
             reset()
           }} />
       }
@@ -133,4 +133,4 @@ function TratamientosServicios(props) {
   )
 }
 
-export default withPageActions(TratamientosServicios)(pageData)
+export default withPageActions(ProductosServicios)(pageData)

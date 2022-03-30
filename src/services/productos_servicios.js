@@ -1,8 +1,8 @@
 import { peticion } from ".";
 import { server } from "../constantes/index";
-const servicio = "tratamientos_servicios";
+const servicio = "productos_servicios";
 
-const tratamientoServicioCrear = async (token, tratamiento_servicio) => {
+const productoServicioCrear = async (token, producto_servicio) => {
   try {
     const url = `${server}/${servicio}/crear`;
     const config = {
@@ -12,13 +12,13 @@ const tratamientoServicioCrear = async (token, tratamiento_servicio) => {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
-      data: JSON.stringify(tratamiento_servicio)
+      data: JSON.stringify(producto_servicio)
     }
     return peticion(config)
   } catch (error) { }
 }
 
-const tratamientoServicioEditar = async (token, tratamiento_servicio) => {
+const productoServicioEditar = async (token, producto_servicio) => {
   try {
     const url = `${server}/${servicio}/editar`;
     const config = {
@@ -28,13 +28,13 @@ const tratamientoServicioEditar = async (token, tratamiento_servicio) => {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
-      data: JSON.stringify(tratamiento_servicio)
+      data: JSON.stringify(producto_servicio)
     }
     return await peticion(config)
   } catch (error) { }
 }
 
-const tratamientoServicioEliminar = async (token, id) => {
+const productoServicioEliminar = async (token, id) => {
   try {
     const url = `${server}/${servicio}/eliminar/${id}`;
     const config = {
@@ -49,7 +49,7 @@ const tratamientoServicioEliminar = async (token, id) => {
   } catch (error) { }
 }
 
-const tratamientoServicioFiltrar = async (token, filtro) => {
+const productoServicioFiltrar = async (token, filtro) => {
   try {
     const url = `${server}/${servicio}/filtrar/${filtro}`;
     const config = {
@@ -64,7 +64,7 @@ const tratamientoServicioFiltrar = async (token, filtro) => {
   } catch (error) { }
 };
 
-const tratamientoServicioListar = async (token) => {
+const productoServicioListar = async (token) => {
   try {
     const url = `${server}/${servicio}/listar`;
     const config = {
@@ -80,6 +80,6 @@ const tratamientoServicioListar = async (token) => {
 };
 
 export {
-  tratamientoServicioCrear, tratamientoServicioEditar,
-  tratamientoServicioEliminar, tratamientoServicioFiltrar, tratamientoServicioListar
+  productoServicioCrear, productoServicioEditar,
+  productoServicioEliminar, productoServicioFiltrar, productoServicioListar
 }

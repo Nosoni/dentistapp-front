@@ -21,8 +21,8 @@ const pageData = {
 };
 
 const DashboardPage = (props) => {
-  const { validarPeticion, actualizarEstadoPagina, openNotification,
-    usuarioData: { token }, pageData: { list, deleted } } = props;
+  const { validarPeticion, actualizarEstadoPagina,
+    usuarioData: { token }, pageData: { list } } = props;
   const [eventos, setEventos] = useState([])
   const [cantidadPacientes, setCantidadPacientes] = useState(0)
   const [stockBajo, setStockBajo] = useState(0)

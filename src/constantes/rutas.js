@@ -1,5 +1,6 @@
 import ActualizarStock from "../pages/actualizarStock/ActualizarStock";
 import CitasMedica from "../pages/citasMedica/CitasMedica";
+import Clientes from "../pages/clientes/Clientes";
 import Cobranzas from "../pages/cobranzas/Cobranzas";
 import DashboardPage from "../pages/dashboards/dashboardDA/DashboardDA";
 import Doctores from "../pages/doctores/Doctores";
@@ -14,7 +15,7 @@ import Inventario from "../pages/reportes/Inventario";
 import Roles from "../pages/roles/Roles";
 import NotFound from "../pages/sessions/404";
 import Login from "../pages/sessions/Login";
-import TratamientosServicios from "../pages/tratamientosServicios/TratamientosServicios";
+import ProductosServicios from "../pages/productosServicios/ProductosServicios";
 import Usuarios from "../pages/usuarios/Usuarios";
 
 const rutasPublicas = [
@@ -48,6 +49,11 @@ const rutasPrivadas = [
   },
   {
     layout: "administracion",
+    path: 'clientes',
+    component: Clientes
+  },
+  {
+    layout: "administracion",
     path: 'citas-medica',
     component: CitasMedica
   },
@@ -73,8 +79,8 @@ const rutasPrivadas = [
   },
   {
     layout: "configuracion",
-    path: 'tratamientos-servicios',
-    component: TratamientosServicios
+    path: 'productos-servicios',
+    component: ProductosServicios
   },
   {
     layout: "stock",

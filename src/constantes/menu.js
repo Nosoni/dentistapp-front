@@ -14,6 +14,10 @@ const menues = [
       routing: "pacientes",
       permiso: permisos.VER_MENU_PACIENTE
     }, {
+      title: "Clientes",
+      routing: "clientes",
+      permiso: permisos.VER_MENU_CLIENTE
+    }, {
       title: "Citas médicas",
       routing: "citas-medica",
       permiso: permisos.VER_MENU_CITA_MEDICA
@@ -48,9 +52,9 @@ const menues = [
       routing: "roles",
       permiso: permisos.VER_MENU_ROL
     }, {
-      title: "Tratamientos y Servicios",
-      routing: "tratamientos-servicios",
-      permiso: permisos.VER_MENU_TRATAMIENTO_SERVICIO
+      title: "Productos y Servicios",
+      routing: "productos-servicios",
+      permiso: permisos.VER_MENU_PRODUCTO_SERVICIO
     }]
   }
   //#endregion configuracion

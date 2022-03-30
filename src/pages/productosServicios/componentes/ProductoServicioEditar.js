@@ -1,23 +1,23 @@
 import React, { useEffect } from 'react'
-import { Input, notification, Card } from 'antd';
+import { Input, Card } from 'antd';
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
-import { tratamientoServicioCrear, tratamientoServicioEditar } from '../../../services/tratamientos_servicios';
+import { productoServicioCrear, productoServicioEditar } from '../../../services/productos_servicios';
 import withPageActions from '../../HOC/withPageActions';
 import BotoneraFooterActions from '../../components/BotoneraFooterActions';
 
-const TratamientoServicioEditar = (props) => {
+const ProductoServicioEditar = (props) => {
   const { onClickCancelar, validarPeticion, openNotification,
     usuarioData: { token }, pageData: { selected } } = props
   const existe = !!selected?.id
-  let titulo = "Editar tratamientos y servicios"
+  let titulo = "Editar productos y servicios"
   const shape = {
     nombre: yup.string().required("Favor indicar el nombre"),
     precio: yup.number().required("Favor indicar el precio"),
   }
   if (!existe) {
-    titulo = "Crear tratamientos y servicios"
+    titulo = "Crear productos y servicios"
   }
   const schema = yup.object(shape)
   const { control, handleSubmit, formState: { errors } } = useForm({
@@ -33,11 +33,11 @@ const TratamientoServicioEditar = (props) => {
     }
   }, [errors])
 
-  const onSubmit = async tratamiento_servicio => {
+  const onSubmit = async producto_servicio => {
     if (existe)
-      validarPeticion(tratamientoServicioEditar(token, tratamiento_servicio), () => { }, true)
+      validarPeticion(productoServicioEditar(token, producto_servicio), () => { }, true)
     else
-      validarPeticion(tratamientoServicioCrear(token, tratamiento_servicio), () => { }, true)
+      validarPeticion(productoServicioCrear(token, producto_servicio), () => { }, true)
   }
 
   return (
@@ -103,5 +103,4 @@ const TratamientoServicioEditar = (props) => {
   )
 }
 
-export default withPageActions(TratamientoServicioEditar)(null)
-
+export default withPageActions(ProductoServicioEditar)(null)

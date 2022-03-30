@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Row, Col, Card, Select, Table, Timeline } from 'antd';
 import BotoneraFooterActions from '../../components/BotoneraFooterActions';
 import { useForm, Controller } from "react-hook-form";
-import { tratamientoServicioFiltrar } from '../../../services/tratamientos_servicios';
+import { productoServicioFiltrar } from '../../../services/productos_servicios';
 import ButtonsTooltips from '../../components/ButtonsTooltips';
 import { PlusOutlined, QuestionOutlined } from '@ant-design/icons';
 import { historialIcons } from '../../../constantes/index'
@@ -34,7 +34,7 @@ const Tratamientos = ({ onSubmit, ...props }) => {
 
   const handleSearch = value => {
     if (value.key === 'Enter') {
-      validarPeticion(tratamientoServicioFiltrar(token, value.target.value),
+      validarPeticion(productoServicioFiltrar(token, value.target.value),
         (respuesta) => {
           const tratamientos_servicios = respuesta.datos.map(tratServ => {
             return {
