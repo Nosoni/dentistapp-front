@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { productoServicioCrear, productoServicioEditar } from '../../../services/productos_servicios';
 import withPageActions from '../../HOC/withPageActions';
 import BotoneraFooterActions from '../../components/BotoneraFooterActions';
+import CheckBox from '../../components/CheckBox';
 
 const ProductoServicioEditar = (props) => {
   const { onClickCancelar, validarPeticion, openNotification,
@@ -71,7 +72,7 @@ const ProductoServicioEditar = (props) => {
           <Controller
             name="precio"
             control={control}
-            render={({ field }) => <div className="col-md-6">
+            render={({ field }) => <div className="col-md-5">
               <label className="ant-form-item-label">Precio: </label>
               <Input
                 type='number'
@@ -81,18 +82,24 @@ const ProductoServicioEditar = (props) => {
             }
           />
           <Controller
-            name="tiempo"
+            name="cantidad_minima"
             control={control}
-            render={({ field }) => <div className="col-md-6">
-              <label className="ant-form-item-label">Tiempo: </label>
+            render={({ field }) => <div className="col-md-4">
+              <label className="ant-form-item-label">Cantidad mínima: </label>
               <Input
-                type="time"
-                placeholder="Tiempo de atención"
+                type='number'
                 {...field}
               />
             </div>
             }
           />
+          <div className="col-md-3 mt-4">
+            <CheckBox
+              name="es_servicio"
+              control={control}
+              label="Es servicio"
+            />
+          </div>
         </div>
         <BotoneraFooterActions
           onClickCancelar={onClickCancelar}

@@ -7,7 +7,6 @@ import Doctores from "../pages/doctores/Doctores";
 import Especialidades from "../pages/especialidades/Especialidades";
 import Facturas from "../pages/facturas/Facturas";
 import Funcionarios from "../pages/funcionarios/Funcionarios";
-import Insumos from "../pages/insumos/Insumos";
 import Pacientes from "../pages/pacientes/Pacientes";
 import Presupuestos from "../pages/presupuestos/Presupuestos";
 import EstadoCuentas from "../pages/reportes/EstadoCuentas";
@@ -78,14 +77,9 @@ const rutasPrivadas = [
     component: Roles
   },
   {
-    layout: "configuracion",
+    layout: "stock",
     path: 'productos-servicios',
     component: ProductosServicios
-  },
-  {
-    layout: "stock",
-    path: 'insumos',
-    component: Insumos
   },
   {
     layout: "stock",

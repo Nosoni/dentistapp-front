@@ -51,28 +51,24 @@ const menues = [
       title: "Roles",
       routing: "roles",
       permiso: permisos.VER_MENU_ROL
-    }, {
-      title: "Productos y Servicios",
-      routing: "productos-servicios",
-      permiso: permisos.VER_MENU_PRODUCTO_SERVICIO
     }]
   }
   //#endregion configuracion
-  //#region insumos
+  //#region stock
   , {
     layout: "stock",
     title: "Stock",
     sub: [{
-      title: "Insumos",
-      routing: "insumos",
-      permiso: permisos.VER_MENU_INSUMO
+      title: "Productos y Servicios",
+      routing: "productos-servicios",
+      permiso: permisos.VER_MENU_PRODUCTO_SERVICIO
     }, {
       title: "Actualizar stock",
       routing: "actualizar-stock",
       permiso: permisos.VER_MENU_ACTUALIZAR_STOCK
     }]
   }
-  //#endregion insumos
+  //#endregion stock
   //#region facturacion
   , {
     layout: "facturacion",

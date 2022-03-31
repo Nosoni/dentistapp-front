@@ -10,15 +10,14 @@ export const permisos = {
   VER_MENU_DOCTOR: "menu_ver_doctor",
   VER_MENU_ESPECIALIDAD: "menu_ver_especialidad",
   VER_MENU_PRODUCTO_SERVICIO: "menu_ver_producto_servicio",
-  VER_MENU_INSUMO: "menu_ver_insumo",
   VER_MENU_CITA_MEDICA: "menu_ver_cita_medica",
   VER_MENU_FACTURACION: "menu_ver_facturacion",
   VER_MENU_PRESUPUESTO: "menu_ver_presupuesto",
   VER_MENU_ACTUALIZAR_STOCK: "menu_ver_actualizar_stock",
   VER_MENU_COBRANZA: "menu_ver_cobranza",
+  VER_MENU_CLIENTE: "menu_ver_cliente",
   VER_MENU_REPORTE_INVENTARIO: "menu_ver_reporte_inventario",
   VER_MENU_REPORTE_FACTURACION: "menu_ver_reporte_facturacion",
-  VER_MENU_CLIENTE: "menu_ver_cliente",
 }
 
 export const historialIcons = [{

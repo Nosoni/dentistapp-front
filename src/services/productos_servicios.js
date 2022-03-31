@@ -79,7 +79,22 @@ const productoServicioListar = async (token) => {
   } catch (error) { }
 };
 
+const productoServicioGetStockBajo = async (token) => {
+  try {
+    const url = `${server}/${servicio}/stockBajo`;
+    const config = {
+      method: "GET",
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    }
+    return await peticion(config)
+  } catch (error) { }
+};
+
 export {
-  productoServicioCrear, productoServicioEditar,
-  productoServicioEliminar, productoServicioFiltrar, productoServicioListar
+  productoServicioCrear, productoServicioEditar, productoServicioEliminar,
+  productoServicioFiltrar, productoServicioListar, productoServicioGetStockBajo
 }
