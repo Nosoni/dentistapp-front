@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useForm, Controller } from "react-hook-form";
 import { Input, Select, Table } from 'antd'
-import { getHistorialInicial } from '../../../services/pacientes_dientes_historial';
 import ButtonsTooltips from '../../components/ButtonsTooltips';
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
-import { insumoListar } from '../../../services/insumos';
+import { productoServicioListar } from '../../../services/productos_servicios';
 
 const ActualizarStockDetalle = (props) => {
   const { detalle, disabled, openNotification, agregarValoresDetalle,
@@ -50,7 +49,7 @@ const ActualizarStockDetalle = (props) => {
   }
 
   const getInsumos = async () => {
-    validarPeticion(insumoListar(token), (respuesta) => {
+    validarPeticion(productoServicioListar(token), (respuesta) => {
       const list = respuesta.datos.map(insumo => {
         return {
           value: insumo.id,

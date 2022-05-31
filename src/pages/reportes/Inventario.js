@@ -3,7 +3,7 @@ import withPageActions from '../HOC/withPageActions'
 import { Card, Select } from 'antd';
 import { Controller, useForm } from "react-hook-form";
 import { reporte } from '../../services/reportes';
-import { insumoFiltrar } from '../../services/insumos';
+import { productoServicioFiltrar } from '../../services/productos_servicios';
 import ButtonsTooltips from '../components/ButtonsTooltips';
 import { objectHasValue } from '../../utils/helpers';
 
@@ -23,7 +23,7 @@ const Inventario = (props) => {
 
   const handleSearch = value => {
     if (value.key === 'Enter') {
-      validarPeticion(insumoFiltrar(token, value.target.value),
+      validarPeticion(productoServicioFiltrar(token, value.target.value),
         (respuesta) => {
           const insumos = respuesta.datos.map(insumo => {
             return {

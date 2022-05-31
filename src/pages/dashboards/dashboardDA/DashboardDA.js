@@ -11,7 +11,7 @@ import withPageActions from '../../HOC/withPageActions';
 import { citaMedicaFiltrar } from '../../../services/citas_medicas';
 import moment from 'moment';
 import { pacienteListarPacientes } from '../../../services/pacientes';
-import { insumoGetStockBajo } from '../../../services/insumos';
+import { productoServicioGetStockBajo } from '../../../services/productos_servicios';
 
 const pageData = {
   title: "Dashboard",
@@ -84,7 +84,7 @@ const DashboardPage = (props) => {
   }
 
   const obtenerStockBajo = async () => {
-    validarPeticion(insumoGetStockBajo(token), (respuesta) => {
+    validarPeticion(productoServicioGetStockBajo(token), (respuesta) => {
       setStockBajo(respuesta.datos)
     })
   }
